@@ -8,22 +8,22 @@ package main;
 public class Main {
 	
 	//TODO: method to activate recognizing
-	public void Activate(){
+	public void activate(){
 		
 	}
 	
 	//TODO: method to deactivate recognizing
-	public void Deactive(){
+	public void deactive(){
 		
 	}
 	
 	//TODO: method for disabling microphone
-	public void DisableMicrophone(){
+	public void disableMicrophone(){
 		
 	}
 	
 	//TODO: method for enabling microphone
-	public void EnableMicrophone(){
+	public void enableMicrophone(){
 		
 	}
 }
