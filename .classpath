@@ -3,5 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Sphinx"/>
+	<classpathentry kind="lib" path="/home/kohina/Downloads/sphinx4-1.0beta6/lib/js.jar"/>
+	<classpathentry kind="lib" path="/home/kohina/Downloads/sphinx4-1.0beta6/lib/jsapi.jar"/>
+	<classpathentry kind="lib" path="/home/kohina/Downloads/sphinx4-1.0beta6/lib/jsapi-1.0-base.jar"/>
+	<classpathentry kind="lib" path="/home/kohina/Downloads/sphinx4-1.0beta6/lib/sphinx4.jar"/>
+	<classpathentry kind="lib" path="/home/kohina/Downloads/sphinx4-1.0beta6/lib/tags.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
