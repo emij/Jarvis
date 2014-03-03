@@ -21,45 +21,41 @@ public class Jarvis extends Thread{
 	
 
 	public Jarvis(URL u){
-		setConfiguration(u);
-		setup();
+		try{
+			setConfiguration(u);
+			setup();
+		}
+		catch(Exception e){
+			//TODO: handle exceptions
+			e.printStackTrace();
+		}
 	}
 	
 	public Jarvis(){
-		setConfiguration(null);
-		setup();
-	}
-	
-	public void setConfiguration(URL u){
-		if(u == null){
-			try {
-				cm = new ConfigurationManager(new URL("config.xml"));
-			} catch (IOException | PropertyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try{
+			setConfiguration(null);
+			setup();
 		}
-		else{
-			try {
-				cm = new ConfigurationManager(u);
-			} catch (IOException | PropertyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	private void setup(){
-		try {
-		    recognizer = (Recognizer) cm.lookup("recognizer");
-		    microphone = (Microphone) cm.lookup("microphone");
-		   
-		    recognizer.allocate();
-		}
-		catch (PropertyException | InstantiationException | IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
+		catch(Exception e){
+			//TODO: handle exceptions
 			e.printStackTrace();
 		}
+	}
+	
+	public void setConfiguration(URL u) throws IOException, PropertyException{
+		if(u == null){
+			cm = new ConfigurationManager(new URL("config.xml"));
+		}
+		else{
+			cm = new ConfigurationManager(u);
+		}
+	}
+	
+	private void setup() throws InstantiationException, PropertyException, IllegalStateException, IOException{
+		recognizer = (Recognizer) cm.lookup("recognizer");
+		microphone = (Microphone) cm.lookup("microphone");
+		
+		recognizer.allocate();
 	}
 	
 	@Override
