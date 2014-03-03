@@ -31,7 +31,7 @@ public class TestVoice extends Thread {
 
     // loop the recognition until the program exits.
 	public void run() {
-		System.out.println("lamp ( On | Off ) or  radio ( On | Off)");
+		System.out.println("( Enable | Disable ) lamp  or  ( Enable | Disable ) radio ");
 		while (true) {
 			System.out.println("Start speaking. Press Ctrl-C to quit.\n");
 
