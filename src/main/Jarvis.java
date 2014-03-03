@@ -32,7 +32,6 @@ public class Jarvis extends Thread{
 	public Jarvis(){
 		try{
 			setConfiguration(null);
-			cm.showConfig();
 			setup();
 		}
 		catch(Exception e){
