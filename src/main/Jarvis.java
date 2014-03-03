@@ -4,19 +4,32 @@
 
 package main;
 
+import java.io.IOException;
+import java.net.URL;
+
 import edu.cmu.sphinx.util.props.ConfigurationManager;
+import edu.cmu.sphinx.util.props.PropertyException;
 
 public class Jarvis {
 
 	ConfigurationManager cm;
 	
-	//TODO: set inputed configuration manager or default from file
-	public void setConfiguration(String s){
-		if(s.isEmpty()){
-			cm = new ConfigurationManager("Jarvis.config.xml");
+	public void setConfiguration(URL s){
+		if(s == null){
+			try {
+				cm = new ConfigurationManager(new URL("config.xml"));
+			} catch (IOException | PropertyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else{
-			cm = new ConfigurationManager(s);
+			try {
+				cm = new ConfigurationManager(s);
+			} catch (IOException | PropertyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
