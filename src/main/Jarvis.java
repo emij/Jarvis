@@ -20,7 +20,6 @@ public class Jarvis extends Thread{
 	public Jarvis(URL u){
 		try{
 			setConfiguration(u);
-			System.out.println(cm.toString());
 			setup();
 		}
 		catch(Exception e){
