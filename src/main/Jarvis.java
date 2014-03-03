@@ -70,7 +70,7 @@ public class Jarvis extends Thread{
 				
 				Result r = recognizer.recognize();
 				
-				if(r != null){
+				if(r != null && r.getBestResultNoFiller().length() > 0){
 					//TODO: notify new command
 				}
 				else{
