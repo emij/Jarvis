@@ -8,12 +8,12 @@ package main;
 public class Main {
 	
 	//TODO: method to activate recognizing
-	public void activate(){
+	public void startRecognition(){
 		
 	}
 	
 	//TODO: method to deactivate recognizing
-	public void deactive(){
+	public void stopRecognition(){
 		
 	}
 	
