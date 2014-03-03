@@ -18,7 +18,6 @@ public class Jarvis extends Thread{
 	ConfigurationManager cm;
 	Recognizer recognizer;
 	Microphone microphone;
-	
 
 	public Jarvis(URL u){
 		try{
@@ -44,7 +43,7 @@ public class Jarvis extends Thread{
 	
 	public void setConfiguration(URL u) throws IOException, PropertyException{
 		if(u == null){
-			cm = new ConfigurationManager(new URL("config.xml"));
+			cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
 		}
 		else{
 			cm = new ConfigurationManager(u);
@@ -68,6 +67,7 @@ public class Jarvis extends Thread{
 				
 				if(r != null && r.getBestResultNoFiller().length() > 0){
 					//TODO: notify new command
+					System.out.println(r);
 				}
 				else{
 					System.out.println("Cannot hear command, please try again");

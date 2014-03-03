@@ -7,23 +7,8 @@ package main;
 
 public class Main {
 	
-	//TODO: method to activate recognizing
-	public void startRecognition(){
-		
-	}
-	
-	//TODO: method to deactivate recognizing
-	public void stopRecognition(){
-		
-	}
-	
-	//TODO: method for disabling microphone
-	public void disableMicrophone(){
-		
-	}
-	
-	//TODO: method for enabling microphone
-	public void enableMicrophone(){
-		
+	public static void main(String[] args){
+		Jarvis j = new Jarvis(null);
+		j.start();
 	}
 }
