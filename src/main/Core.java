@@ -15,9 +15,9 @@ public class Core implements Observer  {
 	}
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("CORE");
 		if (o instanceof VoiceCommand){
 			VoiceCommand tmp = (VoiceCommand)o;
+			System.out.println(tmp.getCommand());
 		}
 		
 	}

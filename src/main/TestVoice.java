@@ -43,7 +43,7 @@ public class TestVoice extends Thread {
 					System.out.println("You said: " + resultText + '\n');
 					voiceCommand.newCommand(resultText);
 				} else {
-					System.out.println("no text");
+					System.out.println("I can't hear what you said. \n");
 				}
 			} else {
 				System.out.println("I can't hear what you said.\n");
