@@ -65,7 +65,7 @@ public class Jarvis extends Thread{
 				
 				if(r != null && r.getBestResultNoFiller().length() > 0){
 					//TODO: notify new command
-					System.out.println(r);
+					System.out.println(r.getBestFinalResultNoFiller());
 				}
 				else{
 					System.out.println("Cannot hear command, please try again");

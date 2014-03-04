@@ -6,4 +6,5 @@
 
 grammar hello;
 
-public <greet> = (Good morning | Hello) ( Bhiksha | Evandro | Paul | Philip | Rita | Will );
+//public <greet> = (Good morning | Hello) ( Bhiksha | Evandro | Paul | Philip | Rita | Will );
+public <light> = (Activate | Turn) (On | Off) ( Lamp | Lights | Room );
