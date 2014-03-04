@@ -1,4 +1,4 @@
-package main;
+package devices;
 
 public class Lamp implements DeviceInterface{
 

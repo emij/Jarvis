@@ -1,4 +1,4 @@
-package main;
+package voice;
 
 
 import edu.cmu.sphinx.frontend.util.Microphone;
