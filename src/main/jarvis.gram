@@ -4,7 +4,8 @@
  * JSGF Grammar for Hello World example
  */
 
-grammar hello;
+grammar jarvis;
 
 //public <greet> = (Good morning | Hello) ( Bhiksha | Evandro | Paul | Philip | Rita | Will );
 public <light> = (Activate | Turn) (On | Off) ( Lamp | Lights | Room );
+public <room> = (Activate | Good morning) (room | lamp);
