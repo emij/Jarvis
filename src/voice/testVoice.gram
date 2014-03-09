@@ -6,6 +6,6 @@
 
 grammar testVoice;
 
-public <lamp> =  lamp (Enable | Disable)  ;
+public <lamp> =  lamp (enable | disable)  ;
 
-public <radio> = radio (Enable | Disable) ;
+public <radio> = radio (enable | disable) ;

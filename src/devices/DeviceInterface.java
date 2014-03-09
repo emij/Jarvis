@@ -2,8 +2,12 @@ package devices;
 
 public interface DeviceInterface {
 	
-	boolean on();
-	boolean off();
+	boolean enable();
+	boolean disable();
 	boolean isActive();
 	void flipSwitch();
+	String toString();
+	int hashCode();
+	boolean equals(Object obj);
+	String getName();
 }
