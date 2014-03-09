@@ -31,7 +31,7 @@ public class Core implements Observer  {
 		tst.start();
 	}
 	private void setUpDevices() {
-		// Will do this in a better way down the road. possible load everything from a settings file
+		// TODO Will do this in a better way down the road. possible load everything from a settings file
 		Device lamp = new Device("lamp");
 		Device kitchen = new Device("kitchen");
 		Device coffee = new Device("coffee");
@@ -45,6 +45,7 @@ public class Core implements Observer  {
 		devices.put("radio", radio);
 		
 	}
+	// TODO needs to be rewritten
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof VoiceCommand){

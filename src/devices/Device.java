@@ -47,7 +47,7 @@ public  class Device {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Lamptest other = (Lamptest) obj;
+		Device other = (Device) obj;
 		if (active != other.active)
 			return false;
 		if (name == null) {
