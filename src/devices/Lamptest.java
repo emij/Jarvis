@@ -1,11 +1,11 @@
 package devices;
 
-public class Lamp implements DeviceInterface{
+public class Lamptest implements DeviceInterface{
 
 	boolean active = false;
 	String name;
 	
-	public Lamp(String name){
+	public Lamptest(String name){
 		this.name = name;
 	}
 
@@ -47,7 +47,7 @@ public class Lamp implements DeviceInterface{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Lamp other = (Lamp) obj;
+		Lamptest other = (Lamptest) obj;
 		if (active != other.active)
 			return false;
 		if (name == null) {

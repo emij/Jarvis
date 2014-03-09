@@ -8,4 +8,12 @@ grammar testVoice;
 
 public <lamp> =  lamp (enable | disable)  ;
 
+public <bathroom> = bathroom (enable | disable);
+
+public <kitchen> = kitchen (enable | disable);
+
+public <coffee> = coffee (enable | disable); 
+
 public <radio> = radio (enable | disable) ;
+
+

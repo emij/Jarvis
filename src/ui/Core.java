@@ -7,15 +7,14 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import devices.DeviceInterface;
-import devices.Lamp;
+import devices.Device;
 import voice.TestVoice;
 import voice.VoiceCommand;
 
 public class Core implements Observer  {
 	private VoiceCommand voiceCommand;
 	
-	private Map<String, DeviceInterface> devices = new HashMap<String, DeviceInterface>(); // Maybe should put deviceInterface instead of object
+	private Map<String, Device> devices = new HashMap<String, Device>(); // Maybe should put deviceInterface instead of object
 		
 	public Core(){
 		// Adding devices to hashmap
@@ -32,8 +31,18 @@ public class Core implements Observer  {
 		tst.start();
 	}
 	private void setUpDevices() {
-		Lamp lamp = new Lamp("lamp");
+		// Will do this in a better way down the road. possible load everything from a settings file
+		Device lamp = new Device("lamp");
+		Device kitchen = new Device("kitchen");
+		Device coffee = new Device("coffee");
+		Device bathroom = new Device("bathroom");
+		Device radio = new Device("radio");
+		
 		devices.put("lamp", lamp);
+		devices.put("kitchen", kitchen);
+		devices.put("coffee", coffee);
+		devices.put("bathroom", bathroom);
+		devices.put("radio", radio);
 		
 	}
 	@Override
@@ -42,7 +51,7 @@ public class Core implements Observer  {
 			VoiceCommand vCommand = (VoiceCommand)o;
 			
 			String[] strArray = vCommand.getCommand().split(" ");
-			DeviceInterface dev = devices.get(strArray[0]);
+			Device dev = devices.get(strArray[0]);
 			if(dev != null){
 				try {
 					Method method = dev.getClass().getDeclaredMethod(strArray[1], new Class[] {});
