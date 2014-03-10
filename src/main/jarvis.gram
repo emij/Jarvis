@@ -1,11 +1,16 @@
 #JSGF V1.0;
 
 /**
- * JSGF Grammar for Hello World example
+ * JSGF Grammar for Voice controlled home, Jarvis
+ *
+ * @author Marika Hansson
+ * @author Markus Otterberg
  */
 
 grammar jarvis;
 
-//public <greet> = (Good morning | Hello) ( Bhiksha | Evandro | Paul | Philip | Rita | Will );
-public <light> = (Activate | Turn) (On | Off) ( Lamp | Lights | Room );
-public <room> = (Activate | Good morning) (room | lamp);
+public <lamps> = Lamp | Lights | Room;
+public <action> = Activate | Turn On | Turn Off;
+
+public <light> = (<action>) (<lamps>);
+public <room> = (Activate | Good morning) [<lamps>];
