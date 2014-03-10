@@ -28,17 +28,12 @@ public class Core implements Observer  {
 	}
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
-		Device lamp = new Device("lamp");
-		Device kitchen = new Device("kitchen");
-		Device coffee = new Device("coffee");
-		Device bathroom = new Device("bathroom");
-		Device radio = new Device("radio");
-		
-		devices.put(lamp.getName(), lamp);
-		devices.put(kitchen.getName(), kitchen);
-		devices.put(coffee.getName(), coffee);
-		devices.put(bathroom.getName(), bathroom);
-		devices.put(radio.getName(), radio);
+			
+		addDevice(new Device("lamp"));
+		addDevice(new Device("kitchen"));
+		addDevice(new Device("coffee"));
+		addDevice(new Device("bathroom"));
+		addDevice(new Device("radio"));
 		
 	}
 	public void addDevice(Device dev){
