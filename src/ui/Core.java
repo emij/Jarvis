@@ -14,19 +14,15 @@ import voice.VoiceCommand;
 public class Core implements Observer  {
 	private VoiceCommand voiceCommand;
 	
-	private Map<String, Device> devices = new HashMap<String, Device>(); // Maybe should put deviceInterface instead of object
+	private Map<String, Device> devices = new HashMap<String, Device>(); 
 		
 	public Core(){
 		// Adding devices to hashmap
 		setUpDevices();
-		
+
 		voiceCommand = new VoiceCommand(); 
 		voiceCommand.addObserver(this);
 		
-		// Setup device
-		
-		
-	
 		TestVoice tst = new TestVoice(voiceCommand);
 		tst.start();
 	}
@@ -38,12 +34,18 @@ public class Core implements Observer  {
 		Device bathroom = new Device("bathroom");
 		Device radio = new Device("radio");
 		
-		devices.put("lamp", lamp);
-		devices.put("kitchen", kitchen);
-		devices.put("coffee", coffee);
-		devices.put("bathroom", bathroom);
-		devices.put("radio", radio);
+		devices.put(lamp.getName(), lamp);
+		devices.put(kitchen.getName(), kitchen);
+		devices.put(coffee.getName(), coffee);
+		devices.put(bathroom.getName(), bathroom);
+		devices.put(radio.getName(), radio);
 		
+	}
+	public void addDevice(Device dev){
+		devices.put(dev.getName(), dev);
+	}
+	public boolean removeDevice(Device dev){ 
+		return (devices.remove(dev.getName()) != null); //return true if found and removed
 	}
 	// TODO needs to be rewritten
 	@Override
@@ -51,12 +53,14 @@ public class Core implements Observer  {
 		if (o instanceof VoiceCommand){
 			VoiceCommand vCommand = (VoiceCommand)o;
 			
+			// Divide voicecommand into a stringarray
 			String[] strArray = vCommand.getCommand().split(" ");
-			Device dev = devices.get(strArray[0]);
+			Device dev = devices.get(strArray[0]); // get device from hashmap
 			if(dev != null){
 				try {
 					Method method = dev.getClass().getDeclaredMethod(strArray[1], new Class[] {});
 					method.invoke(dev, null);
+					// TODO create proper exceptionhandling
 				} catch (IllegalArgumentException e) {
 				} catch (IllegalAccessException e) {
 				} catch (InvocationTargetException e) {
@@ -67,6 +71,8 @@ public class Core implements Observer  {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			} else {
+				System.out.println("I am sorry, but the device " + strArray[0] + " is not installed");
 			}
 			
 		}
