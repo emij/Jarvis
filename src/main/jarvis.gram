@@ -9,8 +9,15 @@
 
 grammar jarvis;
 
-public <lamps> = Lamp | Lights | Room;
-public <action> = Activate | Turn On | Turn Off;
+public <onSwitch> = ([Turn] On | Enable | Activate) {on};
+public <offSwitch> = ([Turn] Off | Disable | Deactivate) {off};
+public <polite> = Please | Thank You;
 
-public <light> = (<action>) (<lamps>);
+/* Devices that only have simple actions like on/off, all devices have same possible actions!*/
+public <simpleDevice> = (Lamp | Lights) {lamp} | Coffee Maker;
+public <device> = Room;
+
+public <room> = Kitchen | Bedroom | Living Room | Bathroom | Hallway;
+
+public <light> = (<onSwitch> | <offSwitch>) <lamps>;
 public <room> = (Activate | Good morning) [<lamps>];
