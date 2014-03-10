@@ -15,6 +15,7 @@ public <polite> = Please | Thank You;
 
 /* Devices that only have simple actions like on/off, all devices have same possible actions!*/
 public <simpleDevice> = (Lamp | Lights) {lamp} | Coffee Maker;
+/* More complex devices, still with same possible actions */
 public <device> = Room;
 
 public <room> = Kitchen | Bedroom | Living Room | Bathroom | Hallway;
