@@ -1,11 +1,15 @@
 package devices;
 
 public  class Device {
-	boolean active = false;
-	String name;
+	private boolean active = false;
+	private String name;
 	
 	public Device(String name){
 		this.name = name;
+	}
+	public Device (String name, boolean active){
+		this.name = name;
+		this.active = active;
 	}
 	public String getName() {
 		return name;

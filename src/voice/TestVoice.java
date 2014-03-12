@@ -17,7 +17,7 @@ public class TestVoice extends Thread {
 
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		recognizer.allocate();
-		
+
 		this.voiceCommand = voiceCommand;
 		// start the microphone or exit if the program if this is not possible
 		Microphone microphone = (Microphone) cm.lookup("microphone");
@@ -26,10 +26,10 @@ public class TestVoice extends Thread {
 			recognizer.deallocate();
 			System.exit(1);
 		}
-    }
-	
+	}
 
-    // loop the recognition until the program exits.
+
+	// loop the recognition until the program exits.
 	public void run() {
 		System.out.println("lamp ( Enable | Disable )  or  radio ( Enable | Disable ) ");
 		while (true) {
@@ -39,18 +39,11 @@ public class TestVoice extends Thread {
 
 			if (result != null) {
 				String resultText = result.getBestFinalResultNoFiller();
-				if(resultText.length() != 0){
-					System.out.println("You said: " + resultText + '\n');
-					voiceCommand.newCommand(resultText);
-				} else {
-					System.out.println("I can't hear what you said. \n");
-				}
-			} else {
-				System.out.println("I can't hear what you said.\n");
+				System.out.println("You said: " + resultText + '\n');
+				voiceCommand.newCommand(resultText);
 			}
 		}
 	}
 }
 
 
-	
