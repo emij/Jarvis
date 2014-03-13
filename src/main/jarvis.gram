@@ -6,19 +6,31 @@
  * @author Marika Hansson
  * @author Markus Otterberg
  */
+ 
+ /*{tag}, [optional]*/
 
 grammar jarvis;
 
-public <onSwitch> = ([Turn] On | Enable | Activate) {on};
-public <offSwitch> = ([Turn] Off | Disable | Deactivate) {off};
-public <polite> = Please | Thank You;
+private <onSwitch> = ([Turn] On | Enable | Activate) {on};
+private <offSwitch> = ([Turn] Off | Disable | Deactivate) {off};
+private <polite> = Please | Thank You;
 
 /* Devices that only have simple actions like on/off, all devices have same possible actions!*/
-public <simpleDevice> = (Lamp | Lights) {lamp} | Coffee Maker;
+private <simpleDevice> = (Lamp | Lights | lamps) {lamp} | Coffee Maker;
 /* More complex devices, still with same possible actions */
-public <device> = Room;
+private <device> = Room;
 
-public <room> = Kitchen | Bedroom | Living Room | Bathroom | Hallway;
+private <room> = Kitchen | Bedroom | Living Room | Bathroom | Hallway;
 
-public <light> = (<onSwitch> | <offSwitch>) <lamps>;
-public <room> = (Activate | Good morning) [<lamps>];
+/* Rules for commands*/
+
+/* "Turn on the kitchen lamps", "Active lamps", "Turn off the lamps"*/
+public <light> = (<onSwitch> | <offSwitch>) [The] [<room>] <lamps>;
+/* "Bedroom lamp enable"*/
+public <light2> = [<room>] <lamps> (<onSwitch> | <offSwitch>);
+/* "Turn on lamps in the bathroom"*/
+public <light3> = (<onSwitch> | <offSwitch>) [The] <lamps> In The <room>;
+
+
+
+public <r> = (Activate | Good morning) [<lamps>];
