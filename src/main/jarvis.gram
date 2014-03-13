@@ -20,7 +20,7 @@ grammar jarvis;
 /* More complex devices, still with same possible actions */
 <device> = Room;
 
-<room> = Kitchen | Bedroom | Living Room | Bathroom | Hallway;
+<room> = Kitchen {kitchen} | Bedroom {bedroom} | Living Room {living} | Bathroom {bathroom} | Hallway {hallway};
 
 /* Rules for commands*/
 
