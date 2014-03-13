@@ -11,16 +11,16 @@
 
 grammar jarvis;
 
-private <onSwitch> = ([Turn] On | Enable | Activate) {on};
-private <offSwitch> = ([Turn] Off | Disable | Deactivate) {off};
-private <polite> = Please | Thank You;
+public <onSwitch> = ([Turn] On | Enable | Activate) {on};
+public <offSwitch> = ([Turn] Off | Disable | Deactivate) {off};
+public <polite> = Please | Thank You;
 
 /* Devices that only have simple actions like on/off, all devices have same possible actions!*/
-private <simpleDevice> = (Lamp | Lights | lamps) {lamp} | Coffee Maker;
+public <lamps> = (Lamp | Lights | lamps) {lamp} | Coffee Maker;
 /* More complex devices, still with same possible actions */
-private <device> = Room;
+public <device> = Room;
 
-private <room> = Kitchen | Bedroom | Living Room | Bathroom | Hallway;
+public <room> = Kitchen | Bedroom | Living Room | Bathroom | Hallway;
 
 /* Rules for commands*/
 
@@ -30,7 +30,6 @@ public <light> = (<onSwitch> | <offSwitch>) [The] [<room>] <lamps>;
 public <light2> = [<room>] <lamps> (<onSwitch> | <offSwitch>);
 /* "Turn on lamps in the bathroom"*/
 public <light3> = (<onSwitch> | <offSwitch>) [The] <lamps> In The <room>;
-
 
 
 public <r> = (Activate | Good morning) [<lamps>];
