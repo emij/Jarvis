@@ -5,15 +5,22 @@ package main;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.speech.recognition.RuleGrammar;
+import javax.speech.recognition.RuleParse;
+
+import com.sun.speech.engine.recognition.BaseRecognizer;
+
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.recognizer.Recognizer;
 import edu.cmu.sphinx.result.Result;
+import edu.cmu.sphinx.tools.tags.ActionTagsParser;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 
 public class Jarvis extends Thread{
 
 	ConfigurationManager cm;
+	BaseRecognizer b;
 	Recognizer recognizer;
 	Microphone microphone;
 
@@ -77,5 +84,23 @@ public class Jarvis extends Thread{
 			recognizer.deallocate();
 			System.exit(1); //Error occurred
 		}
+	}
+
+	// TODO: method for parsing out tags from result string, needs fixing. Based on tags demo in sphinx.
+	private String parseCommand(String bestFinalResultNoFiller) {
+		try {
+			RuleGrammar g = b.loadJSGF(new URL("file:///Jarvis/src/main/jarvis.gram"), "jarvis.gram");
+			System.out.println("\ngrammar" + g.toString());
+			
+			RuleParse p = g.parse(bestFinalResultNoFiller, null);
+			
+			ActionTagsParser parser = new ActionTagsParser();
+			parser.parseTags(p);
+			return p.toString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
