@@ -5,12 +5,18 @@ package main;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.speech.EngineException;
+import javax.speech.EngineStateError;
+import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
 
 import com.sun.speech.engine.recognition.BaseRecognizer;
+import com.sun.speech.engine.recognition.BaseRuleGrammar;
 
 import edu.cmu.sphinx.frontend.util.Microphone;
+import edu.cmu.sphinx.jsgf.JSGFGrammar;
+import edu.cmu.sphinx.jsgf.JSGFRuleGrammarManager;
 import edu.cmu.sphinx.recognizer.Recognizer;
 import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.tools.tags.ActionTagsParser;
@@ -55,10 +61,24 @@ public class Jarvis extends Thread{
 		}
 	}
 	
-	private void setup() throws InstantiationException, PropertyException, IllegalStateException, IOException{
+	// TODO: deal with exceptions.
+	/**
+	 * setup for recognizer, microphone for recognition.
+	 * setup for baseRecognizer that is used to parse tags.
+	 * 
+	 * @throws InstantiationException
+	 * @throws PropertyException
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws EngineException
+	 * @throws EngineStateError
+	 */
+	private void setup() throws InstantiationException, PropertyException, IllegalStateException, IOException, EngineException, EngineStateError{
+		b = new BaseRecognizer(((JSGFGrammar) cm.lookup("jsgfGrammar")).getGrammarManager());
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		microphone = (Microphone) cm.lookup("microphone");
 		
+		b.allocate();
 		recognizer.allocate();
 	}
 	
@@ -73,6 +93,15 @@ public class Jarvis extends Thread{
 				if(r != null && r.getBestResultNoFiller().length() > 0){
 					//TODO: notify new command
 					System.out.println(r.getBestFinalResultNoFiller());
+					
+					String[] parsed = parseCommand(r.getBestFinalResultNoFiller());
+					if(parsed != null){
+						System.out.print("\nParsed: ");
+						for(String item: parsed){
+							System.out.print(item + " ");
+						}
+						System.out.println("");
+					}
 				}
 				else{
 					System.out.println("Cannot hear command, please try again");
@@ -86,21 +115,23 @@ public class Jarvis extends Thread{
 		}
 	}
 
-	// TODO: method for parsing out tags from result string, needs fixing. Based on tags demo in sphinx.
-	private String parseCommand(String bestFinalResultNoFiller) {
+	/**
+	 * Parses a string command to corresponding tags based on the rule grammar.
+	 * 
+	 * @param spokenString: result string from spoken command to be parsed.
+	 * @return array of tags corresponding to the inputed command.
+	 */
+	private String[] parseCommand(String spokenString) {
+		JSGFGrammar g =  (JSGFGrammar) cm.lookup("jsgfGrammar");
+		RuleGrammar r = new BaseRuleGrammar(b, g.getRuleGrammar());
+		
+		RuleParse p = null;
 		try {
-			RuleGrammar g = b.loadJSGF(new URL("file:///Jarvis/src/main/jarvis.gram"), "jarvis.gram");
-			System.out.println("\ngrammar" + g.toString());
-			
-			RuleParse p = g.parse(bestFinalResultNoFiller, null);
-			
-			ActionTagsParser parser = new ActionTagsParser();
-			parser.parseTags(p);
-			return p.toString();
-		} catch (Exception e) {
+			p = r.parse(spokenString, null);
+		} catch (GrammarException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return p.getTags();
 	}
 }
