@@ -39,7 +39,7 @@ public class TestVoice extends Thread {
 
 			if (result != null) {
 				String resultText = result.getBestFinalResultNoFiller();
-				System.out.println("You said: " + resultText + '\n');
+				System.out.println("Sphinx says: " + resultText + '\n');
 				voiceCommand.newCommand(resultText);
 			}
 		}
