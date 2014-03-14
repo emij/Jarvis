@@ -64,12 +64,10 @@ public class Jarvis extends Thread{
 	 * setup for recognizer, microphone for recognition.
 	 * setup for baseRecognizer that is used to parse tags.
 	 * 
-	 * @throws InstantiationException
+	 * @throws RumtimeException
 	 * @throws PropertyException
-	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws EngineException
-	 * @throws EngineStateError
 	 */
 	private void setup() throws RuntimeException, PropertyException, IOException, EngineException{
 		b = new BaseRecognizer(((JSGFGrammar) cm.lookup("jsgfGrammar")).getGrammarManager());
