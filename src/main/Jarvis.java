@@ -71,7 +71,7 @@ public class Jarvis extends Thread{
 	 * @throws EngineException
 	 * @throws EngineStateError
 	 */
-	private void setup() throws InstantiationException, PropertyException, IllegalStateException, IOException, EngineException, EngineStateError{
+	private void setup() throws RuntimeException, PropertyException, IOException, EngineException{
 		b = new BaseRecognizer(((JSGFGrammar) cm.lookup("jsgfGrammar")).getGrammarManager());
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		microphone = (Microphone) cm.lookup("microphone");
