@@ -15,7 +15,6 @@ grammar jarvis;
 <offSwitch> = ([Turn] Off | Disable | Deactivate) {off};
 <polite> = Please | Could You Please | Please Computer;
 <simpleDevice> = (Lamp | Lights | lamps) {lamp} | Coffee Maker {coffee} | (TV | Television) {TV} | Fan {fan};
-<device> = Room;
 <room> = Kitchen {kitchen} | Bedroom {bedroom} | Living Room {living} | Bathroom {bathroom} | Hallway {hallway};
 <greeting> = Good Morning {morning} | Good Night {night} | (Hello | Hi) {hi} | (Good Bye | Bye) {bye};
 <mute> = Mute {mute} | Unmute {unmute};
