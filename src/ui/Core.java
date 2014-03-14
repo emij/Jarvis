@@ -44,41 +44,43 @@ public class Core implements Observer  {
 	public boolean removeDevice(Device dev){ 
 		return (devices.remove(dev.getName()) != null); //return true if found and removed
 	}
-	// TODO needs to be rewritten
+	// strArray should be on the form Device | method | param
+	public void controlDevice(String[] strArray){
+		Device dev = devices.get(strArray[0]); // get device from hashmap
+		if(dev != null){
+			if(devices.get(mic).isActive() || 
+					dev.getName().equalsIgnoreCase(mic)){
+				try {
+					Method method = dev.getClass().getDeclaredMethod(strArray[1], new Class[] {});
+					method.invoke(dev, null);
+					// TODO create proper handling of exceptions
+				} catch (IllegalArgumentException e) {
+				} catch (IllegalAccessException e) {
+				} catch (InvocationTargetException e) {
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} else {
+			System.out.println("I am sorry, but the device " + strArray[0] + " is not installed");
+		}
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof VoiceCommand){
 			VoiceCommand vCommand = (VoiceCommand)o;
-
 			// Divide voicecommand into a stringarray
 			if(vCommand.getCommand().length() != 0){
 				String[] strArray = vCommand.getCommand().split(" ");
-				Device dev = devices.get(strArray[0]); // get device from hashmap
-				if(dev != null){
-					if(devices.get(mic).isActive() || 
-							dev.getName().equalsIgnoreCase(mic)){
-						try {
-							Method method = dev.getClass().getDeclaredMethod(strArray[1], new Class[] {});
-							method.invoke(dev, null);
-							// TODO create proper handling of exceptions
-						} catch (IllegalArgumentException e) {
-						} catch (IllegalAccessException e) {
-						} catch (InvocationTargetException e) {
-						} catch (NoSuchMethodException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (SecurityException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				} else {
-					System.out.println("I am sorry, but the device " + strArray[0] + " is not installed");
-				}
+				// Actual control of devices in another method, for GUI-reasons
+				controlDevice(strArray);
 			}
-
 		}
-
 	}
 }
 
