@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.speech.EngineException;
-import javax.speech.EngineStateError;
 import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
