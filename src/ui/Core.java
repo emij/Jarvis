@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import devices.Device;
+import devices.RadioDevice;
 import edu.cmu.sphinx.frontend.util.Microphone;
 import voice.TestVoice;
 import voice.VoiceCommand;
@@ -34,7 +35,7 @@ public class Core implements Observer  {
 		addDevice(new Device("kitchen"));
 		addDevice(new Device("coffee"));
 		addDevice(new Device("bathroom"));
-		addDevice(new Device("radio"));
+		addDevice(new RadioDevice("radio"));
 		addDevice(new Device("microphone", true));
 
 	}
