@@ -13,7 +13,7 @@ grammar jarvis;
 
 <onSwitch> = ([Turn] On | Enable | Activate) {on};
 <offSwitch> = ([Turn] Off | Disable | Deactivate) {off};
-<polite> = Please | Thank You;
+<polite> = Please | Could You Please | Please Computer;
 <simpleDevice> = (Lamp | Lights | lamps) {lamp} | Coffee Maker {coffee} | (TV | Television) {TV} | Fan {fan};
 <device> = Room;
 <room> = Kitchen {kitchen} | Bedroom {bedroom} | Living Room {living} | Bathroom {bathroom} | Hallway {hallway};
@@ -21,14 +21,17 @@ grammar jarvis;
 <mute> = Mute {mute} | Unmute {unmute};
 <sleep> = Sleep {sleep} | Wake {wake} | Snooze {snooze};
 <dateTime> = Date {date} | Time {time} | Week {week} | Study Week {studyWeek} | Temperature {temp};
+<turn> = Up {up} | Down {down};
 
 /* Rules for commands*/
 
-public <light> = (<onSwitch> | <offSwitch>) [The] [<room>] <simpleDevice>;
-public <light2> = [<room>] <simpleDevice> (<onSwitch> | <offSwitch>);
-public <light3> = (<onSwitch> | <offSwitch>) [The] <simpleDevice> In [The] <room>;
+public <light> = [<polite>] (<onSwitch> | <offSwitch>) [The] [<room>] <simpleDevice> [<polite>];
+public <light2> = [<room>] <simpleDevice> (<onSwitch> | <offSwitch>) [<polite>];
+public <light3> = [<polite>] (<onSwitch> | <offSwitch>) [The] <simpleDevice> In [The] <room>;
 
 public <simpleCommand> = <sleep> | <mute> | Activate {activate} | <greeting> | <dateTime>;
 
 public <tell> = What Is The [Current] <dateTime>;
 public <date> = What Is Todays Date {date};
+
+public <filler> = Thank You;

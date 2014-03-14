@@ -50,17 +50,14 @@ DISABLE FAN
 ACTIVATE FAN
 FAN OFF
 FAN ON
+COULD YOU PLEASE []
+PLEASE []
+[] PLEASE
+THANK YOU
 
 ---- TODO ----
 
 [] = some other sentence, i.e. please [turn on the lamp] 
-
-COULD YOU PLEASE []
-PLEASE []
-TURN ON []
-TURN OFF []
-[] PLEASE
-THANK YOU
 ACTIVATE OUTLET #
 TURN ON OUTLET #
 TURN OFF OUTLET #
