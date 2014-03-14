@@ -10,11 +10,11 @@ import java.util.Observer;
 import devices.Device;
 import devices.RadioDevice;
 import edu.cmu.sphinx.frontend.util.Microphone;
+import voice.Command;
 import voice.TestVoice;
-import voice.VoiceCommand;
 
 public class Core implements Observer  {
-	private VoiceCommand voiceCommand;
+	private Command voiceCommand;
 	private String mic = "microphone";
 	private Map<String, Device> devices = new HashMap<String, Device>(); 
 
@@ -22,7 +22,7 @@ public class Core implements Observer  {
 		// Adding devices to hashmap
 		setUpDevices();
 
-		voiceCommand = new VoiceCommand(); 
+		voiceCommand = new Command(); 
 		voiceCommand.addObserver(this);
 
 		TestVoice tst = new TestVoice(voiceCommand);
@@ -46,7 +46,8 @@ public class Core implements Observer  {
 		return (devices.remove(dev.getName()) != null); //return true if found and removed
 	}
 	// strArray should be on the form Device | method | param
-	public void controlDevice(String[] strArray){
+	// not sure about synchronized here, but may need it
+	public synchronized void controlDevice(String[] strArray){
 		Device dev = devices.get(strArray[0]); // get device from hashmap
 		if(dev != null){
 			if(devices.get(mic).isActive() || 
@@ -72,9 +73,9 @@ public class Core implements Observer  {
 	}
 	
 	@Override
-	public void update(Observable o, Object arg) {
-		if (o instanceof VoiceCommand){
-			VoiceCommand vCommand = (VoiceCommand)o;
+	public void update(Observable o, Object arg) { // maybe should have synchronized here instead
+		if (o instanceof Command){
+			Command vCommand = (Command)o;
 			// Divide voicecommand into a stringarray
 			if(vCommand.getCommand().length() != 0){
 				String[] strArray = vCommand.getCommand().split(" ");

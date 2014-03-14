@@ -11,8 +11,8 @@ public class TestVoice extends Thread {
 	private ConfigurationManager cm;
 	private Recognizer recognizer;
 	private Result result;
-	VoiceCommand voiceCommand;
-	public TestVoice(VoiceCommand voiceCommand) {
+	Command voiceCommand;
+	public TestVoice(Command voiceCommand) {
 		cm = new ConfigurationManager(TestVoice.class.getResource("testVoice.config.xml"));
 
 		recognizer = (Recognizer) cm.lookup("recognizer");

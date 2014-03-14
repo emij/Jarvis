@@ -2,18 +2,18 @@ package voice;
 
 import java.util.Observable;
 
-public class VoiceCommand extends Observable{
-	private String interpretedCommand = "";
+public class Command extends Observable{
+	private String command = "";
 	
-	public VoiceCommand(){
+	public Command(){
 	}
 	
 	public String getCommand(){
-		return interpretedCommand;
+		return command;
 	}
 
 	public void newCommand(String str){
-		interpretedCommand = str;
+		command = str;
 		this.setChanged();
 		notifyObservers();
 	}
