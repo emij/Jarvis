@@ -28,14 +28,13 @@ public class Jarvis extends Thread{
 	Microphone microphone;
 
 	public Jarvis(URL u){
-		try{
-			setConfiguration(u);
-			setup();
-		}
-		catch(Exception e){
-			//TODO: handle exceptions
-			e.printStackTrace();
-		}
+				try {
+					setConfiguration(u);
+					setup();
+				} catch (EngineException | IOException | RuntimeException e) {
+					System.out.println("Configuration and setup cannot be performed. Check if inputed ConfigurationManager url is valid.");
+					e.printStackTrace();
+				}
 	}
 	
 	public Jarvis(){
@@ -43,8 +42,8 @@ public class Jarvis extends Thread{
 			setConfiguration(null);
 			setup();
 		}
-		catch(Exception e){
-			//TODO: handle exceptions
+		catch(EngineException | IOException | RuntimeException e){
+			System.out.println("Configuration and setup cannot be performed. Check if a valid default configurationManager exsits or input an url to a valid ConfigurationManager.");
 			e.printStackTrace();
 		}
 	}
