@@ -10,11 +10,13 @@ import java.util.Observer;
 import devices.Device;
 import devices.RadioDevice;
 import edu.cmu.sphinx.frontend.util.Microphone;
+import server.Server;
 import voice.Command;
 import voice.TestVoice;
 
 public class Core implements Observer  {
 	private Command voiceCommand;
+	private Command serverCommand;
 	private String mic = "microphone";
 	private Map<String, Device> devices = new HashMap<String, Device>(); 
 
@@ -26,6 +28,12 @@ public class Core implements Observer  {
 		voiceCommand.addObserver(this);
 
 		TestVoice tst = new TestVoice(voiceCommand);
+		
+		serverCommand = new Command();
+		serverCommand.addObserver(this);
+		Server server = new Server(serverCommand);
+		
+		server.start();
 		tst.start();
 	}
 	private void setUpDevices() {
