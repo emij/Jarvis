@@ -19,28 +19,34 @@ import edu.cmu.sphinx.recognizer.Recognizer;
 import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
+import edu.cmu.sphinx.tools.tags.ObjectTagsParser;
 
 public class Jarvis extends Thread{
 
-	ConfigurationManager cm;
-	BaseRecognizer b;
-	Recognizer recognizer;
-	Microphone microphone;
+	private ConfigurationManager cm;
+	private BaseRecognizer baseRec;
+	private Recognizer recognizer;
+	private Microphone microphone;
+	private RuleGrammar rules;
+	private JSGFGrammar grammar;
+	ObjectTagsParser objParser;
 
 	public Jarvis(URL u){
-				try {
-					setConfiguration(u);
-					setup();
-				} catch (EngineException | IOException | RuntimeException e) {
-					System.out.println("Configuration and setup cannot be performed. Check if inputed ConfigurationManager url is valid.");
-					e.printStackTrace();
-				}
+		try {
+			setConfiguration(u);
+			setup();
+			setupParser();
+		} catch (EngineException | IOException | RuntimeException e) {
+			System.out.println("Configuration and setup cannot be performed. Check if inputed ConfigurationManager url is valid.");
+			e.printStackTrace();
+		}
 	}
 	
 	public Jarvis(){
 		try{
 			setConfiguration(null);
 			setup();
+			setupParser();
 		}
 		catch(EngineException | IOException | RuntimeException e){
 			System.out.println("Configuration and setup cannot be performed. Check if a valid default configurationManager exsits or input an url to a valid ConfigurationManager.");
@@ -68,12 +74,19 @@ public class Jarvis extends Thread{
 	 * @throws EngineException
 	 */
 	private void setup() throws RuntimeException, PropertyException, IOException, EngineException{
-		b = new BaseRecognizer(((JSGFGrammar) cm.lookup("jsgfGrammar")).getGrammarManager());
+		baseRec = new BaseRecognizer(((JSGFGrammar) cm.lookup("jsgfGrammar")).getGrammarManager());
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		microphone = (Microphone) cm.lookup("microphone");
 		
-		b.allocate();
+		baseRec.allocate();
 		recognizer.allocate();
+	}
+	
+	private void setupParser(){
+		grammar =  (JSGFGrammar) cm.lookup("jsgfGrammar");
+		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
+		objParser = new ObjectTagsParser();
+		objParser.put("jarvis", this);
 	}
 	
 	@Override
@@ -116,16 +129,15 @@ public class Jarvis extends Thread{
 	 * @return array of tags corresponding to the inputed command.
 	 */
 	private String[] parseCommand(String spokenString) {
-		JSGFGrammar g =  (JSGFGrammar) cm.lookup("jsgfGrammar");
-		RuleGrammar r = new BaseRuleGrammar(b, g.getRuleGrammar());
-		
-		RuleParse p = null;
+		RuleParse parse = null;
 		try {
-			p = r.parse(spokenString, null);
+			parse = rules.parse(spokenString, null);
 		} catch (GrammarException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return p.getTags();
+		objParser.parseTags(parse);
+		
+		return parse.getTags();
 	}
 }
