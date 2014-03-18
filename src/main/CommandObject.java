@@ -25,7 +25,8 @@ public class CommandObject {
 	}
 	
 	public void generateCommand(){
-		Command c = new Command();
-		c.newCommand(action + " " + device);
+		//Command c = new Command();
+		//c.newCommand(action + " " + device);
+		System.out.println(action + " " + device);
 	}
 }

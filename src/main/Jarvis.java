@@ -96,19 +96,13 @@ public class Jarvis extends Thread{
 				System.out.println("Speak command please");
 				
 				Result r = recognizer.recognize();
+				String bestResult = r.getBestFinalResultNoFiller();
 				
-				if(r != null && r.getBestResultNoFiller().length() > 0){
+				if(r != null && bestResult.length() > 0){
 					//TODO: notify new command
-					System.out.println(r.getBestFinalResultNoFiller());
+					System.out.println(bestResult);
 					
-					String[] parsed = parseCommand(r.getBestFinalResultNoFiller());
-					if(parsed != null){
-						System.out.print("\nParsed: ");
-						for(String item: parsed){
-							System.out.print(item + " ");
-						}
-						System.out.println("");
-					}
+					parseCommand(bestResult);
 				}
 				else{
 					System.out.println("Cannot hear command, please try again");
@@ -128,7 +122,7 @@ public class Jarvis extends Thread{
 	 * @param spokenString: result string from spoken command to be parsed.
 	 * @return array of tags corresponding to the inputed command.
 	 */
-	private String[] parseCommand(String spokenString) {
+	private void parseCommand(String spokenString) {
 		RuleParse parse = null;
 		try {
 			parse = rules.parse(spokenString, null);
@@ -137,7 +131,5 @@ public class Jarvis extends Thread{
 			e.printStackTrace();
 		}
 		objParser.parseTags(parse);
-		
-		return parse.getTags();
 	}
 }
