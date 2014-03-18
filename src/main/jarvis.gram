@@ -24,9 +24,9 @@ grammar jarvis;
 
 /* Rules for commands*/
 
-public <light> = <NULL> {this.$value = new Packages.main.CommandObject();} [<polite>] (<onSwitch> | <offSwitch>) [The] [<room>] <simpleDevice> [<polite>] {this.$value.generateCommand();};
+public <light> = <NULL> {this.$value = new Packages.main.CommandObject();} [<polite>] (<onSwitch> | <offSwitch>) [The] [<room>] <simpleDevice> [<polite>]  {this.$value.generateCommand();};
 public <light2> = [<room>] <simpleDevice> (<onSwitch> | <offSwitch>) [<polite>] {this.$value = new Packages.main.CommandObject();} {this.$value.generateCommand();};
-public <light3> = [<polite>] (<onSwitch> | <offSwitch>) [The] <simpleDevice> In [The] <room> {this.$value = new Packages.main.CommandObject();} {this.$value.generateCommand();};
+public <light3> = [<polite>] (<onSwitch> | <offSwitch>) [The] <simpleDevice> In [The] <room>  {this.$value.generateCommand();};
 
 public <simpleCommand> = <sleep> | <mute> | Activate {activate} | <greeting> | <dateTime>;
 
