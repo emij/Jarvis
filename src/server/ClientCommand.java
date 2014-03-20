@@ -2,6 +2,7 @@ package server;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import voice.Command;
@@ -19,12 +20,12 @@ public class ClientCommand implements Runnable {
 	@Override
 	public void run() {
 
-		while(true) { // TODO fix exceptionhandling
+		//while(true) { // TODO fix exceptionhandling
 			try {
-				BufferedReader inFromClient =                
-						new BufferedReader(new InputStreamReader(socket.getInputStream()));             
+				ObjectInputStream inFromClient =                
+						new ObjectInputStream(socket.getInputStream());             
 
-				String recievedCommand = inFromClient.readLine(); 
+				String recievedCommand = (String) inFromClient.readObject(); 
 				if(recievedCommand != null && recievedCommand.length() != 0){
 					command.newCommand(recievedCommand);
 				}
@@ -33,7 +34,7 @@ public class ClientCommand implements Runnable {
 				// TODO
 				e.printStackTrace();
 			}
-		}
+		//}
 	}
 }
 
