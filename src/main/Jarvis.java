@@ -62,8 +62,7 @@ public class Jarvis extends Thread{
 			cm = new ConfigurationManager(u);
 		}
 	}
-	
-	// TODO: deal with exceptions.
+
 	/**
 	 * setup for recognizer, microphone for recognition.
 	 * setup for baseRecognizer that is used to parse tags.
@@ -99,7 +98,6 @@ public class Jarvis extends Thread{
 				String bestResult = r.getBestFinalResultNoFiller();
 				
 				if(r != null && bestResult.length() > 0){
-					//TODO: notify new command
 					System.out.println(bestResult);
 					
 					parseCommand(bestResult);
@@ -127,7 +125,6 @@ public class Jarvis extends Thread{
 		try {
 			parse = rules.parse(spokenString, null);
 		} catch (GrammarException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		objParser.parseTags(parse);

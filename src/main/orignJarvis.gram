@@ -1,0 +1,36 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Grammar for Voice controlled home, Jarvis
+ *
+ * @author Marika Hansson
+ * @author Markus Otterberg
+ */
+ 
+ /*{tag}, [optional]*/
+
+grammar jarvis;
+
+<onSwitch> = ([Turn] On | Enable | Activate) {this.$value.addAction(on);};
+<offSwitch> = ([Turn] Off | Disable | Deactivate) {this.$value.addAction(off);};
+<polite> = Please | Could You Please | Please Computer;
+<simpleDevice> = (Lamp | Lights | lamps) {this.$value.addDevice(lamp);} | Coffee Maker | (TV | Television) | Fan;
+<room> = Kitchen {kitchen} | Bedroom {bedroom} | Living Room {living} | Bathroom {bathroom} | Hallway {hallway};
+<greeting> = Good Morning {morning} | Good Night {night} | (Hello | Hi) {hi} | (Good Bye | Bye) {bye};
+<mute> = Mute {mute};
+<sleep> = Sleep {sleep} | Wake {wake} | Snooze {snooze};
+<dateTime> = Date {date} | Time {time} | Week {week} | Study Week {studyWeek} | Temperature {temp};
+<turn> = Up {up} | Down {down};
+
+/* Rules for commands*/
+
+public <light> = <NULL> {this.$value = new Packages.main.CommandObject();} [<polite>] (<onSwitch> | <offSwitch>) [The] [<room>] <simpleDevice> [<polite>]  {this.$value.generateCommand();};
+public <light2> = [<room>] <simpleDevice> (<onSwitch> | <offSwitch>) [<polite>] {this.$value = new Packages.main.CommandObject();} {this.$value.generateCommand();};
+public <light3> = [<polite>] (<onSwitch> | <offSwitch>) [The] <simpleDevice> In [The] <room>  {this.$value.generateCommand();};
+
+public <simpleCommand> = <sleep> | <mute> | Activate {activate} | <greeting> | <dateTime>;
+
+public <tell> = What Is The [Current] <dateTime>;
+public <date> = What Is Todays Date {date};
+
+public <filler> = Thank You;
