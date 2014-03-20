@@ -29,7 +29,7 @@ public class Jarvis extends Thread{
 	private Microphone microphone;
 	private RuleGrammar rules;
 	private JSGFGrammar grammar;
-	ObjectTagsParser objParser;
+	private ObjectTagsParser objParser;
 
 	public Jarvis(URL u){
 		try {
