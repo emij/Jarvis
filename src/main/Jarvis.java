@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.speech.EngineException;
+import javax.speech.EngineStateError;
 import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
@@ -21,7 +22,7 @@ import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 import edu.cmu.sphinx.tools.tags.ObjectTagsParser;
 
-public class Jarvis extends Thread{
+public class Jarvis/* extends Thread*/{
 
 	private ConfigurationManager cm;
 	private BaseRecognizer baseRec;
@@ -30,7 +31,8 @@ public class Jarvis extends Thread{
 	private RuleGrammar rules;
 	private JSGFGrammar grammar;
 	private ObjectTagsParser objParser;
-
+	private CommandObject commandObj;
+	
 	public Jarvis(URL u){
 		try {
 			setConfiguration(u);
@@ -84,11 +86,25 @@ public class Jarvis extends Thread{
 	private void setupParser(){
 		grammar =  (JSGFGrammar) cm.lookup("jsgfGrammar");
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
+		rules.setEnabled(true);
 		objParser = new ObjectTagsParser();
-		objParser.put("jarvis", this);
+		objParser.put("appObj", this);
+		try {
+			baseRec.commitChanges();
+		} catch (GrammarException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EngineStateError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	@Override
+	public CommandObject getCommandObject(){
+		return commandObj;
+	}
+	
+	//@Override
 	public void run(){
 		if(microphone.startRecording()){
 			while(true){
@@ -124,9 +140,11 @@ public class Jarvis extends Thread{
 		RuleParse parse = null;
 		try {
 			parse = rules.parse(spokenString, null);
+			System.out.println(parse.getRule());
 		} catch (GrammarException e) {
 			e.printStackTrace();
 		}
+		commandObj = new CommandObject();
 		objParser.parseTags(parse);
 	}
 }
