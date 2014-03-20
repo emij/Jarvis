@@ -10,6 +10,7 @@ import java.util.Observer;
 import devices.Device;
 import devices.RadioDevice;
 import edu.cmu.sphinx.frontend.util.Microphone;
+import gui.SimpleGUI;
 import server.Server;
 import voice.Command;
 import voice.TestVoice;
@@ -32,7 +33,9 @@ public class Core implements Observer  {
 		serverCommand = new Command();
 		serverCommand.addObserver(this);
 		Server server = new Server(serverCommand);
-		
+		SimpleGUI gui = new SimpleGUI(voiceCommand);
+		Thread tr = new Thread(gui);
+		tr.start();
 		server.start();
 		tst.start();
 	}
