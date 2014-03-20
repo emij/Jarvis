@@ -31,13 +31,12 @@ public class Jarvis extends Thread{
 	private RuleGrammar rules;
 	private JSGFGrammar grammar;
 	private ObjectTagsParser objParser;
-	private CommandObject commandObj;
+	private CommandObject commandObj = new CommandObject();
 	
 	public Jarvis(URL u){
 		try {
 			setConfiguration(u);
 			setup();
-			setupParser();
 		} catch (EngineException | IOException | RuntimeException e) {
 			System.out.println("Configuration and setup cannot be performed. Check if inputed ConfigurationManager url is valid.");
 			e.printStackTrace();
@@ -48,7 +47,6 @@ public class Jarvis extends Thread{
 		try{
 			setConfiguration(null);
 			setup();
-			setupParser();
 		}
 		catch(EngineException | IOException | RuntimeException e){
 			System.out.println("Configuration and setup cannot be performed. Check if a valid default configurationManager exsits or input an url to a valid ConfigurationManager.");
@@ -88,7 +86,7 @@ public class Jarvis extends Thread{
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
 		rules.setEnabled(true);
 		objParser = new ObjectTagsParser();
-		objParser.put("appObj", commandObj);
+		objParser.put("appObj", this);
 		try {
 			baseRec.commitChanges();
 		} catch (GrammarException e) {
@@ -107,8 +105,8 @@ public class Jarvis extends Thread{
 	@Override
 	public void run(){
 		if(microphone.startRecording()){
+			setupParser();
 			while(true){
-				System.out.println(Thread.getAllStackTraces().keySet().toString());
 				System.out.println("Speak command please");
 				
 				Result r = recognizer.recognize();
@@ -146,7 +144,7 @@ public class Jarvis extends Thread{
 			e.printStackTrace();
 		}
 		commandObj = new CommandObject();
-		objParser.put("appObj", commandObj);
+		//objParser.put("appObj", commandObj);
 		objParser.parseTags(parse);
 	}
 }
