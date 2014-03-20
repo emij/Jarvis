@@ -31,7 +31,7 @@ public class Jarvis extends Thread{
 	private RuleGrammar rules;
 	private JSGFGrammar grammar;
 	private ObjectTagsParser objParser;
-	private CommandObject commandObj;
+	private Command command;
 	
 	public Jarvis(URL u){
 		try {
@@ -89,8 +89,8 @@ public class Jarvis extends Thread{
 		objParser.put("appObj", this);
 	}
 	
-	public CommandObject getCommandObject(){
-		return commandObj;
+	public Command getCommand(){
+		return command;
 	}
 	
 	@Override
@@ -140,7 +140,7 @@ public class Jarvis extends Thread{
 		} catch (GrammarException e) {
 			e.printStackTrace();
 		}
-		commandObj = new CommandObject();
+		command = new Command();
 		objParser.parseTags(parse);
 	}
 }
