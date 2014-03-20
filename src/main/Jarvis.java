@@ -31,7 +31,7 @@ public class Jarvis extends Thread{
 	private RuleGrammar rules;
 	private JSGFGrammar grammar;
 	private ObjectTagsParser objParser;
-	private CommandObject commandObj = new CommandObject();
+	private CommandObject commandObj;
 	
 	public Jarvis(URL u){
 		try {
@@ -84,18 +84,9 @@ public class Jarvis extends Thread{
 	private void setupParser(){
 		grammar =  (JSGFGrammar) cm.lookup("jsgfGrammar");
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
-		rules.setEnabled(true);
+		rules.setEnabled(true); //TODO: check if needed?
 		objParser = new ObjectTagsParser();
 		objParser.put("appObj", this);
-		try {
-			baseRec.commitChanges();
-		} catch (GrammarException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EngineStateError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public CommandObject getCommandObject(){
@@ -125,6 +116,12 @@ public class Jarvis extends Thread{
 		else{
 			System.out.println("Cannot start microphone");
 			recognizer.deallocate();
+			try {
+				baseRec.deallocate();
+			} catch (EngineException | EngineStateError e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.exit(1); //Error occurred
 		}
 	}
@@ -144,7 +141,6 @@ public class Jarvis extends Thread{
 			e.printStackTrace();
 		}
 		commandObj = new CommandObject();
-		//objParser.put("appObj", commandObj);
 		objParser.parseTags(parse);
 	}
 }
