@@ -22,7 +22,7 @@ import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 import edu.cmu.sphinx.tools.tags.ObjectTagsParser;
 
-public class Jarvis/* extends Thread*/{
+public class Jarvis extends Thread{
 
 	private ConfigurationManager cm;
 	private BaseRecognizer baseRec;
@@ -88,7 +88,7 @@ public class Jarvis/* extends Thread*/{
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
 		rules.setEnabled(true);
 		objParser = new ObjectTagsParser();
-		objParser.put("appObj", this);
+		objParser.put("appObj", commandObj);
 		try {
 			baseRec.commitChanges();
 		} catch (GrammarException e) {
@@ -104,10 +104,11 @@ public class Jarvis/* extends Thread*/{
 		return commandObj;
 	}
 	
-	//@Override
+	@Override
 	public void run(){
 		if(microphone.startRecording()){
 			while(true){
+				System.out.println(Thread.getAllStackTraces().keySet().toString());
 				System.out.println("Speak command please");
 				
 				Result r = recognizer.recognize();
@@ -145,6 +146,7 @@ public class Jarvis/* extends Thread*/{
 			e.printStackTrace();
 		}
 		commandObj = new CommandObject();
+		objParser.put("appObj", commandObj);
 		objParser.parseTags(parse);
 	}
 }
