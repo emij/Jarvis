@@ -1,13 +1,19 @@
 package server;
 
-import java.io.*; 
+import java.io.IOException;
 import java.net.*; 
 
 import voice.Command;
 
+/* Some ideas taken from 
+ * Multithreaded Java WebServer
+ * (C) 2001 Anders Gidenstam
+ */
+
 public class Server extends Thread {
 	Command command;
-	ServerSocket welcomeSocket;
+	ServerSocket serverSocket;
+	private int port = 6789;
 
 	public Server(Command command) {
 		this.command = command;
@@ -15,26 +21,26 @@ public class Server extends Thread {
 
 	public void run() {
 		try {
-			welcomeSocket = new ServerSocket(6789);
+			serverSocket = new ServerSocket(port);
+			// Wait for and process client server requests
+			while (true) {
+				// Wait for TCP connection
+				Socket clientCommandSocket = serverSocket.accept();
+
+				// Create an object to handle the request
+				ClientCommand clientCommand  = new ClientCommand(command, clientCommandSocket);
+
+				Thread thread = new Thread(clientCommand);
+				thread.start();
+			}
+		} catch (Exception e) {
+			System.out.println("fail");
+		}
+		try {
+			serverSocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		while(true) { // TODO fix exceptionhandling
-			try {
-				Socket connectionSocket = welcomeSocket.accept();             
-				BufferedReader inFromClient =                
-						new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));             
-
-				String recievedCommand = inFromClient.readLine(); 
-				if(recievedCommand != null && recievedCommand.length() != 0){
-					command.newCommand(recievedCommand);
-				}
-				System.out.println("Received: " + recievedCommand);
-			} catch (Exception e){
-				// TODO
-				e.printStackTrace();
-			}
 		}
 	}
 }
