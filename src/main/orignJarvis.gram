@@ -11,25 +11,47 @@
 
 grammar jarvis;
 
+/* pleasantries */
+<polite> = Please | Could You | Greetings | <name>;
+<greeting> = [Good] (Morning {morning} | Night {night} | Bye {bye}) | (Hello | Hi) {hello};
+<name> = Computer;
+
+/* Actions */
 <onSwitch> = ([Turn] On | Enable | Activate) {appObj.getCommand().addAction("enable");};
 <offSwitch> = ([Turn] Off | Disable | Deactivate) {appObj.getCommand().addAction("disable");};
-<polite> = Please | Could You | Computer | Greetings;
-<simpleDevice> = (Lamp | Lights | lamps) {appObj.getCommand().addDevice("lamp");} | Coffee Maker | (TV | Television) | Fan;
+
+/* Devices */
+<device> = <simpleDevice> | <electronicDevice>;
+<simpleDevice> = (Lamp | Lights | lamps) {appObj.getCommand().addDevice("lamp");} | Coffee Maker | Fan;
+<electronicDevice> =  (TV | Television) {appObj.getCommand().addDevice("tv");} | (Cd Player | Music [Player]) {appObj.getCommand().addDevice("musicPlayer");};
+
+/* Locations */
 <room> = Kitchen {kitchen} | Bedroom {bedroom} | Living Room {living} | Bathroom {bathroom} | Hallway {hallway};
-<greeting> = [Good] (Morning {morning} | Night {night} | Bye {bye}) | (Hello | Hi) {hello};
-<mute> = Mute {mute};
-<activate> = Activate | Reactivate;
-<date> = [What Is (The [Current] | Todays)] <dateTime> {appObj.getCommand().addDevice("info");};
-<dateTime> = Date {appObj.getCommand().addAction("date");} | Time {appObj.getCommand().addAction("time");} | Week {appObj.getCommand().addAction("week");} | Study Week {appObj.getCommand().addAction("studyWeek");} | Temperature {appObj.getCommand().addAction("temp");};
+
+/* Sound related */
+<mute> = Mute {appObj.getCommand().addAction("mute");};
+<activate> = (Activate | Reactivate) {appObj.getCommand().addAction("activate");};
 <turn> = Up {up} | Down {down};
 
-/* Rules for commands*/
+/* System information related */
+<date> = [What Is (The [Current] | Todays)] <dateTime> {appObj.getCommand().addDevice("info");};
+<dateTime> = Date {appObj.getCommand().addAction("date");} | Time {appObj.getCommand().addAction("time");} | Week {appObj.getCommand().addAction("week");} | Study Week {appObj.getCommand().addAction("studyWeek");} | Temperature {appObj.getCommand().addAction("temp");};
 
-public <light> = [<polite>]* (<onSwitch> | <offSwitch>) [The] [<room>] <simpleDevice> [<polite>]  {appObj.getCommand().generateCommand();};
-public <light2> = [<room>] <simpleDevice> (<onSwitch> | <offSwitch>) [<polite>]* {appObj.getCommand().generateCommand();};
-public <light3> = [<polite>]* (<onSwitch> | <offSwitch>) [The] <simpleDevice> In [The] <room>  {appObj.getCommand().generateCommand();};
+/* Rules for commands */
 
-public <simpleCommand> = <mute> | <activate> {appObj.getCommand().addAction("activate");} | <greeting> | <date> ;
+<lights> = <light> | <light2> | <light3>
+<light> = (<onSwitch> | <offSwitch>) [The] [<room>] <device>;
+<light2> = [<room>] <device> (<onSwitch> | <offSwitch>);
+<light3> = (<onSwitch> | <offSwitch>) [The] <device> In [The] <room>;
+
+<simpleCommand> = <NULL> {appObj.getCommand().addDevice("microphone");} (<mute> [<electronicDevice>] | <activate> [<electronicDevice>] | <greeting> [<name>] | <date>);
+
+/*########*/
+
+/* Actual spoken command */
+
+public <spokenCommand> = [<polite>]* (<lights> | <simpleCommand>) [<polite>]* {appObj.getCommand().generateCommand();};
+
+public <filler> = Thank You | Thanks;
 
 
-public <filler> = Thank You;
