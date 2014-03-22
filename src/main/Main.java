@@ -8,7 +8,8 @@ package main;
 public class Main {
 	
 	public static void main(String[] args){
-		Jarvis j = new Jarvis();
+		Command c = new Command();
+		Jarvis j = new Jarvis(c);
 		j.start();
 	}
 }

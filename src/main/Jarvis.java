@@ -33,7 +33,8 @@ public class Jarvis extends Thread{
 	private ObjectTagsParser objParser;
 	private Command command;
 	
-	public Jarvis(URL u){
+	public Jarvis(URL u, Command c){
+		command = c;
 		try {
 			setConfiguration(u);
 			setup();
@@ -43,7 +44,8 @@ public class Jarvis extends Thread{
 		}
 	}
 	
-	public Jarvis(){
+	public Jarvis(Command c){
+		command = c;
 		try{
 			setConfiguration(null);
 			setup();
@@ -140,7 +142,6 @@ public class Jarvis extends Thread{
 		} catch (GrammarException e) {
 			e.printStackTrace();
 		}
-		command = new Command();
 		objParser.parseTags(parse);
 	}
 }
