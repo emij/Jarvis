@@ -138,7 +138,6 @@ public class Jarvis extends Thread{
 		RuleParse parse = null;
 		try {
 			parse = rules.parse(spokenString, null);
-			System.out.println(parse.getRule());
 		} catch (GrammarException e) {
 			e.printStackTrace();
 		}
