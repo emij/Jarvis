@@ -36,6 +36,6 @@ public class Command extends Observable{
 		command = action + " " + device + " " + pos + " " + param;
 		System.out.println(command);
 		this.setChanged();
-		notifyObservers();
+		notifyObservers(command);
 	}
 }

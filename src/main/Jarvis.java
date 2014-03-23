@@ -34,21 +34,19 @@ public class Jarvis extends Thread{
 	private Command command;
 	
 	public Jarvis(URL u, Command c){
-		command = c;
 		try {
 			setConfiguration(u);
-			setup();
+			setup(c);
 		} catch (EngineException | IOException | RuntimeException e) {
 			System.out.println("Configuration and setup cannot be performed. Check if inputed ConfigurationManager url is valid.");
 			e.printStackTrace();
 		}
 	}
 	
-	public Jarvis(Command c){
-		command = c;
+	public Jarvis(Command cmd){
 		try{
 			setConfiguration(null);
-			setup();
+			setup(cmd);
 		}
 		catch(EngineException | IOException | RuntimeException e){
 			System.out.println("Configuration and setup cannot be performed. Check if a valid default configurationManager exsits or input an url to a valid ConfigurationManager.");
@@ -74,10 +72,11 @@ public class Jarvis extends Thread{
 	 * @throws IOException
 	 * @throws EngineException
 	 */
-	private void setup() throws RuntimeException, PropertyException, IOException, EngineException{
+	private void setup(Command cmd) throws RuntimeException, PropertyException, IOException, EngineException{
 		baseRec = new BaseRecognizer(((JSGFGrammar) cm.lookup("jsgfGrammar")).getGrammarManager());
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		microphone = (Microphone) cm.lookup("microphone");
+		command = cmd;
 		
 		baseRec.allocate();
 		recognizer.allocate();
