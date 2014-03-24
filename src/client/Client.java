@@ -5,15 +5,23 @@ import java.net.*;
 import java.util.Observable;
 import java.util.Observer;
 
+import voice.Command;
+
 
 
 public class Client implements Observer {
 	Socket clientSocket;
 	ObjectOutputStream outToServer;
 	String sentence;
+	Command command;
 	public Client()  {   
 		setupSockets();
 		sentence = "lamp enable";
+		command = new Command();
+		command.addObserver(this);
+		SimpleGUI gui = new SimpleGUI(command);
+		Thread thread = new Thread(gui);
+		thread.start();
 	}
 	private void setupSockets()  {
 		try {
