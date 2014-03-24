@@ -1,4 +1,4 @@
-package gui;
+package client;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -17,8 +17,6 @@ public class SimpleGUI extends JFrame implements Runnable{
 
 	private JPanel contentPane;
 	private Command command;
-
-
 
 	/**
 	 * Create the frame.
