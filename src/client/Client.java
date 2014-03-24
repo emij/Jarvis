@@ -36,12 +36,14 @@ public class Client implements Observer {
 		}   
 	}
 	public void update(Observable o, Object arg) { // maybe should have synchronized here instead
-		try {
-			outToServer.writeObject(sentence);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (o instanceof Command){
+			Command guiCommand = (Command)o;
+			try {
+				outToServer.writeObject(guiCommand.getCommand());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
-
