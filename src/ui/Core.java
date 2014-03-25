@@ -9,6 +9,8 @@ import java.util.Observer;
 
 import client.SimpleGUI;
 import devices.Device;
+import devices.LampDevice;
+import devices.MicrophoneDevice;
 import devices.RadioDevice;
 import edu.cmu.sphinx.frontend.util.Microphone;
 import server.Server;
@@ -39,12 +41,9 @@ public class Core implements Observer  {
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
 
-		addDevice(new Device("lamp"));
-		addDevice(new Device("kitchen"));
-		addDevice(new Device("coffee"));
-		addDevice(new Device("bathroom"));
+		addDevice(new LampDevice("lamp"));
 		addDevice(new RadioDevice("radio"));
-		addDevice(new Device("microphone", true));
+		addDevice(new MicrophoneDevice("microphone", true));
 
 	}
 	public void addDevice(Device dev){

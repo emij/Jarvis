@@ -1,6 +1,6 @@
 package devices;
 
-public  class Device {
+public  abstract class Device {
 	private boolean active = false;
 	private String name;
 	
@@ -15,25 +15,9 @@ public  class Device {
 		return name;
 	}
 	
-	public boolean enable() {
-		if(!isActive()){
-			System.out.println(name + " turned on");
-			flipSwitch();
-			return true;
-		} else {
-			return false;
-		}
-	}
+	public abstract boolean enable();
 	
-	public boolean disable() {
-		if(isActive()){
-			System.out.println(name + " turned off");
-			flipSwitch();
-			return true;
-		} else {
-			return false;
-		}
-	}
+	public abstract boolean disable();
 	
 	public boolean isActive() {
 		return active;
@@ -43,6 +27,7 @@ public  class Device {
 		active = !active;
 	}
 	
+	// TODO Not sure if I should implelemt equals and hashcode in abstract class or in subclasses
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

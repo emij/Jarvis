@@ -1,10 +1,15 @@
 package devices;
 
-public class RadioDevice extends Device {
+public class MicrophoneDevice extends Device {
 
-	public RadioDevice(String name) {
+	public MicrophoneDevice(String name) {
 		super(name);
 	}
+
+	public MicrophoneDevice(String name, boolean active) {
+		super(name, active);
+	}
+
 	@Override
 	public boolean enable() {
 		if(!isActive()){
@@ -15,6 +20,7 @@ public class RadioDevice extends Device {
 			return false;
 		}
 	}
+
 	@Override
 	public boolean disable() {
 		if(isActive()){
@@ -25,4 +31,5 @@ public class RadioDevice extends Device {
 		return false;
 		}
 	}
+
 }
