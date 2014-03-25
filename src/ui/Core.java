@@ -7,12 +7,10 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import client.SimpleGUI;
 import devices.Device;
 import devices.LampDevice;
 import devices.MicrophoneDevice;
 import devices.RadioDevice;
-import edu.cmu.sphinx.frontend.util.Microphone;
 import server.Server;
 import voice.Command;
 import voice.TestVoice;

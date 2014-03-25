@@ -1,5 +1,7 @@
 package devices;
 
+// TODO might build a controller class instead, for sending RF-signals
+
 public  abstract class Device {
 	private boolean active = false;
 	private String name;
@@ -27,7 +29,7 @@ public  abstract class Device {
 		active = !active;
 	}
 	
-	// TODO Not sure if I should implelemt equals and hashcode in abstract class or in subclasses
+	// TODO Not sure if I should implement equals and hashcode in abstract class or in subclasses
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

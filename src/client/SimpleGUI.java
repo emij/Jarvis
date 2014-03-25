@@ -24,7 +24,7 @@ public class SimpleGUI extends JFrame implements Runnable{
 	public SimpleGUI(final Command command) {
 		this.command = command;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 755, 458);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
