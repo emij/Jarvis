@@ -39,7 +39,7 @@ four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("
 /* Sound related */
 <mute> = Mute {appObj.getCommand().addAction("mute");};
 <activate> = (Activate | Reactivate) {appObj.getCommand().addAction("activate");};
-<volume> = [Turn] [The] [Volume] (<upVol> | <downVol>) {appObj.getCommand().addParam("5");} [The] [Volume] [By <number>] [On];
+<volume> = [Turn] [[The] Volume] (<upVol> | <downVol>) {appObj.getCommand().addParam("5");} [[The] Volume] [By <number>] [On];
 <upVol> = (Increase | Up) {appObj.getCommand().addAction("upVolume");}; 
 <downVol> = (Lower | Down) {appObj.getCommand().addAction("downVolume");};
 
