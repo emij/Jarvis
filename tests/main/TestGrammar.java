@@ -14,7 +14,7 @@ import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 
 
-//Commented part are for audiofile support.
+//Commented part are for audio file support.
 public class TestGrammar {
 
 	String[] sentences = {"Turn on lamp", "lamp", "disable the kitchen lights", "kitchen"};
