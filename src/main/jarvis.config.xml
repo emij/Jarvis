@@ -32,6 +32,7 @@
 
     <component name="recognizer" type="edu.cmu.sphinx.recognizer.Recognizer">
         <property name="decoder" value="decoder"/>
+        <property name="logLevel" value="INFO"/>
         <propertylist name="monitors">
             <item>accuracyTracker </item>
             <item>speedTracker </item>
@@ -235,8 +236,8 @@
     <component name="accuracyTracker"
                 type="edu.cmu.sphinx.instrumentation.BestPathAccuracyTracker">
         <property name="recognizer" value="${recognizer}"/>
-        <property name="showAlignedResults" value="false"/>
-        <property name="showRawResults" value="false"/>
+        <property name="showAlignedResults" value="true"/>
+        <property name="showRawResults" value="true"/>
     </component>
 
     <component name="memoryTracker"
