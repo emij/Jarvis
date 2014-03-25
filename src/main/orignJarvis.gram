@@ -9,21 +9,17 @@
  
  /*{tag}, [optional]*/
 
-grammar jarvis;
+grammar orignJarvis;
 
 /* pleasantries */
 <polite> = Please | Could You | Greetings | <name>;
-<greeting> = [Good] (Morning {morning} | Night {night} | Bye {bye}) | (Hello | Hi) {hello};
+<greeting> = [Good] (Morning {appObj.getCommand().addAction("morning");} | Night {appObj.getCommand().addAction("night");} | Bye {appObj.getCommand().addAction("bye");}) | (Hello | Hi) {appObj.getCommand().addAction("hello");};
 <name> = Computer;
 
 /* Numbers */ //TODO: Måste finnas ett enklare sätt...
 <number> = one {appObj.getCommand().addParam("1");} | two {appObj.getCommand().addParam("2");} | three {appObj.getCommand().addParam("3");} |
 four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("5");} | six {appObj.getCommand().addParam("6");} | seven {appObj.getCommand().addParam("7");}
 | eight {appObj.getCommand().addParam("8");} | nine {appObj.getCommand().addParam("9");} | ten {appObj.getCommand().addParam("10");};
-
-/* Actions */
-<onSwitch> = ([Turn] On | Enable | Activate) {appObj.getCommand().addAction("enable");};
-<offSwitch> = ([Turn] Off | Disable | Deactivate) {appObj.getCommand().addAction("disable");};
 
 /* Devices */
 <device> = <simpleDevice> | <electronicDevice>;
@@ -32,6 +28,10 @@ four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("
 
 /* Locations */
 <room> = Kitchen {appObj.getCommand().addPosition("kitchen");} | Bedroom {appObj.getCommand().addPosition("bedroom");} | Living Room {appObj.getCommand().addPosition("living");} | Bathroom {appObj.getCommand().addPosition("bathroom");} | Hallway {appObj.getCommand().addPosition("hallway");};
+
+/* Actions */
+<onSwitch> = ([Turn] On | Enable | Activate) {appObj.getCommand().addAction("enable");};
+<offSwitch> = ([Turn] Off | Disable | Deactivate) {appObj.getCommand().addAction("disable");};
 
 /* Sound related */
 <mute> = Mute {appObj.getCommand().addAction("mute");};
