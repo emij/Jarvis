@@ -96,7 +96,7 @@
         <property name="dictionary" value="dictionary"/>
         <property name="grammarLocation"
              value="resource:/main/"/>
-        <property name="grammarName" value="jarvis"/>
+        <property name="grammarName" value="orignJarvis"/>
 	<property name="logMath" value="logMath"/>
     </component>
 

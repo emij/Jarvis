@@ -16,10 +16,13 @@ grammar orignJarvis;
 <greeting> = [Good] (Morning {appObj.getCommand().addAction("morning");} | Night {appObj.getCommand().addAction("night");} | Bye {appObj.getCommand().addAction("bye");}) | (Hello | Hi) {appObj.getCommand().addAction("hello");};
 <name> = Computer;
 
-/* Numbers */ //TODO: Måste finnas ett enklare sätt...
+/* Numbers */ //TODO: Mï¿½ste finnas ett enklare sï¿½tt...
 <number> = one {appObj.getCommand().addParam("1");} | two {appObj.getCommand().addParam("2");} | three {appObj.getCommand().addParam("3");} |
 four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("5");} | six {appObj.getCommand().addParam("6");} | seven {appObj.getCommand().addParam("7");}
 | eight {appObj.getCommand().addParam("8");} | nine {appObj.getCommand().addParam("9");} | ten {appObj.getCommand().addParam("10");};
+
+/* Predefined codes */
+<channelName> = Euro Sport {appObj.getCommand().addParam("25");} | CNN {appObj.getCommand().addParam("42");};
 
 /* Devices */
 <device> = <simpleDevice> | <electronicDevice>;
@@ -36,9 +39,9 @@ four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("
 /* Sound related */
 <mute> = Mute {appObj.getCommand().addAction("mute");};
 <activate> = (Activate | Reactivate) {appObj.getCommand().addAction("activate");};
-<volume> = [Turn] [The] [Volume] (<up> | <down>) {appObj.getCommand().addParam("5");} [The] [Volume] [By <number>] [On];
-<up> = (Increase | Up) {appObj.getCommand().addAction("up");}; 
-<down> = (Lower | Down) {appObj.getCommand().addAction("down");};
+<volume> = [Turn] [The] [Volume] (<upVol> | <downVol>) {appObj.getCommand().addParam("5");} [The] [Volume] [By <number>] [On];
+<upVol> = (Increase | Up) {appObj.getCommand().addAction("upVolume");}; 
+<downVol> = (Lower | Down) {appObj.getCommand().addAction("downVolume");};
 
 /* System information related */
 <date> = [What Is (The [Current] | Todays)] <dateTime> {appObj.getCommand().addDevice("info");};
@@ -50,6 +53,10 @@ four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("
 <light> = (<onSwitch> | <offSwitch> | <volume>) [The] [<room>] <device>;
 <light2> = [<room>] <device> (<onSwitch> | <offSwitch> | <volume>);
 <light3> = (<onSwitch> | <offSwitch> | <volume>) [The] <device> In [The] <room>;
+
+<channel> = <NULL> {appObj.getCommand().addDevice("tv");} (<channelTo> | <channelStep>) {appObj.getCommand().addAction("channel");} [On <electronicDevice>];
+<channelTo> = [Switch] To (Channel <number> | <channelName>);
+<channelStep> = Channel (Up {appObj.getCommand().addParam("up");} | Down {appObj.getCommand().addParam("down");};
 
 <simpleCommand> = <NULL> {appObj.getCommand().addDevice("microphone");} (<mute> [<electronicDevice>] | <activate> [<electronicDevice>] | <greeting> [<name>] | <date>);
 
