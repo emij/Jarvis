@@ -13,10 +13,11 @@ import voice.Command;
 public class Server extends Thread {
 	Command command;
 	ServerSocket serverSocket;
-	private int port = 6789;
+	private int port;
 
-	public Server(Command command) {
+	public Server(Command command, int port) {
 		this.command = command;
+		this.port = port;
 	}
 
 	public void run() {
@@ -28,7 +29,7 @@ public class Server extends Thread {
 				Socket clientCommandSocket = serverSocket.accept();
 
 				// Create an object to handle the request
-				ClientCommand clientCommand  = new ClientCommand(command, clientCommandSocket);
+				ClientConnection clientCommand  = new ClientConnection(command, clientCommandSocket);
 
 				Thread thread = new Thread(clientCommand);
 				thread.start();

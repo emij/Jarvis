@@ -5,13 +5,13 @@ import java.net.Socket;
 
 import voice.Command;
 
-public class ClientCommand implements Runnable {
+public class ClientConnection implements Runnable {
 	Command command;
 	Socket socket;
 	ObjectInputStream inFromClient;
 
 
-	public ClientCommand(Command command, Socket socket) throws Exception {
+	public ClientConnection(Command command, Socket socket) throws Exception {
 		this.command = command;
 		this.socket = socket;
 		inFromClient =                

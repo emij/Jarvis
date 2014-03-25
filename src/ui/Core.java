@@ -20,6 +20,7 @@ public class Core implements Observer  {
 	private Command serverCommand;
 	private String mic = "microphone";
 	private Map<String, Device> devices = new HashMap<String, Device>(); 
+	private int port = 6789;
 
 	public Core(){
 		// Adding devices to hashmap
@@ -32,7 +33,7 @@ public class Core implements Observer  {
 		
 		serverCommand = new Command();
 		serverCommand.addObserver(this);
-		Server server = new Server(serverCommand);
+		Server server = new Server(serverCommand, port);
 		server.start();
 		tst.start();
 	}
