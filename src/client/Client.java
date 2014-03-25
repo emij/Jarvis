@@ -14,18 +14,19 @@ public class Client implements Observer {
 	ObjectOutputStream outToServer;
 	String sentence;
 	Command command;
-	public Client()  {   
-		setupSockets();
-		sentence = "lamp enable";
-		command = new Command();
+	Inet4Address host;
+	int port;
+	
+	public Client(Command command)  {
+		this.command = command;
 		command.addObserver(this);
-		SimpleGUI gui = new SimpleGUI(command);
-		Thread thread = new Thread(gui);
-		thread.start();
+
 	}
-	private void setupSockets()  {
+	public void makeConnection(Inet4Address host, int port)  {
+		this.host = host;
+		this.port = port;
 		try {
-			clientSocket = new Socket("localhost", 6789);
+			clientSocket = new Socket(host, port);
 			outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
