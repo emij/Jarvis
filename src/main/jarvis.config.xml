@@ -32,7 +32,7 @@
 
     <component name="recognizer" type="edu.cmu.sphinx.recognizer.Recognizer">
         <property name="decoder" value="decoder"/>
-        <property name="logLevel" value="INFO"/>
+        <property name="logLevel" value="WARNING"/>
         <propertylist name="monitors">
             <item>accuracyTracker </item>
             <item>speedTracker </item>
