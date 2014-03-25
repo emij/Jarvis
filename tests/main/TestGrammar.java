@@ -42,7 +42,7 @@ public class TestGrammar {
 		mic.startRecording();
 		int i = 0;
 		for(String e: expected){
-			System.out.println("Plaese say: " + sentences[i]);
+			System.out.println("Please say: " + sentences[i]);
 			Result result = recognizer.recognize();
 			assertTrue(result.getBestFinalResultNoFiller().equalsIgnoreCase(e));
 			i++;
