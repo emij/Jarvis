@@ -181,6 +181,8 @@
     <!-- The frontend pipelines                                   -->
     <!-- ******************************************************** -->
 
+	<component name="audioFileDataSource" type="edu.cmu.sphinx.frontend.util.AudioFileDataSource"/>
+
     <component name="dataBlocker" type="edu.cmu.sphinx.frontend.DataBlocker">
         <!--<property name="blockSizeMs" value="10"/>-->
     </component>

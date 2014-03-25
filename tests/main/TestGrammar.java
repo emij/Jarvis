@@ -2,60 +2,50 @@ package main;
 
 import static org.junit.Assert.*;
 
-import javax.speech.EngineException;
-import javax.speech.EngineStateError;
-import javax.speech.recognition.GrammarException;
-import javax.speech.recognition.RuleGrammar;
-import javax.speech.recognition.RuleParse;
-import javax.swing.text.html.HTMLEditorKit.Parser;
-
-import junit.framework.Assert;
+import java.net.URL;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.speech.engine.recognition.BaseRecognizer;
-import com.sun.speech.engine.recognition.BaseRuleGrammar;
-
-import edu.cmu.sphinx.jsgf.JSGFGrammar;
+import edu.cmu.sphinx.frontend.util.AudioFileDataSource;
+import edu.cmu.sphinx.frontend.util.Microphone;
+import edu.cmu.sphinx.recognizer.Recognizer;
+import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 
+
+//Commented part are for audiofile support.
 public class TestGrammar {
 
 	String[] sentences = {"Turn on lamp", "lamp", "disable the kitchen lights", "kitchen"};
 	String[] expected = {"Turn on lamp", null, "disable the kitchen lights", null};
 	ConfigurationManager cm;
-	BaseRecognizer recognizer;
-	RuleGrammar grammar;
-	JSGFGrammar j;
+	Recognizer recognizer;
+	Microphone mic;
+	URL audio;
 
 	@Before
 	public void beforeTest(){
 		cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
-		j = (JSGFGrammar) cm.lookup("jsgfGrammar");
-		recognizer = new BaseRecognizer(j.getGrammarManager());
-		System.out.println(j.getGrammarManager());
-		try {
-			recognizer.allocate();
-		} catch (EngineException | EngineStateError e) {
-			e.printStackTrace();
-		}
-		grammar = new BaseRuleGrammar(recognizer, j.getRuleGrammar());
+		//audio = Jarvis.class.getResource("audio.wav");
+		recognizer = (Recognizer) cm.lookup("recognizer");
+		mic = (Microphone) cm.lookup("microphone");
+
+		recognizer.allocate();
+
+		//AudioFileDataSource dataSource = (AudioFileDataSource) cm.lookup("audioFileDataSource");
+		//dataSource.setAudioFile(audio, null);
 	}
 
 	@Test
 	public void test() {
-		RuleParse parser = null;
-		for(String s: sentences){
-			try {
-				parser = grammar.parse(s, null);
-			} catch (GrammarException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			for(String e: expected){
-				assertTrue(parser.toString().equalsIgnoreCase(e));
-			}
+		mic.startRecording();
+		int i = 0;
+		for(String e: expected){
+			System.out.println("Plaese say: " + sentences[i]);
+			Result result = recognizer.recognize();
+			assertTrue(result.getBestFinalResultNoFiller().equalsIgnoreCase(e));
+			i++;
 		}
 	}
 }
