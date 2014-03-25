@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.net.URL;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,5 +48,11 @@ public class TestGrammar {
 			assertTrue(result.getBestFinalResultNoFiller().equalsIgnoreCase(e));
 			i++;
 		}
+	}
+	
+	@After
+	public void afterTest(){
+		recognizer.deallocate();
+		System.exit(0);
 	}
 }
