@@ -46,13 +46,13 @@ public class Core implements Observer  {
 	}
 	// strArray should be on the form Device | method | param
 	// not sure about synchronized here, but may need it
-	public synchronized void controlDevice(String[] strArray){
-		AbstractDevice dev = devices.get(strArray[0]); // get device from hashmap
+	public synchronized void controlDevice(Command command){
+		AbstractDevice dev = devices.get(command.getDevice()); // get device from hashmap
 		if(dev != null){
 			if(devices.get(mic).isActive() || 
 					dev.getName().equalsIgnoreCase(mic)){
 				try {
-					Method method = dev.getClass().getDeclaredMethod(strArray[1], new Class[] {});
+					Method method = dev.getClass().getDeclaredMethod(command.getAction(), new Class[] {});
 					method.invoke(dev, null);
 					// TODO create proper handling of exceptions
 				} catch (IllegalArgumentException e) {
@@ -67,7 +67,7 @@ public class Core implements Observer  {
 				}
 			}
 		} else {
-			System.out.println("I am sorry, but the device " + strArray[0] + " is not installed");
+			System.out.println("I am sorry, but the device " + command.getDevice() + " is not installed");
 		}
 	}
 	
@@ -75,12 +75,7 @@ public class Core implements Observer  {
 	public void update(Observable o, Object arg) { // maybe should have synchronized here instead
 		if (o instanceof Command){
 			Command voiceCommand = (Command)o;
-			// Divide voicecommand into a stringarray
-			if(voiceCommand.getCommand().length() != 0){
-				String[] strArray = voiceCommand.getCommand().split(" ");
-				// Actual control of devices in another method, for GUI-reasons
-				controlDevice(strArray);
-			}
+		controlDevice(voiceCommand);
 		}
 	}
 }
