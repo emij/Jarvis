@@ -5,11 +5,13 @@
 
 package main;
 
+import core.Core;
+
+
 public class Main {
 	
 	public static void main(String[] args){
-		Command c = new Command();
-		Jarvis j = new Jarvis(c);
-		j.start();
+		Core core = new Core();
 	}
+	
 }

@@ -1,6 +1,6 @@
 /* Class for recognition and input from source */
 
-package main;
+package voice;
 
 import java.io.IOException;
 import java.net.URL;
@@ -10,6 +10,8 @@ import javax.speech.EngineStateError;
 import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
+
+import main.Command;
 
 import com.sun.speech.engine.recognition.BaseRecognizer;
 import com.sun.speech.engine.recognition.BaseRuleGrammar;
