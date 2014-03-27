@@ -35,24 +35,37 @@ public class Raspberry extends Application {
 		scenetitle.setId("welcome-text");
 		grid.add(scenetitle, 0, 0, 2, 1);
 
+		Label IP = new Label("IP:");
+		grid.add(IP, 0, 1);
+		
+		TextField IPTextField = new TextField();
+		grid.add(IPTextField, 1, 1);
+
+		Label port = new Label("Port:");
+		grid.add(port, 0, 2);
+		
+		TextField portTextField = new TextField();
+		grid.add(portTextField, 1, 2);
+
+		
 		Label userName = new Label("User Name:");
-		grid.add(userName, 0, 1);
+		grid.add(userName, 0, 3);
 
 		TextField userTextField = new TextField();
-		grid.add(userTextField, 1, 1);
+		grid.add(userTextField, 1, 3);
 
 		Label pw = new Label("Password:");
-		grid.add(pw, 0, 2);
+		grid.add(pw, 0, 4);
 
 		PasswordField pwBox = new PasswordField();
-		grid.add(pwBox, 1, 2);
+		grid.add(pwBox, 1, 4);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		Button btn = new Button("Sign in");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(btn);
-		grid.add(hbBtn, 1, 4);
+		grid.add(hbBtn, 1, 5);
 		
 		final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
