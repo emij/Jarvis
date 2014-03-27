@@ -1,15 +1,34 @@
-package main;
+package voice;
 
 import java.util.Observable;
 
 public class Command extends Observable{
-	private String command;
-	private String action = "null";
-	private String device = "null";
-	private String pos = "null";
-	private String param = "null";
+	private String action;
+	private String device;
+	private String pos;
+	private String param;
 	
 	public Command(){
+	}
+	
+	public String getParam() {
+		return param;
+	}
+
+	public void setParam(String param) {
+		this.param = param;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public String getDevice() {
+		return device;
+	}
+
+	public String getPos() {
+		return pos;
 	}
 
 	public void addAction(String action){
@@ -27,14 +46,9 @@ public class Command extends Observable{
 	public void addParam(String param){
 		this.param = param;
 	}
-	
-	public String getCommand(){
-		return command;
-	}
 
 	public void generateCommand(){
-		command = action + " " + device + " " + pos + " " + param;
-		System.out.println(command);
+		System.out.println(action+" "+device+" "+" "+pos+" "+param);
 		this.setChanged();
 		notifyObservers(command);
 	}

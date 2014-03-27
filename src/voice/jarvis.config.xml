@@ -1,37 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-   Sphinx-4 Configuration file
--->
-
-<!-- ******************************************************** -->
-<!--  an4 configuration file                             -->
-<!-- ******************************************************** -->
-
-<config>
-
-    <!-- ******************************************************** -->
-    <!-- frequently tuned properties                              -->
-    <!-- ******************************************************** -->
-
-    <property name="logLevel" value="WARNING"/>
-
-    <property name="absoluteBeamWidth"  value="-1"/>
-    <property name="relativeBeamWidth"  value="1E-80"/>
-    <property name="wordInsertionProbability" value="1E-36"/>
-    <property name="languageWeight"     value="8"/>
-
-    <property name="frontend" value="epFrontEnd"/>
-    <property name="recognizer" value="recognizer"/>
-    <property name="showCreations" value="false"/>
-
-
     <!-- ******************************************************** -->
     <!-- word recognizer configuration                            -->
     <!-- ******************************************************** -->
 
     <component name="recognizer" type="edu.cmu.sphinx.recognizer.Recognizer">
         <property name="decoder" value="decoder"/>
+        <property name="logLevel" value="WARNING"/>
         <propertylist name="monitors">
             <item>accuracyTracker </item>
             <item>speedTracker </item>
@@ -95,8 +68,8 @@
     <component name="jsgfGrammar" type="edu.cmu.sphinx.jsgf.JSGFGrammar">
         <property name="dictionary" value="dictionary"/>
         <property name="grammarLocation"
-             value="resource:/voice/"/>
-        <property name="grammarName" value="jarvis"/>
+            value="resource:/main/"/>
+        <property name="grammarName" value="orignJarvis"/>
 	<property name="logMath" value="logMath"/>
     </component>
 
@@ -180,6 +153,8 @@
     <!-- The frontend pipelines                                   -->
     <!-- ******************************************************** -->
 
+	<component name="audioFileDataSource" type="edu.cmu.sphinx.frontend.util.AudioFileDataSource"/>
+
     <component name="dataBlocker" type="edu.cmu.sphinx.frontend.DataBlocker">
         <!--<property name="blockSizeMs" value="10"/>-->
     </component>
@@ -235,8 +210,8 @@
     <component name="accuracyTracker"
                 type="edu.cmu.sphinx.instrumentation.BestPathAccuracyTracker">
         <property name="recognizer" value="${recognizer}"/>
-        <property name="showAlignedResults" value="false"/>
-        <property name="showRawResults" value="false"/>
+        <property name="showAlignedResults" value="true"/>
+        <property name="showRawResults" value="true"/>
     </component>
 
     <component name="memoryTracker"

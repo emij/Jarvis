@@ -1,4 +1,9 @@
-/* Class for recognition and input from source */
+/**
+ *  Class for recognition and input from source
+ *
+ * @author Marika Hansson
+ * @author Markus Otterberg
+ */
 
 package voice;
 
