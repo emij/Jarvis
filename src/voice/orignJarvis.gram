@@ -13,7 +13,7 @@ grammar orignJarvis;
 
 /* pleasantries */
 <polite> = Please | Could You | Greetings | <name>;
-<greeting> = [Good] (Morning {appObj.getCommand().addAction("morning");} | Night {appObj.getCommand().addAction("night");} | Bye {appObj.getCommand().addAction("bye");}) | (Hello | Hi) {appObj.getCommand().addAction("hello");};
+<greeting> = <NULL> {appObj.getCommand().addDevice("info");} [Good] (Morning {appObj.getCommand().addAction("morning");} | Night {appObj.getCommand().addAction("night");} | Bye {appObj.getCommand().addAction("bye");}) | (Hello | Hi) {appObj.getCommand().addAction("hello");};
 <name> = Computer;
 
 /* Numbers */ //TODO: M�ste finnas ett enklare s�tt...
