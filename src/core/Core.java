@@ -11,7 +11,7 @@ import devices.AbstractDevice;
 import devices.LampDevice;
 import devices.MicrophoneDevice;
 import devices.RadioDevice;
-import main.Command;
+import util.Command;
 import voice.Jarvis;
 
 public class Core implements Observer  {

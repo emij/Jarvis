@@ -3,7 +3,7 @@
  * 
  */
 
-package voice;
+package main;
 
 import core.Core;
 
