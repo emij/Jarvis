@@ -64,7 +64,7 @@ four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("
 
 /* Actual spoken command */
 
-public <spokenCommand> = [<polite>*] (<lights> | <simpleCommand> | <channel>) [<polite>*] {appObj.getCommand().generateCommand();};
+public <spokenCommand> = [<polite>*] (<lights> | <simpleCommand> | <channel>) [<polite>*] <NULL> {appObj.getCommand().generateCommand();};
 
 public <filler> = Thank You | Thanks;
 
