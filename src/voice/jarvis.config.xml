@@ -1,3 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Sphinx-4 Configuration file
+-->
+
+<!-- ******************************************************** -->
+<!--  an4 configuration file                             -->
+<!-- ******************************************************** -->
+
+<config>
+
+    <!-- ******************************************************** -->
+    <!-- frequently tuned properties                              -->
+    <!-- ******************************************************** -->
+
+    <property name="logLevel" value="WARNING"/>
+
+    <property name="absoluteBeamWidth"  value="-1"/>
+    <property name="relativeBeamWidth"  value="1E-80"/>
+    <property name="wordInsertionProbability" value="1E-36"/>
+    <property name="languageWeight"     value="8"/>
+
+    <property name="frontend" value="epFrontEnd"/>
+    <property name="recognizer" value="recognizer"/>
+    <property name="showCreations" value="false"/>
+
+
     <!-- ******************************************************** -->
     <!-- word recognizer configuration                            -->
     <!-- ******************************************************** -->
@@ -68,7 +96,7 @@
     <component name="jsgfGrammar" type="edu.cmu.sphinx.jsgf.JSGFGrammar">
         <property name="dictionary" value="dictionary"/>
         <property name="grammarLocation"
-            value="resource:/main/"/>
+             value="resource:/main/"/>
         <property name="grammarName" value="orignJarvis"/>
 	<property name="logMath" value="logMath"/>
     </component>
