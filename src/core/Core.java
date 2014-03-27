@@ -69,6 +69,7 @@ public class Core implements Observer  {
 		} else {
 			System.out.println("I am sorry, but the device " + command.getDevice() + " is not installed");
 		}
+		command.resetCommand();
 	}
 	
 	@Override

@@ -52,4 +52,10 @@ public class Command extends Observable{
 		this.setChanged();
 		notifyObservers();
 	}
+	public void resetCommand(){
+		action = null;
+		device = null;
+		pos = null;
+		param = null;
+	}
 }
