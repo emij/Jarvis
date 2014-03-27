@@ -50,6 +50,6 @@ public class Command extends Observable{
 	public void generateCommand(){
 		System.out.println(action+" "+device+" "+" "+pos+" "+param);
 		this.setChanged();
-		notifyObservers(command);
+		notifyObservers();
 	}
 }
