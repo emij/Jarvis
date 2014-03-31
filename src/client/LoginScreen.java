@@ -12,17 +12,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class Raspberry extends Application {
-	public static void main(String[] args) {
-		launch(args);
+public class LoginScreen extends Application {
+	private GUIMediator mediator;
+	public LoginScreen(GUIMediator mediator){
+		this.mediator = mediator;
 	}
-
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("JavaFX Welcome");
@@ -44,7 +41,7 @@ public class Raspberry extends Application {
 		Label port = new Label("Port:");
 		grid.add(port, 0, 2);
 		
-		TextField portTextField = new TextField();
+		TextField portTextField = new TextField("6789");
 		grid.add(portTextField, 1, 2);
 
 		
@@ -83,7 +80,7 @@ public class Raspberry extends Application {
 		Scene scene = new Scene(grid, 500, 475);
 		primaryStage.setScene(scene);
 		scene.getStylesheets().add
-		 (Raspberry.class.getResource("login.css").toExternalForm());
+		 (LoginScreen.class.getResource("login.css").toExternalForm());
 		primaryStage.show();
 	}
 
