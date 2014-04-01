@@ -99,7 +99,7 @@ public class LoginScreen extends Application {
 		// RightGrid
 		rightGrid.setPadding(new Insets(25, 25, 25, 25));
 		
-		TextField userTextField = new TextField(prefs.get(user, "jarvis"));
+		final TextField userTextField = new TextField(prefs.get(user, "jarvis"));
 		rightGrid.add(userTextField, 0, 1,4,1);
 		GridPane.setMargin(userTextField, inputBoxInsets);
 
@@ -134,6 +134,9 @@ public class LoginScreen extends Application {
 
 			@Override
 			public void handle(ActionEvent e) {
+				// Save all the fields
+				savePreferences();
+				
 				// TODO Checks for proper input should be handled in respective textfield
 				StringBuilder strAdress = new StringBuilder();
 				strAdress.append(IP1TextField.getText());
@@ -158,6 +161,17 @@ public class LoginScreen extends Application {
 				
 				actiontarget.setId("actiontarget");
 				actiontarget.setText("Sign in button pressed");
+			}
+
+			private void savePreferences() {
+				prefs.put(user, userTextField.getText());
+				prefs.put(IP1,IP1TextField.getText());
+				prefs.put(IP2,IP2TextField.getText());
+				prefs.put(IP3,IP3TextField.getText());
+				prefs.put(IP4,IP4TextField.getText());
+				prefs.put(connectionPort, portTextField.getText());
+				
+				
 			}
 		});
 
