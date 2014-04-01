@@ -12,7 +12,7 @@ import devices.LampDevice;
 import devices.MicrophoneDevice;
 import devices.RadioDevice;
 import util.Command;
-import voice.Jarvis;
+import voice.objectTags.Jarvis;
 
 public class Core implements Observer  {
 	private Command voiceCommand;
