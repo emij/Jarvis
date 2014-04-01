@@ -1,5 +1,7 @@
 package client;
 
+import java.util.prefs.Preferences;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,8 +19,18 @@ import javafx.stage.Stage;
 
 public class LoginScreen extends Application {
 	private GUIMediator mediator;
+	private Preferences prefs;
+	private String IP1,IP2,IP3,IP4, connectionPort, userName; 
 	public LoginScreen(GUIMediator mediator){
 		this.mediator = mediator;
+		prefs = Preferences.userRoot().node(this.getClass().getName());
+		setupPreference();
+	}
+	private void setupPreference() {
+		
+	}
+	public Preferences getPref(){
+		return prefs;
 	}
 	@Override
 	public void start(Stage primaryStage) {

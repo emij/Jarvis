@@ -14,8 +14,11 @@ public class GUIMediator extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
+		login.start(primaryStage);
 
+	}
+	public static void main(String[] args){
+        launch(args);
 	}
 
 }
