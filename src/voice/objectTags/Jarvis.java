@@ -5,7 +5,7 @@
  * @author Markus Otterberg
  */
 
-package voice;
+package voice.objectTags;
 
 import java.io.IOException;
 import java.net.URL;
