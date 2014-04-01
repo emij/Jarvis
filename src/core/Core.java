@@ -14,6 +14,7 @@ import devices.RadioDevice;
 import util.Command;
 //import voice.objectTags.Jarvis;
 import voice.noTags.Jarvis;
+//import voice.getTags.Jarvis;
 
 public class Core implements Observer  {
 	private Command voiceCommand;

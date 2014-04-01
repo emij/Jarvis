@@ -77,6 +77,7 @@ public class Jarvis extends Thread{
 				
 				Result r = recognizer.recognize();
 				String bestResult = r.getBestFinalResultNoFiller();
+				System.out.println(r.getTimedBestResult(false, true));
 				
 				if(r != null && bestResult.length() > 0){
 					System.out.println(bestResult);

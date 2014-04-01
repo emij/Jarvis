@@ -61,7 +61,7 @@ public class Jarvis extends Thread{
 	
 	public void setConfiguration(URL u) throws IOException, PropertyException{
 		if(u == null){
-			cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
+			cm = new ConfigurationManager(Jarvis.class.getResource("../jarvis.config.xml"));
 		}
 		else{
 			cm = new ConfigurationManager(u);
@@ -94,13 +94,14 @@ public class Jarvis extends Thread{
 	
 	@Override
 	public void run(){
+		setupParser();
 		if(microphone.startRecording()){
-			setupParser();
 			while(true){
 				System.out.println("Speak command please");
 				
 				Result r = recognizer.recognize();
 				String bestResult = r.getBestFinalResultNoFiller();
+				System.out.println(r.getTimedBestResult(false, true));
 				
 				if(r != null && bestResult.length() > 0){
 					System.out.println(bestResult);
