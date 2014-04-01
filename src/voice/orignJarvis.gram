@@ -26,7 +26,7 @@ four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("
 
 /* Devices */
 <device> = <simpleDevice> | <electronicDevice>;
-<simpleDevice> = (Lamp | Lights | lamps) {appObj.getCommand().addDevice("lamp");} | Coffee Maker | Fan;
+<simpleDevice> = (Lamp | Lights | lamps) {appObj.getCommand().addDevice("lamp");} | Coffee Maker {appObj.getCommand().addDevice("coffeeMaker");}| Fan {appObj.getCommand().addDevice("fan");};
 <electronicDevice> =  (TV | Television) {appObj.getCommand().addDevice("tv");} | (Cd Player | Music [Player]) {appObj.getCommand().addDevice("musicPlayer");};
 
 /* Locations */
