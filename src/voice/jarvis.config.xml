@@ -14,7 +14,7 @@
     <!-- frequently tuned properties                              -->
     <!-- ******************************************************** -->
 
-    <property name="logLevel" value="WARNING"/>
+    <property name="logLevel" value="OFF"/>
 
     <property name="absoluteBeamWidth"  value="-1"/>
     <property name="relativeBeamWidth"  value="1E-80"/>
@@ -96,7 +96,7 @@
         <property name="dictionary" value="dictionary"/>
         <property name="grammarLocation"
              value="resource:/voice/"/>
-        <property name="grammarName" value="orignJarvis"/>
+        <property name="grammarName" value="jarvis"/>
 	<property name="logMath" value="logMath"/>
     </component>
 

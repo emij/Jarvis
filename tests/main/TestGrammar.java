@@ -2,6 +2,7 @@ package main;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.net.URL;
 
 import org.junit.After;
@@ -29,7 +30,7 @@ public class TestGrammar {
 
 	@Before
 	public void beforeTest(){
-		cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
+		cm = new ConfigurationManager("/home/kohina/git/Jarvis/src/voice/jarvis.config.xml");
 		//audio = Jarvis.class.getResource("audio.wav");
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		mic = (Microphone) cm.lookup("microphone");
