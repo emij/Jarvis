@@ -38,8 +38,8 @@ four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("
 
 /* Sound related */
 <mute> = Mute {appObj.getCommand().addAction("mute");};
-<activate> = (Activate | Reactivate) {appObj.getCommand().addAction("activate");};
-<volume> = [Turn] [[The] Volume] (<upVol> | <downVol>) {appObj.getCommand().addParam("5");} [[The] Volume] [By <number>] [On];
+<activate> = (Reactivate) {appObj.getCommand().addAction("reactivate");};
+<volume> = [Turn] [[The] Volume] (<upVol> | <downVol>) {appObj.getCommand().addParam("5");} [[The] Volume] [By <number>] [On [The] <electronicDevice>];
 <upVol> = (Increase | Up) {appObj.getCommand().addAction("upVolume");}; 
 <downVol> = (Lower | Down) {appObj.getCommand().addAction("downVolume");};
 
@@ -50,11 +50,11 @@ four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("
 /* Rules for commands */
 
 <lights> = <light> | <light2> | <light3>;
-<light> = (<onSwitch> | <offSwitch> | <volume>) [The] [<room>] <device>;
-<light2> = [<room>] <device> (<onSwitch> | <offSwitch> | <volume>);
-<light3> = (<onSwitch> | <offSwitch> | <volume>) [The] <device> In [The] <room>;
+<light> = (<onSwitch> | <offSwitch>) [The] [<room>] <device>;
+<light2> = [<room>] <device> (<onSwitch> | <offSwitch>);
+<light3> = (<onSwitch> | <offSwitch>) [The] <device> In [The] <room>;
 
-<channel> = <NULL> {appObj.getCommand().addDevice("tv");} (<channelTo> | <channelStep>) {appObj.getCommand().addAction("channel");} [On <electronicDevice>];
+<channel> = (<channelTo> | <channelStep>) {appObj.getCommand().addAction("channel"); appObj.getCommand().addDevice("tv");} [On <electronicDevice>];
 <channelTo> = [Switch] To (Channel <number> | <channelName>);
 <channelStep> = Channel (Up {appObj.getCommand().addParam("up");} | Down {appObj.getCommand().addParam("down");});
 
@@ -64,7 +64,7 @@ four {appObj.getCommand().addParam("4");} | five {appObj.getCommand().addParam("
 
 /* Actual spoken command */
 
-public <spokenCommand> = [<polite>*] (<lights> | <simpleCommand> | <channel>) [<polite>*] <NULL> {appObj.getCommand().generateCommand();};
+public <spokenCommand> = [<polite>*] (<lights> | <simpleCommand> | <channel> | <volume>) [<polite>*] <NULL> {appObj.getCommand().generateCommand();};
 
 public <filler> = Thank You | Thanks;
 
