@@ -46,7 +46,13 @@ public class TestGrammar {
 		int i = 0;
 		for(String e: expected){
 			System.out.println("Please say: " + sentences[i]);
-			Result result = recognizer.recognize();
+			Result result = null;
+			while(result == null || result.toString().length() < 0){
+				result = recognizer.recognize();
+			}
+			System.out.println("You said: " + result.getBestFinalResultNoFiller());
+			System.out.println("E is: " + e);
+			System.out.println("The result is: " + result.getBestFinalResultNoFiller().equalsIgnoreCase(e));
 			assertTrue(result.getBestFinalResultNoFiller().equalsIgnoreCase(e));
 			i++;
 		}
