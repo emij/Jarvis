@@ -1,5 +1,9 @@
 package client;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.util.prefs.Preferences;
 
 import javafx.application.Application;
@@ -23,8 +27,12 @@ public class LoginScreen extends Application {
 	private Preferences prefs;
 	private String IP1,IP2,IP3,IP4, connectionPort, user; 
 	private Insets inputBoxInsets = new Insets(3, 1, 3, 1);
-	public LoginScreen(GUIMediator mediator){
+	private Client client;
+	private InetAddress host;
+	
+	public LoginScreen(GUIMediator mediator, Client client){
 		this.mediator = mediator;
+		this.client = client;
 		prefs = Preferences.userRoot().node(this.getClass().getName());
 		setUpKeys();
 	}
@@ -44,7 +52,7 @@ public class LoginScreen extends Application {
 	}
 	@Override
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("JavaFX Welcome");
+		primaryStage.setTitle("Jarvis");
 
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
@@ -52,6 +60,9 @@ public class LoginScreen extends Application {
 		grid.setVgap(10);
 		GridPane leftGrid = new GridPane();
 		GridPane rightGrid = new GridPane();
+		
+		
+		
 
 		ColumnConstraints column1 = new ColumnConstraints();
 		column1.setPercentWidth(50);
@@ -59,14 +70,12 @@ public class LoginScreen extends Application {
 		column2.setPercentWidth(50);
 		grid.getColumnConstraints().addAll(column1, column2);
 
-		grid.add(leftGrid, 0, 0);
-		grid.add(rightGrid,1,0);
-
-		/*
-		Text scenetitle = new Text("Welcome");
-		scenetitle.setId("welcome-text");
-		grid.add(scenetitle, 0, 0, 5, 1);
-		 */
+		grid.add(leftGrid, 0, 1);
+		grid.add(rightGrid,1,1);
+		Text scenetitle = new Text("Connect to Jarvis");
+		scenetitle.setId("jarvis");
+		GridPane.setMargin(scenetitle, new Insets(0, 45, 0, 45));
+		grid.add(scenetitle, 0, 0, 2, 1);
 
 		// LeftGrid
 		
@@ -98,20 +107,20 @@ public class LoginScreen extends Application {
 		rightGrid.add(pwBox, 0, 2,4,1);
 		GridPane.setMargin(pwBox, inputBoxInsets);
 		
-		TextField IP1TextField = new TextField(prefs.get(IP1, "192"));
+		final TextField IP1TextField = new TextField(prefs.get(IP1, "127"));
 		rightGrid.add(IP1TextField, 0, 3);
 		GridPane.setMargin(IP1TextField, inputBoxInsets);
-		TextField IP2TextField = new TextField(prefs.get(IP2, "168"));
+		final TextField IP2TextField = new TextField(prefs.get(IP2, "0"));
 		rightGrid.add(IP2TextField, 1, 3);
 		GridPane.setMargin(IP2TextField, inputBoxInsets);
-		TextField IP3TextField = new TextField(prefs.get(IP3, "1"));
+		final TextField IP3TextField = new TextField(prefs.get(IP3, "0"));
 		rightGrid.add(IP3TextField, 2, 3);
 		GridPane.setMargin(IP3TextField, inputBoxInsets);
-		TextField IP4TextField = new TextField(prefs.get(IP4, "1"));
+		final TextField IP4TextField = new TextField(prefs.get(IP4, "1"));
 		rightGrid.add(IP4TextField, 3, 3);
 		GridPane.setMargin(IP4TextField, inputBoxInsets);
 		
-		TextField portTextField = new TextField(prefs.get(connectionPort, "6789"));
+		final TextField portTextField = new TextField(prefs.get(connectionPort, "6789"));
 		rightGrid.add(portTextField, 0, 4,4,1);
 		GridPane.setMargin(portTextField, new Insets(3, 0, 25, 0));
 
@@ -125,6 +134,28 @@ public class LoginScreen extends Application {
 
 			@Override
 			public void handle(ActionEvent e) {
+				// TODO Checks for proper input should be handled in respective textfield
+				StringBuilder strAdress = new StringBuilder();
+				strAdress.append(IP1TextField.getText());
+				strAdress.append('.');
+				strAdress.append(IP2TextField.getText());
+				strAdress.append('.');
+				strAdress.append(IP3TextField.getText());
+				strAdress.append('.');
+				strAdress.append(IP4TextField.getText());
+				
+				int port = Integer.parseInt(portTextField.getText());
+				try {
+					host = Inet4Address.getByName(strAdress.toString());
+				} catch (UnknownHostException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				System.out.println(strAdress);
+				
+				client.makeConnection(host, port);
+				
 				actiontarget.setId("actiontarget");
 				actiontarget.setText("Sign in button pressed");
 			}
