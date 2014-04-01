@@ -15,6 +15,7 @@
     <!-- ******************************************************** -->
 
     <property name="logLevel" value="OFF"/>
+    <property name="grammarPath" value="/noTags/Jarvis"/>
 
     <property name="absoluteBeamWidth"  value="-1"/>
     <property name="relativeBeamWidth"  value="1E-80"/>
@@ -96,7 +97,7 @@
         <property name="dictionary" value="dictionary"/>
         <property name="grammarLocation"
              value="resource:/voice/"/>
-        <property name="grammarName" value="jarvis"/>
+        <property name="grammarName" value="${grammarPath}"/>
 	<property name="logMath" value="logMath"/>
     </component>
 
