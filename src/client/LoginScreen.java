@@ -20,15 +20,24 @@ import javafx.stage.Stage;
 public class LoginScreen extends Application {
 	private GUIMediator mediator;
 	private Preferences prefs;
-	private String IP1,IP2,IP3,IP4, connectionPort, userName; 
+	private String IP1,IP2,IP3,IP4, connectionPort, user; 
+	
 	public LoginScreen(GUIMediator mediator){
 		this.mediator = mediator;
 		prefs = Preferences.userRoot().node(this.getClass().getName());
-		setupPreference();
+		setUpKeys();
 	}
-	private void setupPreference() {
+	
+	private void setUpKeys() {
+		IP1 = "IP1";
+		IP2 = "IP2";
+		IP3 = "IP3";
+		IP4 = "IP4";
+		connectionPort = "connectionPort";
+		user = "user";
 		
 	}
+
 	public Preferences getPref(){
 		return prefs;
 	}
@@ -47,20 +56,26 @@ public class LoginScreen extends Application {
 		Label IP = new Label("IP:");
 		grid.add(IP, 0, 1);
 		
-		TextField IPTextField = new TextField();
-		grid.add(IPTextField, 1, 1);
+		TextField IP1TextField = new TextField(prefs.get(IP1, "192"));
+		grid.add(IP1TextField, 1, 1);
+		TextField IP2TextField = new TextField(prefs.get(IP2, "168"));
+		grid.add(IP2TextField, 1, 1);
+		TextField IP3TextField = new TextField(prefs.get(IP3, "1"));
+		grid.add(IP3TextField, 1, 1);
+		TextField IP4TextField = new TextField(prefs.get(IP4, "1"));
+		grid.add(IP4TextField, 1, 1);
 
 		Label port = new Label("Port:");
 		grid.add(port, 0, 2);
 		
-		TextField portTextField = new TextField("6789");
+		TextField portTextField = new TextField(prefs.get(connectionPort, "6789"));
 		grid.add(portTextField, 1, 2);
 
 		
 		Label userName = new Label("User Name:");
 		grid.add(userName, 0, 3);
 
-		TextField userTextField = new TextField();
+		TextField userTextField = new TextField(prefs.get(user, "jarvis"));
 		grid.add(userTextField, 1, 3);
 
 		Label pw = new Label("Password:");
