@@ -1,4 +1,4 @@
-package main;
+package grammarTests;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +22,7 @@ import edu.cmu.sphinx.util.props.ConfigurationManager;
 public class TestGrammar {
 
 	String[] sentences = {"Turn on lamp", "lamp", "disable the kitchen lights", "kitchen"};
-	String[] expected = {"Turn on lamp", null, "disable the kitchen lights", null};
+	String[] expected = {"Turn on lamp", "", "disable the kitchen lights", ""};
 	ConfigurationManager cm;
 	Recognizer recognizer;
 	Microphone mic;
@@ -30,7 +30,7 @@ public class TestGrammar {
 
 	@Before
 	public void beforeTest(){
-		cm = new ConfigurationManager("/home/kohina/git/Jarvis/src/voice/jarvis.config.xml");
+		cm = new ConfigurationManager(Jarvis.class.getResource("../jarvis.config.xml"));
 		//audio = Jarvis.class.getResource("audio.wav");
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		mic = (Microphone) cm.lookup("microphone");

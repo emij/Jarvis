@@ -52,6 +52,7 @@ public class Jarvis extends Thread{
 	}
 	
 	public Jarvis(Command cmd){
+		System.out.println("ObjectTagsParser init");
 		try{
 			setConfiguration(null);
 			setup(cmd);

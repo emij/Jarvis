@@ -16,7 +16,7 @@
 
     <property name="logLevel" value="OFF"/>
     
-    <property name="grammarPath" value="/noTags/jarvis"/>
+    <property name="grammarPath" value="/objectTags/jarvis"/>
     
     <property name="absoluteBeamWidth"  value="-1"/>
     <property name="relativeBeamWidth"  value="1E-80"/>
