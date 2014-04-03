@@ -157,10 +157,10 @@ public class LoginScreen extends Application {
 				
 				System.out.println(strAdress);
 				
-				client.makeConnection(host, port);
+				// client.makeConnection(host, port);
 				
 				actiontarget.setId("actiontarget");
-				actiontarget.setText("Sign in button pressed");
+				actiontarget.setText("Connecting");
 			}
 
 			private void savePreferences() {
@@ -170,8 +170,6 @@ public class LoginScreen extends Application {
 				prefs.put(IP3,IP3TextField.getText());
 				prefs.put(IP4,IP4TextField.getText());
 				prefs.put(connectionPort, portTextField.getText());
-				
-				
 			}
 		});
 
