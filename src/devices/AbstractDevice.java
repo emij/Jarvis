@@ -5,7 +5,7 @@ package devices;
 public  abstract class AbstractDevice {
 	private boolean active = false;
 	private String name;
-	
+
 	public AbstractDevice(String name){
 		this.name = name;
 	}
@@ -16,19 +16,29 @@ public  abstract class AbstractDevice {
 	public String getName() {
 		return name;
 	}
-	
+
 	public abstract boolean enable();
-	
+
 	public abstract boolean disable();
-	
+
 	public boolean isActive() {
 		return active;
 	}
 	
-	public void flipSwitch() {
-		active = !active;
+	//Temporary measure, might get removed with active flag
+	public void activate() {
+		active = true;
 	}
 	
+	//Temporary measure, might get removed with active flag
+	public void deactivate() {
+		active = false;
+	}
+
+	//	public void flipSwitch() {
+	//		active = !active;
+	//	}
+
 	// TODO Not sure if I should implement equals and hashcode in abstract class or in subclasses
 	@Override
 	public boolean equals(Object obj) {
@@ -48,7 +58,7 @@ public  abstract class AbstractDevice {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString(){
 		return name;

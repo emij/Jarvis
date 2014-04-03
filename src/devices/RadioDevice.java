@@ -7,22 +7,19 @@ public class RadioDevice extends AbstractDevice {
 	}
 	@Override
 	public boolean enable() {
-		if(!isActive()){
-			System.out.println(getName() + " turned on WOOHOOO");
-			flipSwitch();
-			return true;
-		} else {
-			return false;
-		}
+
+		System.out.println(getName() + " turned on WOOHOOO");
+		//			flipSwitch();
+		super.activate();
+		return true; //Might be unnecessary
+
 	}
+
 	@Override
 	public boolean disable() {
-		if(isActive()){
-			System.out.println(getName() + " turned off");
-			flipSwitch();
-			return true;
-		} else {
-		return false;
-		}
+		System.out.println(getName() + " turned off");
+		//			flipSwitch();
+		super.deactivate();
+		return false; //Might be unnecessary
 	}
 }
