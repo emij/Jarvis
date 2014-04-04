@@ -1,19 +1,21 @@
 package devices;
 
-public class LampDevice extends AbstractDevice {
+public class LedDevice extends AbstractDevice {
 	
 	private Controller controller;
 
-	public LampDevice(String name, Controller controller) {
+	public LedDevice(String name, Controller controller) {
 		super(name);
+		
 		this.controller = controller;
+		controller.assignPin("output", name);
 	}
 
 	@Override
 	public boolean enable() {
 		System.out.println(getName() + " turned on WOOHOOO");
 
-		controller.radio(1,0,1);
+		controller.pinSetHigh(1,2000);
 
 		return true; //Might be unnecessary
 	}
@@ -22,7 +24,7 @@ public class LampDevice extends AbstractDevice {
 	public boolean disable() {
 		System.out.println(getName() + " turned off");
 
-		controller.radio(1,0,0);
+		
 
 		return true; //Might be unnecessary
 	}

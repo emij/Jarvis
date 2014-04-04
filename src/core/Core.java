@@ -7,26 +7,28 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import util.Command;
+import voice.Jarvis;
 import devices.AbstractDevice;
+import devices.Controller;
 import devices.LampDevice;
 import devices.MicrophoneDevice;
 import devices.RadioDevice;
 
-
-import util.Command;
-import voice.Jarvis;
-
 public class Core implements Observer  {
 	private Command voiceCommand;
+	private Controller controller;
 	private String mic = "microphone";
 	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>(); 
 
 	public Core(){
-		// Adding devices to hashmap
-		setUpDevices();
-
 		voiceCommand = new Command(); 
 		voiceCommand.addObserver(this);
+		
+		controller = new Controller();
+		
+		// Adding devices to hashmap
+		setUpDevices();
 
 		Jarvis tst = new Jarvis(voiceCommand);
 		
@@ -35,7 +37,7 @@ public class Core implements Observer  {
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
 
-		addDevice(new LampDevice("lamp"));
+		addDevice(new LampDevice("lamp", controller));
 		addDevice(new RadioDevice("radio"));
 		addDevice(new MicrophoneDevice("microphone", true));
 
