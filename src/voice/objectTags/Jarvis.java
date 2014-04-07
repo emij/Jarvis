@@ -40,7 +40,7 @@ public class Jarvis{
 	private JSGFGrammar grammar;
 	private ObjectTagsParser objParser;
 	private Command command;
-	
+
 	public Jarvis(URL u, Command c){
 		try {
 			setConfiguration(u);
@@ -50,7 +50,7 @@ public class Jarvis{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Jarvis(Command cmd){
 		try{
 			setConfiguration(null);
@@ -61,7 +61,7 @@ public class Jarvis{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setConfiguration(URL u) throws IOException, PropertyException{
 		if(u == null){
 			cm = new ConfigurationManager(Jarvis.class.getResource("../jarvis.config.xml"));
@@ -85,11 +85,11 @@ public class Jarvis{
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		microphone = (Microphone) cm.lookup("microphone");
 		command = cmd;
-		
+
 		baseRec.allocate();
 		recognizer.allocate();
 	}
-	
+
 	private void setupParser(){
 		grammar =  (JSGFGrammar) cm.lookup("jsgfGrammar");
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
@@ -97,26 +97,17 @@ public class Jarvis{
 		objParser = new ObjectTagsParser();
 		objParser.put("appObj", command);
 	}
-	
+
 	public Command getCommand(){
 		return command;
 	}
-	
+
 	public void record(){
-		if(microphone.startRecording()){
-			setupParser();
-			String bestResult = null;
-			while(bestResult == null || bestResult.isEmpty()){
-				System.out.println("Speak command please");
-				
-				Result r = recognizer.recognize();
-				microphone.stopRecording();
-				bestResult = r.getBestFinalResultNoFiller();
-			}
-			System.out.println("Result: " + bestResult);
-			parseCommand(bestResult);
+		boolean recording = true;
+		if(!microphone.isRecording()){
+			recording = microphone.startRecording();
 		}
-		else{
+		if(!recording){
 			System.out.println("Cannot start microphone");
 			recognizer.deallocate();
 			try {
@@ -126,6 +117,21 @@ public class Jarvis{
 				e.printStackTrace();
 			}
 			System.exit(1); //Error occurred
+		}
+		else{
+			setupParser();
+			String bestResult = null;
+			while(bestResult == null || bestResult.isEmpty()){
+				System.out.println("Speak command please");
+
+				Result r = recognizer.recognize();
+				bestResult = r.getBestFinalResultNoFiller();
+				if(bestResult == null || bestResult.isEmpty()){
+					System.out.println("Cannot hear command");
+				}
+			}
+			System.out.println("Result: " + bestResult);
+			parseCommand(bestResult);
 		}
 	}
 
