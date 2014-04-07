@@ -78,6 +78,7 @@ public class Core implements Observer  {
 	@Override
 	public void update(Observable o, Object arg) { // maybe should have synchronized here instead
 		if (o instanceof Command){
+			System.out.println("I'm here tooo!");
 			Command voiceCommand = (Command)o;
 			controlDevice(voiceCommand);
 			jarvis.record();

@@ -16,4 +16,4 @@ grammar jarvis;
 
 /* Rules for commands*/
 
-public <light> = <NULL> {$value = appObj.getCommand();} (<onSwitch> | <offSwitch>) [The] [<room>] <device> {$value.generateCommand();};
+public <light> = <NULL> {$value = appObj;} (<onSwitch> | <offSwitch>) [The] [<room>] <device> {$value.generateCommand();};
