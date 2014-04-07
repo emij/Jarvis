@@ -106,16 +106,15 @@ public class Jarvis{
 		if(microphone.startRecording()){
 			setupParser();
 			String bestResult = null;
-			while(bestResult == null || bestResult.length() < 0){
+			while(bestResult == null || bestResult.isEmpty()){
 				System.out.println("Speak command please");
 				
 				Result r = recognizer.recognize();
 				microphone.stopRecording();
 				bestResult = r.getBestFinalResultNoFiller();
-				
-				System.out.println("Result: " + bestResult);
-				parseCommand(bestResult);
 			}
+			System.out.println("Result: " + bestResult);
+			parseCommand(bestResult);
 		}
 		else{
 			System.out.println("Cannot start microphone");
