@@ -112,8 +112,6 @@ public class Jarvis{
 				String bestResult = r.getBestFinalResultNoFiller();
 				
 				if(r != null && bestResult.length() > 0){
-					System.out.println(bestResult);
-					
 					parseCommand(bestResult);
 				}
 				else{
