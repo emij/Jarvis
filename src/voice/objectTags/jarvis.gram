@@ -9,8 +9,8 @@
 
 grammar jarvis;
 
-<onSwitch> = ([Turn] On | Enable | Activate) {$value.addAction("on");};
-<offSwitch> = ([Turn] Off | Disable | Deactivate) {$value.addAction("off");};
+<onSwitch> = ([Turn] On | Enable | Activate) {$value.addAction("enable");};
+<offSwitch> = ([Turn] Off | Disable | Deactivate) {$value.addAction("disable");};
 <device> = (Lamp | Lights | lamps) {$value.addDevice("lamp");};
 <room> = Kitchen | Bedroom;
 
