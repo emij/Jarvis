@@ -105,21 +105,17 @@ public class Jarvis{
 	public void record(){
 		if(microphone.startRecording()){
 			setupParser();
-			//while(true){
+			String bestResult = null;
+			while(bestResult == null || bestResult.length() < 0){
 				System.out.println("Speak command please");
 				
 				Result r = recognizer.recognize();
 				microphone.stopRecording();
-				String bestResult = r.getBestFinalResultNoFiller();
+				bestResult = r.getBestFinalResultNoFiller();
 				
-				//if(r != null && bestResult.length() > 0){
 				System.out.println("Result: " + bestResult);
 				parseCommand(bestResult);
-				//}
-				//else{
-					//System.out.println("Cannot hear command, please try again");
-				//}
-			//}
+			}
 		}
 		else{
 			System.out.println("Cannot start microphone");
@@ -147,8 +143,6 @@ public class Jarvis{
 		} catch (GrammarException e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("I'm here!");
 		objParser.parseTags(parse);
 	}
 }

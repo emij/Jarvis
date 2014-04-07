@@ -48,7 +48,6 @@ public class Command extends Observable{
 	}
 
 	public void generateCommand(){
-		System.out.println("I'm here too!");
 		System.out.println(device+" "+action+" "+" "+pos+" "+param);
 		this.setChanged();
 		notifyObservers();
