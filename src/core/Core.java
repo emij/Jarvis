@@ -11,15 +11,17 @@ import devices.AbstractDevice;
 import devices.LampDevice;
 import devices.MicrophoneDevice;
 import devices.RadioDevice;
+import sun.tools.jar.resources.jar;
 import util.Command;
-//import voice.objectTags.Jarvis;
-import voice.noTags.Jarvis;
+import voice.objectTags.Jarvis;
+//import voice.noTags.Jarvis;
 //import voice.getTags.Jarvis;
 
 public class Core implements Observer  {
 	private Command voiceCommand;
 	private String mic = "microphone";
-	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>(); 
+	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>();
+	private Jarvis jarvis;
 
 	public Core(){
 		// Adding devices to hashmap
@@ -28,9 +30,8 @@ public class Core implements Observer  {
 		voiceCommand = new Command(); 
 		voiceCommand.addObserver(this);
 
-		//Jarvis tst = new Jarvis(voiceCommand);
-		Jarvis tst = new Jarvis();
-		tst.start();
+		jarvis = new Jarvis(voiceCommand);
+		jarvis.record();
 	}
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
@@ -78,7 +79,8 @@ public class Core implements Observer  {
 	public void update(Observable o, Object arg) { // maybe should have synchronized here instead
 		if (o instanceof Command){
 			Command voiceCommand = (Command)o;
-		controlDevice(voiceCommand);
+			controlDevice(voiceCommand);
+			jarvis.record();
 		}
 	}
 }

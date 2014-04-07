@@ -18,7 +18,7 @@ import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 
-public class Jarvis extends Thread{
+public class Jarvis{
 
 	private ConfigurationManager cm;
 	private Recognizer recognizer;
@@ -69,9 +69,9 @@ public class Jarvis extends Thread{
 		recognizer.allocate();
 	}
 	
-	@Override
-	public void run(){
+	public void record(){
 		if(microphone.startRecording()){
+			
 			while(true){
 				System.out.println("Speak command please");
 				

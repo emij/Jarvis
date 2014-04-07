@@ -30,7 +30,7 @@ import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 import edu.cmu.sphinx.tools.tags.ObjectTagsParser;
 
-public class Jarvis extends Thread{
+public class Jarvis{
 
 	private ConfigurationManager cm;
 	private BaseRecognizer baseRec;
@@ -102,8 +102,7 @@ public class Jarvis extends Thread{
 		return command;
 	}
 	
-	@Override
-	public void run(){
+	public void record(){
 		if(microphone.startRecording()){
 			setupParser();
 			while(true){
