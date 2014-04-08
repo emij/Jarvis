@@ -1,6 +1,8 @@
 package devices;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -16,9 +18,14 @@ public class Controller {
 	//Singleton??
 	private GpioController gpio;	
 	private GpioPin pins[] = new GpioPin[8];
+	private Queue<Integer> availablePins = new LinkedList<Integer>();
 	
 	public Controller() {
 		gpio = GpioFactory.getInstance();
+		
+		for(int i = 0; i<8; i++) {
+			availablePins.add(i);
+		}
 	}
 
 	//Should it return a boolean indicating success?
@@ -37,17 +44,24 @@ public class Controller {
 		((GpioPinDigitalOutput) pins[pin]).pulse(duration);
 	}
 	
+	//Still needs assignment logic
 	public int assignPin(String direction, String name) {
-		if(direction.toLowerCase().equals("output")); {
-			pins[1] = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, name);
-			pins[1].setShutdownOptions(true, PinState.LOW, PinPullResistance.OFF, PinMode.DIGITAL_OUTPUT);
+		Integer pinNr = availablePins.poll();
+		if(pinNr == null) {
+			return -1; //No more gpio pins available (Maybe to much C here)
 		}
 		
-		return 0;
+		if(direction.toLowerCase().equals("output")); {
+			pins[pinNr] = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, name);
+			pins[pinNr].setShutdownOptions(true, PinState.LOW, PinPullResistance.OFF, PinMode.DIGITAL_OUTPUT);
+		}
+		
+		return pinNr;
 	}
 
-	public void releasePin(int pin) {
-		pins[pin] = null;
+	public void releasePin(int pinNr) {
+		pins[pinNr] = null;
+		availablePins.add(pinNr);
 		
 	}
 }

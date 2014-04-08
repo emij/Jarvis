@@ -12,6 +12,7 @@ import voice.Jarvis;
 import devices.AbstractDevice;
 import devices.Controller;
 import devices.LampDevice;
+import devices.LedDevice;
 import devices.MicrophoneDevice;
 import devices.RadioDevice;
 
@@ -31,13 +32,13 @@ public class Core implements Observer  {
 		setUpDevices();
 
 		Jarvis tst = new Jarvis(voiceCommand);
-		
 		tst.start();
 	}
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
 
 		addDevice(new LampDevice("lamp", controller));
+		addDevice(new LedDevice("tv", controller));
 		addDevice(new RadioDevice("radio"));
 		addDevice(new MicrophoneDevice("microphone", true));
 
