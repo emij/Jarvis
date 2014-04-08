@@ -12,8 +12,8 @@ import devices.LampDevice;
 import devices.MicrophoneDevice;
 import devices.RadioDevice;
 import util.Command;
-//import voice.objectTags.Jarvis;
-import voice.noTags.Jarvis;
+import voice.objectTags.Jarvis;
+//import voice.noTags.Jarvis;
 //import voice.getTags.Jarvis;
 
 public class Core implements Observer  {
@@ -28,8 +28,8 @@ public class Core implements Observer  {
 		voiceCommand = new Command(); 
 		voiceCommand.addObserver(this);
 
-		//Jarvis tst = new Jarvis(voiceCommand);
-		Jarvis tst = new Jarvis();
+		Jarvis tst = new Jarvis(voiceCommand);
+		//Jarvis tst = new Jarvis();
 		tst.start();
 	}
 	private void setUpDevices() {

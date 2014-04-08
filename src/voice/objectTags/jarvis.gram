@@ -9,8 +9,8 @@
 
 grammar jarvis;
 
-<onSwitch> = ([Turn] On | Enable | Activate) {appObj.getCommand().addAction("on");};
-<offSwitch> = ([Turn] Off | Disable | Deactivate) {appObj.getCommand().addAction("off");};
+<onSwitch> = ([Turn] On | Enable | Activate) {appObj.getCommand().addAction("enable");};
+<offSwitch> = ([Turn] Off | Disable | Deactivate) {appObj.getCommand().addAction("disable");};
 <device> = (Lamp | Lights | lamps) {appObj.getCommand().addDevice("lamp");};
 <room> = Kitchen | Bedroom;
 
