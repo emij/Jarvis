@@ -46,7 +46,7 @@ public class Jarvis{
 			setConfiguration(u);
 			setup(c);
 		} catch (EngineException | IOException | RuntimeException e) {
-			System.out.println("Configuration and setup cannot be performed. Check if inputed ConfigurationManager url is valid.");
+			System.out.println("Configuration and setup cannot be performed.");
 			e.printStackTrace();
 		}
 	}
@@ -57,7 +57,7 @@ public class Jarvis{
 			setup(cmd);
 		}
 		catch(EngineException | IOException | RuntimeException e){
-			System.out.println("Configuration and setup cannot be performed. Check if a valid default configurationManager exsits or input an url to a valid ConfigurationManager.");
+			System.out.println("Configuration and setup cannot be performed.");
 			e.printStackTrace();
 		}
 	}
@@ -93,7 +93,6 @@ public class Jarvis{
 	private void setupParser(){
 		grammar =  (JSGFGrammar) cm.lookup("jsgfGrammar");
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
-		rules.setEnabled(true); //TODO: check if needed?
 		objParser = new ObjectTagsParser();
 		objParser.put("appObj", command);
 	}
