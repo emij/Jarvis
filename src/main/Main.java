@@ -5,13 +5,18 @@
 
 package main;
 
-import core.Core;
+import util.Command;
+import voice.objectTags.Jarvis;
+
 
 
 public class Main {
 	
 	public static void main(String[] args){
-		Core core = new Core();
+		Command command = new Command();
+		Jarvis jarvis = new Jarvis(command);
+		while(true){
+			jarvis.record();
+		}
 	}
-	
 }

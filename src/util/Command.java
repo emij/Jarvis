@@ -2,13 +2,16 @@ package util;
 
 import java.util.Observable;
 
+import core.Core;
+
 public class Command extends Observable{
 	private String action;
 	private String device;
 	private String pos;
 	private String param;
-	
+	private Core core;
 	public Command(){
+		core = Core.INSTANCE;
 	}
 	
 	public String getParam() {
@@ -49,8 +52,7 @@ public class Command extends Observable{
 
 	public void generateCommand(){
 		System.out.println(device+" "+action+" "+" "+pos+" "+param);
-		this.setChanged();
-		notifyObservers();
+		core.controlDevice(this);
 	}
 	public void resetCommand(){
 		action = null;

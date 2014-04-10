@@ -16,21 +16,14 @@ import voice.objectTags.Jarvis;
 //import voice.noTags.Jarvis;
 //import voice.getTags.Jarvis;
 
-public class Core implements Observer  {
-	private Command voiceCommand;
+public class Core  {
 	private String mic = "microphone";
 	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>(); 
-
-	public Core(){
+	public final static Core INSTANCE = new Core();
+	// only one core should be instantiated. Controller for all hardware.
+	private Core(){
 		// Adding devices to hashmap
 		setUpDevices();
-
-		voiceCommand = new Command(); 
-		voiceCommand.addObserver(this);
-
-		Jarvis tst = new Jarvis(voiceCommand);
-		//Jarvis tst = new Jarvis();
-		tst.start();
 	}
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
@@ -72,14 +65,6 @@ public class Core implements Observer  {
 			System.out.println("I am sorry, but the device " + command.getDevice() + " is not installed");
 		}
 		command.resetCommand();
-	}
-	
-	@Override
-	public void update(Observable o, Object arg) { // maybe should have synchronized here instead
-		if (o instanceof Command){
-			Command voiceCommand = (Command)o;
-		controlDevice(voiceCommand);
-		}
 	}
 }
 

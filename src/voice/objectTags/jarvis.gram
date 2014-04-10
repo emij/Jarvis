@@ -9,11 +9,11 @@
 
 grammar jarvis;
 
-<onSwitch> = ([Turn] On | Enable | Activate) {appObj.getCommand().addAction("enable");};
-<offSwitch> = ([Turn] Off | Disable | Deactivate) {appObj.getCommand().addAction("disable");};
-<device> = (Lamp | Lights | lamps) {appObj.getCommand().addDevice("lamp");};
+<onSwitch> = ([Turn] On | Enable | Activate) {appObj.addAction("enable");};
+<offSwitch> = ([Turn] Off | Disable | Deactivate) {appObj.addAction("disable");};
+<device> = (Lamp | Lights | lamps) {appObj.addDevice("lamp");};
 <room> = Kitchen | Bedroom;
 
 /* Rules for commands*/
 
-public <light> = (<onSwitch> | <offSwitch>) [The] [<room>] <device> {appObj.getCommand().generateCommand();};
+public <light> = (<onSwitch> | <offSwitch>) [The] [<room>] <device> {appObj.generateCommand();};
