@@ -40,6 +40,7 @@ public class Core implements Observer  {
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
 		controller.assignPin("output", "radioTx", 7); //Allocate GPIO-pin 07 to the Radio Transmitter
+		controller.assignPin("input", "motionSensor", 5); //Allocate GPIO-pin 05 to the Motion Sensor
 		addDevice(new LampDevice("lamp", controller));
 		addDevice(new LedDevice("tv", controller, 1));
 		addDevice(new RadioDevice("radio"));

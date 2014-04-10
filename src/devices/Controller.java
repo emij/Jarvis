@@ -1,20 +1,19 @@
 package devices;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPin;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinMode;
 import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 public class Controller {
 
@@ -23,9 +22,10 @@ public class Controller {
 	private GpioPin pins[] = new GpioPin[8];
 	private Pin pinNames[] = new Pin[8];
 	private int usedPins = 0;
+	static long lastMovement; //TODO initiate?
 
-	private Set<Integer> availablePins = new HashSet<Integer>();
-	private Map<Integer,RaspiPin> pinMap = new HashMap<Integer, RaspiPin>();
+//	private Set<Integer> availablePins = new HashSet<Integer>();
+//	private Map<Integer,RaspiPin> pinMap = new HashMap<Integer, RaspiPin>();
 
 	public Controller() {
 		gpio = GpioFactory.getInstance();
@@ -101,41 +101,26 @@ public class Controller {
 
 		String command = "pihat --repeats=20 --id=" + id + " --channel=" + channel +" --state=" + state;
 		try {
-			Process p = Runtime.getRuntime().exec(command);
+			/*Process p = */ Runtime.getRuntime().exec(command);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); //Fix exception
 		}
 	}
 
-	//	public void motionSensor(int pin) {
-	//		// Let controller assign the pin?
-	//		((GpioPinDigitalInput) pins[pin]).addListener(new GpioPinListenerDigital() {
-	//			@Override
-	//			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-	//				//System.out.println("Motion detected from pin " + event.getPin() + " (state " + event.getState() + ")");
-	//				PinState state = event.getState();
-	//
-	//				if(state == PinState.HIGH) {
-	//					Motionsensor.start = System.currentTimeMillis();
-	//					//System.out.println(new Timestamp(Motionsensor.start)+" Movement detected");
-	//					try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("motionsensor.log", true)))) {
-	//						out.println(new Timestamp(Motionsensor.start)+" Movement detected");
-	//					}catch (IOException e) {
-	//						System.err.println(e);
-	//					}
-	//
-	//				} else if(state == PinState.LOW) {
-	//					//System.out.println("Movement stopped after " + (System.currentTimeMillis() - Motionsensor.start) + (" ms"));
-	//					try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("motionsensor.log", true)))) {
-	//						out.println("Movement stopped after " + (System.currentTimeMillis() - Motionsensor.start) + " ms");
-	//					}catch (IOException e) {
-	//						System.err.println(e);
-	//					}
-	//				}
-	//			}
-	//		});
-	//	}
+		public void motionSensor(int pin) {
+			// Let controller assign the pin?
+			((GpioPinDigitalInput) pins[pin]).addListener(new GpioPinListenerDigital() {
+				@Override
+				public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+					//System.out.println("Motion detected from pin " + event.getPin() + " (state " + event.getState() + ")");
+					PinState state = event.getState();
+					if(state == PinState.HIGH) {
+						Controller.lastMovement = System.currentTimeMillis(); // TODO revisit this implementation of tracking movement
+					}
+				}
+			});
+		}
 
 	// Test method
 	public void printPinStatus() {
