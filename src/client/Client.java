@@ -58,6 +58,7 @@ public class Client {
 	}
 	public void writeToServer(Object obj){
 		try {
+			outToServer.reset();
 			outToServer.writeObject(obj);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

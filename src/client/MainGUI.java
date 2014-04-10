@@ -65,6 +65,7 @@ public class MainGUI extends Application {
                 System.out.println("Enable");
                 command.addDevice("lamp");
                 command.addAction("enable");
+                command.addParam("WOOOHOOO");
                 client.writeToServer(command);
                 command.resetCommand();
                 
@@ -80,6 +81,10 @@ public class MainGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Disable");
+                command.addDevice("lamp");
+                command.addAction("disable");
+                client.writeToServer(command);
+                command.resetCommand();
             }
         });
         

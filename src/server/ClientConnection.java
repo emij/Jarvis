@@ -45,7 +45,6 @@ public class ClientConnection implements Runnable {
 				} else  if (objectFromClient instanceof AbstractCommand){
 					
 					ClientCommand tempCommand = (ClientCommand) objectFromClient;
-					 
 					command.copyCommand(tempCommand);
 					command.generateCommand();
 					
