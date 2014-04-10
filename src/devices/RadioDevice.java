@@ -10,7 +10,7 @@ public class RadioDevice extends AbstractDevice {
 
 		System.out.println(getName() + " turned on WOOHOOO");
 		//			flipSwitch();
-		super.activate();
+		//super.activate();
 		return true; //Might be unnecessary
 
 	}
@@ -19,7 +19,7 @@ public class RadioDevice extends AbstractDevice {
 	public boolean disable() {
 		System.out.println(getName() + " turned off");
 		//			flipSwitch();
-		super.deactivate();
+		//super.deactivate();
 		return false; //Might be unnecessary
 	}
 }

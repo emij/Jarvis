@@ -25,16 +25,6 @@ public  abstract class AbstractDevice {
 		return active;
 	}
 	
-	//Temporary measure, might get removed with active flag
-	public void activate() {
-		active = true;
-	}
-	
-	//Temporary measure, might get removed with active flag
-	public void deactivate() {
-		active = false;
-	}
-
 	//	public void flipSwitch() {
 	//		active = !active;
 	//	}

@@ -30,15 +30,18 @@ public class Core implements Observer  {
 		
 		// Adding devices to hashmap
 		setUpDevices();
+		
+		// Test
+		controller.printPinStatus();
 
 		Jarvis tst = new Jarvis(voiceCommand);
 		tst.start();
 	}
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
-
+		controller.assignPin("output", "radioTx", 7); //Allocate GPIO-pin 07 to the Radio Transmitter
 		addDevice(new LampDevice("lamp", controller));
-		addDevice(new LedDevice("tv", controller));
+		addDevice(new LedDevice("tv", controller, 1));
 		addDevice(new RadioDevice("radio"));
 		addDevice(new MicrophoneDevice("microphone", true));
 
