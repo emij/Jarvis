@@ -19,7 +19,7 @@ public class GUIMediator extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		stage = primaryStage;
-		mainGUI.start(stage);
+		login.start(stage);
 	}
 	public static void main(String[] args){
         launch(args);

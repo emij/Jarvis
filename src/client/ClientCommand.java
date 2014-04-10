@@ -7,6 +7,9 @@ public class ClientCommand{
 	private String pos;
 	private String param;
 	
+	public ClientCommand(){
+		
+	}
 	public ClientCommand(String device){
 		this.device = device;
 	}
@@ -26,7 +29,9 @@ public class ClientCommand{
 	public String getPos() {
 		return pos;
 	}
-
+	public void addDevice(String device){
+		this.device = device;
+	}
 	public void addAction(String action){
 		this.action = action;
 	}
