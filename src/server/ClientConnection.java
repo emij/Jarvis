@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import util.AbstractCommand;
+import util.ClientCommand;
 import util.Command;
 
 public class ClientConnection implements Runnable {
@@ -12,7 +14,6 @@ public class ClientConnection implements Runnable {
 	Socket socket;
 	ObjectInputStream inFromClient;
 	ObjectOutputStream toClient;
-
 
 	public ClientConnection(Command command, Socket socket) throws Exception {
 		this.command = command;
@@ -28,22 +29,28 @@ public class ClientConnection implements Runnable {
 
 		while(true) { // TODO fix exceptionhandling
 			try {
-				String recievedCommand = (String) inFromClient.readObject(); 
-				if(recievedCommand != null && recievedCommand.length() != 0){
-					if(recievedCommand.compareTo("HELLO")==0){
-					// TODO implement security	
-						System.out.println("Connection recieved");
-						String accepted = "OK";
-						toClient.writeObject(accepted);
-					} else if (recievedCommand.equalsIgnoreCase("quit")){
-						break;
-					} else {
-					//command.newCommand(recievedCommand);
-					// ta emot kommando på korrekt sätt
+				Object objectFromClient = inFromClient.readObject();
+				if(objectFromClient instanceof String){
+					String recievedCommand = (String)  objectFromClient;
+					if(recievedCommand != null && recievedCommand.length() != 0){
+						if(recievedCommand.compareTo("HELLO")==0){
+							// TODO implement security	
+							System.out.println("Connection recieved");
+							String accepted = "OK";
+							toClient.writeObject(accepted);
+						} else if (recievedCommand.equalsIgnoreCase("quit")){
+							break;
+						}
 					}
+				} else  if (objectFromClient instanceof AbstractCommand){
+					
+					ClientCommand tempCommand = (ClientCommand) objectFromClient;
+					 
+					command.copyCommand(tempCommand);
+					command.generateCommand();
+					
 				}
-				System.out.println("Received: " + recievedCommand);
-				
+
 			} catch (Exception e){
 				// TODO
 				e.printStackTrace();

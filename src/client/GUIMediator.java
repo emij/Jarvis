@@ -1,5 +1,6 @@
 package client;
 
+import util.ClientCommand;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -11,9 +12,9 @@ public class GUIMediator extends Application {
 	private Stage stage;
 	
 	public GUIMediator() {
-		client = new Client(command);
+		client = new Client();
 		login = new LoginScreen(this, client);
-		mainGUI = new MainGUI(this);
+		mainGUI = new MainGUI(this, client, command);
 		}
 
 	@Override

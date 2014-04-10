@@ -43,5 +43,7 @@ public class Server extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Server is set up");
 	}
+
 }

@@ -156,16 +156,18 @@ public class LoginScreen extends Application {
 				
 				System.out.println(strAdress);
 				
-				// client.makeConnection(host, port);
+				client.makeConnection(host, port);
 				
 				actiontarget.setId("actiontarget");
 				actiontarget.setText("Connecting");
+				
 				try {
 					mediator.changeToMainGUI();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
 			}
 
 			private void savePreferences() {

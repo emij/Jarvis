@@ -7,15 +7,12 @@ public class Client {
 	private Socket clientSocket;
 	private ObjectOutputStream outToServer;
 	private ObjectInputStream inFromServer;
-	private String sentence;
-	private ClientCommand command;
 	private InetAddress host;
 	private String recievedCommand;
 	private int port;
 	private boolean connectionAccepted = false;
 	
-	public Client(ClientCommand command)  {
-		this.command = command;
+	public Client()  {
 
 	}
 	public void makeConnection(InetAddress host, int port)  {
@@ -39,10 +36,15 @@ public class Client {
 					e.printStackTrace();
 				} 
 				if(recievedCommand != null && recievedCommand.length() != 0){
-					if(recievedCommand.compareTo("OK")==0){
+					if(recievedCommand.equalsIgnoreCase("ok")){
 					// TODO implement security	
 						System.out.println("Connection accepted");
 						connectionAccepted = true;
+					} else if (recievedCommand.equalsIgnoreCase("quit")){
+						outToServer.close();
+						inFromServer.close();
+						clientSocket.close();
+						System.out.println("Connection closed");
 					}
 				}
 			}

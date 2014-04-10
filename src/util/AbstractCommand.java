@@ -1,17 +1,20 @@
-package client;
+package util;
+
+import java.io.Serializable;
 
 
-public class ClientCommand{
-	private String action;
-	private String device;
-	private String pos;
-	private String param;
+public abstract class AbstractCommand implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9174174993585262346L;
+	protected String action;
+	protected String device;
+	protected String pos;
+	protected String param;
 	
-	public ClientCommand(){
-		
-	}
-	public ClientCommand(String device){
-		this.device = device;
+	
+	public AbstractCommand(){
 	}
 	
 	public String getParam() {
@@ -43,10 +46,12 @@ public class ClientCommand{
 	public void addParam(String param){
 		this.param = param;
 	}
-
+	public abstract void generateCommand();
+	
 	public void resetCommand(){
 		action = null;
 		pos = null;
 		param = null;
+		device = null;
 	}
 }

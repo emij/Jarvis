@@ -1,5 +1,6 @@
 package client;
 
+import util.ClientCommand;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,8 +16,12 @@ import javafx.stage.Stage;
 
 public class MainGUI extends Application {
 	private GUIMediator mediator;
-	public MainGUI(GUIMediator mediator) {
+	private Client client;
+	private ClientCommand command;
+	public MainGUI(GUIMediator mediator, Client client, ClientCommand command) {
+		this.client = client;
 		this.mediator = mediator;
+		this.command = command;
 	}
 
 	@Override
@@ -45,8 +50,8 @@ public class MainGUI extends Application {
 		
 		// Left Grid
 		leftGrid.setPadding(new Insets(25, 25, 25, 25));
-		Label userName = new Label("Lamp");
-		leftGrid.add(userName, 1, 1);
+		Label lamp = new Label("Lamp");
+		leftGrid.add(lamp, 1, 1);
 		
 		// Right Grid
 		rightGrid.setPadding(new Insets(25, 25, 25, 25));
@@ -58,6 +63,11 @@ public class MainGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Enable");
+                command.addDevice("lamp");
+                command.addAction("enable");
+                client.writeToServer(command);
+                command.resetCommand();
+                
             }
         });
         
