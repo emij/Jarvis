@@ -121,9 +121,10 @@ public class Jarvis{
 		else{
 			setupParser();
 			String bestResult = null;
+			
 			while(bestResult == null || bestResult.isEmpty()){
 				System.out.println("Speak command please");
-
+				
 				Result r = recognizer.recognize();
 				bestResult = r.getBestFinalResultNoFiller();
 				if(bestResult == null || bestResult.isEmpty()){
