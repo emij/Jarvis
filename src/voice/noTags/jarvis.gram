@@ -1,0 +1,19 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Grammar for Voice controlled home, Jarvis
+ *
+ * @author Marika Hansson
+ * @author Markus Otterberg
+ */
+
+grammar jarvis;
+
+<onSwitch> = ([Turn] On | Enable | Activate);
+<offSwitch> = ([Turn] Off | Disable | Deactivate);
+<device> = (Lamp | Lights | lamps);
+<room> = Kitchen {kitchen} | Bedroom;
+
+/* Rules for commands*/
+
+public <light> = (<onSwitch> | <offSwitch>) [The] [<room>] <device>;

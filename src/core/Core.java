@@ -8,7 +8,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import util.Command;
-import voice.Jarvis;
 import devices.AbstractDevice;
 import devices.Controller;
 import devices.LampDevice;
@@ -16,6 +15,9 @@ import devices.LedDevice;
 import devices.MicrophoneDevice;
 import devices.MotionSensor;
 import devices.RadioDevice;
+//import voice.objectTags.Jarvis;
+import voice.noTags.Jarvis;
+//import voice.getTags.Jarvis;
 
 public class Core implements Observer  {
 	private Command voiceCommand;
@@ -35,7 +37,8 @@ public class Core implements Observer  {
 		// Test
 		controller.printPinStatus();
 
-		Jarvis tst = new Jarvis(voiceCommand);
+		//Jarvis tst = new Jarvis(voiceCommand);
+		Jarvis tst = new Jarvis();
 		tst.start();
 	}
 	private void setUpDevices() {

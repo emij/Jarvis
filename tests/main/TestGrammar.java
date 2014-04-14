@@ -2,13 +2,14 @@ package tests.main;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.net.URL;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import voice.Jarvis;
+import voice.objectTags.Jarvis;
 
 import edu.cmu.sphinx.frontend.util.AudioFileDataSource;
 import edu.cmu.sphinx.frontend.util.Microphone;
@@ -29,7 +30,7 @@ public class TestGrammar {
 
 	@Before
 	public void beforeTest(){
-		cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
+		cm = new ConfigurationManager("/home/kohina/git/Jarvis/src/voice/jarvis.config.xml");
 		//audio = Jarvis.class.getResource("audio.wav");
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		mic = (Microphone) cm.lookup("microphone");
@@ -46,7 +47,13 @@ public class TestGrammar {
 		int i = 0;
 		for(String e: expected){
 			System.out.println("Please say: " + sentences[i]);
-			Result result = recognizer.recognize();
+			Result result = null;
+			while(result == null || result.toString().length() < 0){
+				result = recognizer.recognize();
+			}
+			System.out.println("You said: " + result.getBestFinalResultNoFiller());
+			System.out.println("E is: " + e);
+			System.out.println("The result is: " + result.getBestFinalResultNoFiller().equalsIgnoreCase(e));
 			assertTrue(result.getBestFinalResultNoFiller().equalsIgnoreCase(e));
 			i++;
 		}
