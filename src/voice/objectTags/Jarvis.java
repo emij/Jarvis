@@ -63,7 +63,7 @@ public class Jarvis extends Thread{
 	
 	public void setConfiguration(URL u) throws IOException, PropertyException{
 		if(u == null){
-			cm = new ConfigurationManager(Jarvis.class.getResource("../jarvis.config.xml"));
+			cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
 		}
 		else{
 			cm = new ConfigurationManager(u);
@@ -94,7 +94,7 @@ public class Jarvis extends Thread{
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
 		rules.setEnabled(true); //TODO: check if needed?
 		objParser = new ObjectTagsParser();
-		objParser.put("appObj", this);
+		objParser.put("appObj", command);
 	}
 	
 	public Command getCommand(){

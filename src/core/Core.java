@@ -15,8 +15,8 @@ import devices.LedDevice;
 import devices.MicrophoneDevice;
 import devices.MotionSensor;
 import devices.RadioDevice;
-//import voice.objectTags.Jarvis;
-import voice.noTags.Jarvis;
+import voice.objectTags.Jarvis;
+//import voice.noTags.Jarvis;
 //import voice.getTags.Jarvis;
 
 public class Core implements Observer  {
@@ -34,11 +34,8 @@ public class Core implements Observer  {
 		// Adding devices to hashmap
 		setUpDevices();
 		
-		// Test
-		controller.printPinStatus();
-
-		//Jarvis tst = new Jarvis(voiceCommand);
-		Jarvis tst = new Jarvis();
+		Jarvis tst = new Jarvis(voiceCommand);
+		//Jarvis tst = new Jarvis();
 		tst.start();
 	}
 	private void setUpDevices() {
@@ -49,7 +46,9 @@ public class Core implements Observer  {
 		addDevice(new LampDevice("lamp", controller));		
 		addDevice(new RadioDevice("radio"));
 		addDevice(new MicrophoneDevice("microphone", true));
-
+		
+		// Test
+		controller.printPinStatus();
 	}
 	public void addDevice(AbstractDevice dev){
 		devices.put(dev.getName(), dev);
