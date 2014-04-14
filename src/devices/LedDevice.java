@@ -16,7 +16,7 @@ public class LedDevice extends AbstractDevice {
 	@Override
 	public boolean enable() {
 		System.out.println(getName() + " turned on WOOHOOO");
-		controller.pinSetHigh(pinNr,2000);
+		controller.pinPulse(pinNr,2000);
 		return true; //Might be unnecessary
 	}
 

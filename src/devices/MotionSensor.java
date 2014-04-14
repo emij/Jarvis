@@ -1,6 +1,6 @@
 package devices;
 
-public class MotionSensor extends Thread {
+public class MotionSensor extends AbstractDevice {
 
 	private Controller controller;
 	private int pinNr;
@@ -10,33 +10,25 @@ public class MotionSensor extends Thread {
 
 		this.controller = controller;
 		pinNr = pin;
-		if (controller.assignPin("input", name, pin)) { //ToDo, handle error if pin is occupied
-			System.out.println("Motion sensor " + name + " assigned pin " + pin); //temptest
+		if (this.controller.assignPin("input", name, pin)) { //TODO, handle error if pin is occupied
+			this.controller.motionSensor(pinNr); //TODO this feels wrong
+		} else {
+			System.out.println("Motion sensor could not be initiated, pin " + pin + "is unavailable");
 		}
+		
 	}
 
-//	@Override
-//	public boolean enable() {
-//				System.out.println(getName() + " turned on WOOHOOO");
-//				controller.pinSetHigh(1,2000);
-//				return true; //Might be unnecessary
-//	}
-
-//	@Override
-//	public boolean disable() {
-//				System.out.println(getName() + " turned off");
-//				return true; //Might be unnecessary
-//	}
-	
 	@Override
-	public void run() {
-		while(true) {
-			try {
-				sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	public boolean enable() {
+				System.out.println(getName() + " turned on WOOHOOO (but nothing happens"); //TODO implement enable
+				return true; //Might be unnecessary
 	}
+
+	@Override
+	public boolean disable() {
+				System.out.println(getName() + " turned off (but nothing happens"); //TODO implement disable
+				return true; //Might be unnecessary
+	}
+	
+	//TODO Is this class necessary?
 }

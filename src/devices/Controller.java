@@ -17,23 +17,15 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 public class Controller {
 
-	//Singleton??
+	//TODO Singleton??
 	private GpioController gpio;
 	private GpioPin pins[] = new GpioPin[8];
 	private Pin pinNames[] = new Pin[8];
 	private int usedPins = 0;
 	static long lastMovement; //TODO initiate?
 
-//	private Set<Integer> availablePins = new HashSet<Integer>();
-//	private Map<Integer,RaspiPin> pinMap = new HashMap<Integer, RaspiPin>();
-
 	public Controller() {
 		gpio = GpioFactory.getInstance();
-
-		//		for(int i = 0; i<8; i++) {
-		//			availablePins.add(i);
-		//			pinMap.add(i,RaspiPin.);
-		//		}
 
 		// TODO redo this part
 		pinNames[0] = RaspiPin.GPIO_00;
@@ -46,8 +38,8 @@ public class Controller {
 		pinNames[7] = RaspiPin.GPIO_07;
 	}
 
-	// Synchronized??
-	public synchronized void pinSetHigh(int pin, long duration) {
+	// TODO Synchronized??
+	public synchronized void pinPulse(int pin, long duration) {
 		if (pins[pin].getMode() == PinMode.DIGITAL_OUTPUT) {
 			((GpioPinDigitalOutput) pins[pin]).pulse(duration);
 		} // TODO Do something if pin is not output? maybe return false
@@ -71,14 +63,15 @@ public class Controller {
 	}
 
 	//TODO implement method for assign available pin, maybe add this logic to the existing method
-	//Finds an available pin, if one is found it is grabbed and provisioned as in/out
+	//Finds an available pin, if one is found it is grabbed and provisioned as in/out.
+	//Returns the assigned pin, -1 if no free pin is found
 	public int assignPin(String direction, String name) {
 		// Necessary? Saves some time when all pins are used, but isn't needed for correct functionality
 		if (usedPins >= 8) {
 			return -1; // No more available pins, very 'C'
 		}
 
-		int pin = -1;
+		int pin = -1; //Returns -1 if no free pin is found
 		for (int i=0; i<7; i++) {
 			if(pins[i] != null) {
 				pin = i;
@@ -108,19 +101,20 @@ public class Controller {
 		}
 	}
 
-		public void motionSensor(int pin) {
-			// Let controller assign the pin?
-			((GpioPinDigitalInput) pins[pin]).addListener(new GpioPinListenerDigital() {
-				@Override
-				public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-					//System.out.println("Motion detected from pin " + event.getPin() + " (state " + event.getState() + ")");
-					PinState state = event.getState();
-					if(state == PinState.HIGH) {
-						Controller.lastMovement = System.currentTimeMillis(); // TODO revisit this implementation of tracking movement
-					}
+	public void motionSensor(int pin) {
+		// Let controller assign the pin?
+		((GpioPinDigitalInput) pins[pin]).addListener(new GpioPinListenerDigital() {
+			@Override
+			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+				//System.out.println("Motion detected from pin " + event.getPin() + " (state " + event.getState() + ")");
+				PinState state = event.getState();
+				if(state == PinState.HIGH) {
+					Controller.lastMovement = System.currentTimeMillis(); // TODO revisit this implementation of tracking movement
+					System.out.println("Movement detected");
 				}
-			});
-		}
+			}
+		});
+	}
 
 	// Test method
 	public void printPinStatus() {
