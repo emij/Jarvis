@@ -1,6 +1,8 @@
 package devices;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -23,6 +25,7 @@ public class Controller {
 	private Pin pinNames[] = new Pin[8];
 	private int usedPins = 0;
 	static long lastMovement; //TODO initiate?
+	private Map<String, Integer> statusLeds = new HashMap<String, Integer>(); //TODO enum instead of string for colors? TODO Look over the status leds, who "owns" them? 
 
 	public Controller() {
 		gpio = GpioFactory.getInstance();
@@ -45,15 +48,30 @@ public class Controller {
 		} // TODO Do something if pin is not output? maybe return false
 	}
 
+	// TODO Synchronized??
+	public synchronized void pinSetHigh(int pin) {
+		if (pins[pin].getMode() == PinMode.DIGITAL_OUTPUT) {
+			((GpioPinDigitalOutput) pins[pin]).high();
+		} // TODO Do something if pin is not output? maybe return false
+	}
+
+	// TODO Synchronized??
+	public synchronized void pinSetLow(int pin) {
+		if (pins[pin].getMode() == PinMode.DIGITAL_OUTPUT) {
+			((GpioPinDigitalOutput) pins[pin]).low();
+		} // TODO Do something if pin is not output? maybe return false
+	}
+
 	//Checks if the wanted pin is available and if so grabs it and provisions it as in/out
+	//TODO atomic?
 	public boolean assignPin(String direction, String name, int pin) {
-		if(pins[pin] != null) {
+		if(pin < 0 || pin > 7 || pins[pin] != null) {
 			return false; //The specified pin was not available
 		}
 
-		if(direction.toLowerCase().equals("output")) {
+		if(direction.equalsIgnoreCase("output")) {
 			pins[pin] = gpio.provisionDigitalOutputPin(pinNames[pin], name);
-		} else if(direction.toLowerCase().equals("input")) {
+		} else if(direction.equalsIgnoreCase("input")) {
 			pins[pin] = gpio.provisionDigitalInputPin(pinNames[pin], name);
 		}
 		pins[pin].setShutdownOptions(true, PinState.LOW, PinPullResistance.OFF, PinMode.DIGITAL_OUTPUT);
@@ -73,9 +91,11 @@ public class Controller {
 
 		int pin = -1; //Returns -1 if no free pin is found
 		for (int i=0; i<7; i++) {
-			if(pins[i] != null) {
-				pin = i;
-				assignPin(direction, name, pin);
+			if(pins[i] == null) {
+				if (assignPin(direction, name, i)); {
+					pin = i;
+					break;
+				}
 			}
 		}
 
@@ -87,7 +107,6 @@ public class Controller {
 		pins[pin].clearProperties();
 		pins[pin] = null;
 		usedPins--;
-		//availablePins.add(pin);
 	}
 
 	public void radio(int id, int channel, int state) {
@@ -126,5 +145,31 @@ public class Controller {
 				System.out.println(" not assigned");
 			}
 		}
+	}
+
+	public void setupStatusLeds() {
+		int redLed = 0;assignPin("output", "red", 0);
+		System.out.println("Red status led assigned to pin " + redLed);
+		statusLeds.put("red", redLed);
+
+		int yellowLed = 2; assignPin("output", "yellow", 2);
+		System.out.println("Yellow status led assigned to pin " + yellowLed);
+		statusLeds.put("yellow", yellowLed);
+
+		int greenLed = 3;assignPin("output", "green", 3);
+		System.out.println("Green status led assigned to pin " + greenLed);
+		statusLeds.put("green", greenLed);
+		
+		lightStatusLed("red"); //Power is on
+		lightStatusLed("yellow"); //Setup is in progress
+
+	}
+
+	public void lightStatusLed(String color) { //TODO add duration?
+		pinSetHigh(statusLeds.get(color.toLowerCase())); //TODO toLowerCase() necessary?
+	}
+	
+	public void extinguishStatusLed(String color) { //TODO add duration?
+		pinSetLow(statusLeds.get(color.toLowerCase())); //TODO toLowerCase() necessary?
 	}
 }

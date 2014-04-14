@@ -33,10 +33,13 @@ public class Core implements Observer  {
 		
 		// Adding devices to hashmap
 		setUpDevices();
-		
+			
 		Jarvis tst = new Jarvis(voiceCommand);
 		//Jarvis tst = new Jarvis();
 		tst.start();
+		
+		controller.extinguishStatusLed("yellow"); //Setup complete
+		controller.lightStatusLed("green"); //Ready to accept commands
 	}
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
@@ -46,6 +49,8 @@ public class Core implements Observer  {
 		addDevice(new LampDevice("lamp", controller));		
 		addDevice(new RadioDevice("radio"));
 		addDevice(new MicrophoneDevice("microphone", true));
+		
+		controller.setupStatusLeds();
 		
 		// Test
 		controller.printPinStatus();
