@@ -63,7 +63,7 @@ public class Jarvis{
 
 	public void setConfiguration(URL u) throws IOException, PropertyException{
 		if(u == null){
-			cm = new ConfigurationManager(Jarvis.class.getResource("../jarvis.config.xml").getPath());
+			cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
 		}
 		else{
 			cm = new ConfigurationManager(u);
@@ -146,7 +146,6 @@ public class Jarvis{
 		} catch (GrammarException e) {
 			e.printStackTrace();
 		}
-		System.out.println("parsningsdags!");
 		objParser.parseTags(parse);
 	}
 }
