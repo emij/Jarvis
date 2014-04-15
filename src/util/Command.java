@@ -11,6 +11,9 @@ public class Command extends AbstractCommand{
 	private static final long serialVersionUID = 2436436072460623364L;
 	public void generateCommand(){
 		System.out.println(device+" "+action+" "+" "+pos+" "+param);
+		if(pos != null){
+			device = pos + device;
+		}
 		Core.INSTANCE.controlDevice(this);
 		resetCommand();
 	}
