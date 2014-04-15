@@ -159,7 +159,6 @@ public class Jarvis{
 	}
 	
 	private void saveAudio(String filename){
-		System.out.println("end up here");
 		Utterance audio = microphone.getUtterance();
 		try {
 			audio.save(filename, AudioFileFormat.Type.WAVE);
