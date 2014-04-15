@@ -21,6 +21,7 @@ import util.Command;
 import com.sun.speech.engine.recognition.BaseRecognizer;
 import com.sun.speech.engine.recognition.BaseRuleGrammar;
 
+import devices.Controller;
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.jsgf.JSGFGrammar;
 import edu.cmu.sphinx.recognizer.Recognizer;
@@ -39,6 +40,9 @@ public class Jarvis extends Thread{
 	private JSGFGrammar grammar;
 	private ObjectTagsParser objParser;
 	private Command command;
+	
+	//PoC for status indication
+	private Controller controller = Controller.getInstance();
 	
 	public Jarvis(URL u, Command c){
 		try {
@@ -105,10 +109,13 @@ public class Jarvis extends Thread{
 	public void run(){
 		if(microphone.startRecording()){
 			setupParser();
-			while(true){
+			controller.extinguishStatusLed("yellow");
+			while(true){				
+				controller.lightStatusLed("green");
 				System.out.println("Speak command please");
 				
 				Result r = recognizer.recognize();
+				controller.extinguishStatusLed("green");
 				String bestResult = r.getBestFinalResultNoFiller();
 				
 				if(r != null && bestResult.length() > 0){

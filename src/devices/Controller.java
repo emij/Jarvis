@@ -20,6 +20,8 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 public class Controller {
 
 	//TODO Singleton??
+	private static Controller instance = null;
+	
 	private GpioController gpio;
 	private GpioPin pins[] = new GpioPin[8];
 	private Pin pinNames[] = new Pin[8];
@@ -27,7 +29,14 @@ public class Controller {
 	static long lastMovement; //TODO initiate?
 	private Map<String, Integer> statusLeds = new HashMap<String, Integer>(); //TODO enum instead of string for colors? TODO Look over the status leds, who "owns" them? 
 
-	public Controller() {
+	public static Controller getInstance()	{
+		if (instance == null) {
+			instance = new Controller();
+		}
+		return instance;
+	}
+	
+	protected Controller() {
 		gpio = GpioFactory.getInstance();
 
 		// TODO redo this part
@@ -71,10 +80,10 @@ public class Controller {
 
 		if(direction.equalsIgnoreCase("output")) {
 			pins[pin] = gpio.provisionDigitalOutputPin(pinNames[pin], name);
+			pins[pin].setShutdownOptions(true, PinState.LOW, PinPullResistance.OFF, PinMode.DIGITAL_OUTPUT);
 		} else if(direction.equalsIgnoreCase("input")) {
 			pins[pin] = gpio.provisionDigitalInputPin(pinNames[pin], name);
 		}
-		pins[pin].setShutdownOptions(true, PinState.LOW, PinPullResistance.OFF, PinMode.DIGITAL_OUTPUT);
 		usedPins++;
 
 		return true;
@@ -148,16 +157,13 @@ public class Controller {
 	}
 
 	public void setupStatusLeds() {
-		int redLed = 0;assignPin("output", "red", 0);
-		System.out.println("Red status led assigned to pin " + redLed);
+		int redLed = assignPin("output", "red");
 		statusLeds.put("red", redLed);
 
-		int yellowLed = 2; assignPin("output", "yellow", 2);
-		System.out.println("Yellow status led assigned to pin " + yellowLed);
+		int yellowLed = assignPin("output", "yellow");
 		statusLeds.put("yellow", yellowLed);
 
-		int greenLed = 3;assignPin("output", "green", 3);
-		System.out.println("Green status led assigned to pin " + greenLed);
+		int greenLed = assignPin("output", "green");
 		statusLeds.put("green", greenLed);
 		
 		lightStatusLed("red"); //Power is on
