@@ -63,7 +63,7 @@ public class Jarvis extends Thread{
 	
 	public void setConfiguration(URL u) throws IOException, PropertyException{
 		if(u == null){
-			cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
+			cm = new ConfigurationManager(Jarvis.class.getResource("../jarvis.config.xml"));
 		}
 		else{
 			cm = new ConfigurationManager(u);

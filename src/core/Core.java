@@ -29,17 +29,17 @@ public class Core implements Observer  {
 		voiceCommand = new Command(); 
 		voiceCommand.addObserver(this);
 		
-		controller = new Controller();
+		//controller = new Controller();
 		
 		// Adding devices to hashmap
-		setUpDevices();
+		//setUpDevices();
 			
 		Jarvis tst = new Jarvis(voiceCommand);
 		//Jarvis tst = new Jarvis();
 		tst.start();
 		
-		controller.extinguishStatusLed("yellow"); //Setup complete
-		controller.lightStatusLed("green"); //Ready to accept commands
+		//controller.extinguishStatusLed("yellow"); //Setup complete
+//		controller.lightStatusLed("green"); //Ready to accept commands
 	}
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
