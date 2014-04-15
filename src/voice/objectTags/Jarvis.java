@@ -30,7 +30,7 @@ import edu.cmu.sphinx.tools.tags.ObjectTagsParser;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 
-public class Jarvis extends Thread{
+public class Jarvis{
 
 	private ConfigurationManager cm;
 	private BaseRecognizer baseRec;
@@ -42,29 +42,29 @@ public class Jarvis extends Thread{
 	private Command command;
 	
 	//PoC for status indication
-	private Controller controller = Controller.getInstance();
-	
+//	private Controller controller = Controller.getInstance();
+
 	public Jarvis(URL u, Command c){
 		try {
 			setConfiguration(u);
 			setup(c);
 		} catch (EngineException | IOException | RuntimeException e) {
-			System.out.println("Configuration and setup cannot be performed. Check if inputed ConfigurationManager url is valid.");
+			System.out.println("Configuration and setup cannot be performed.");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Jarvis(Command cmd){
 		try{
 			setConfiguration(null);
 			setup(cmd);
 		}
 		catch(EngineException | IOException | RuntimeException e){
-			System.out.println("Configuration and setup cannot be performed. Check if a valid default configurationManager exsits or input an url to a valid ConfigurationManager.");
+			System.out.println("Configuration and setup cannot be performed.");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setConfiguration(URL u) throws IOException, PropertyException{
 		if(u == null){
 			cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
@@ -88,47 +88,28 @@ public class Jarvis extends Thread{
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		microphone = (Microphone) cm.lookup("microphone");
 		command = cmd;
-		
+
 		baseRec.allocate();
 		recognizer.allocate();
 	}
-	
+
 	private void setupParser(){
 		grammar =  (JSGFGrammar) cm.lookup("jsgfGrammar");
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
-		rules.setEnabled(true); //TODO: check if needed?
 		objParser = new ObjectTagsParser();
 		objParser.put("appObj", command);
 	}
-	
+
 	public Command getCommand(){
 		return command;
 	}
-	
-	@Override
-	public void run(){
-		if(microphone.startRecording()){
-			setupParser();
-			controller.extinguishStatusLed("yellow");
-			while(true){				
-				controller.lightStatusLed("green");
-				System.out.println("Speak command please");
-				
-				Result r = recognizer.recognize();
-				controller.extinguishStatusLed("green");
-				String bestResult = r.getBestFinalResultNoFiller();
-				
-				if(r != null && bestResult.length() > 0){
-					System.out.println(bestResult);
-					
-					parseCommand(bestResult);
-				}
-				else{
-					System.out.println("Cannot hear command, please try again");
-				}
-			}
+
+	public void record(){
+		boolean recording = true;
+		if(!microphone.isRecording()){
+			recording = microphone.startRecording();
 		}
-		else{
+		if(!recording){
 			System.out.println("Cannot start microphone");
 			recognizer.deallocate();
 			try {
@@ -138,6 +119,21 @@ public class Jarvis extends Thread{
 				e.printStackTrace();
 			}
 			System.exit(1); //Error occurred
+		}
+		else{
+			setupParser();
+			
+			String bestResult = null;
+			while(bestResult == null || bestResult.isEmpty()){
+				System.out.println("Speak command please");
+				Result r = recognizer.recognize();
+				bestResult = r.getBestFinalResultNoFiller();
+				if(bestResult == null || bestResult.isEmpty()){
+					System.out.println("Cannot hear command");
+				}
+			}
+			System.out.println("Result: " + bestResult);
+			parseCommand(bestResult);
 		}
 	}
 

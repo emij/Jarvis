@@ -37,7 +37,7 @@ public class Jarvis extends Thread{
 	private Microphone microphone;
 	private RuleGrammar rules;
 	private JSGFGrammar grammar;
-	
+
 	public Jarvis(URL u, Command c){
 		try {
 			setConfiguration(u);
@@ -47,7 +47,7 @@ public class Jarvis extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Jarvis(Command cmd){
 		try{
 			setConfiguration(null);
@@ -58,7 +58,7 @@ public class Jarvis extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setConfiguration(URL u) throws IOException, PropertyException{
 		if(u == null){
 			cm = new ConfigurationManager(Jarvis.class.getResource("../jarvis.config.xml"));
@@ -81,31 +81,31 @@ public class Jarvis extends Thread{
 		baseRec = new BaseRecognizer(((JSGFGrammar) cm.lookup("jsgfGrammar")).getGrammarManager());
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		microphone = (Microphone) cm.lookup("microphone");
-		
+
 		baseRec.allocate();
 		recognizer.allocate();
 	}
-	
+
 	private void setupParser(){
 		grammar =  (JSGFGrammar) cm.lookup("jsgfGrammar");
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
 		rules.setEnabled(true); //TODO: check if needed?
 	}
-	
+
 	@Override
 	public void run(){
 		setupParser();
 		if(microphone.startRecording()){
 			while(true){
 				System.out.println("Speak command please");
-				
+
 				Result r = recognizer.recognize();
 				String bestResult = r.getBestFinalResultNoFiller();
 				System.out.println(r.getTimedBestResult(false, true));
-				
+
 				if(r != null && bestResult.length() > 0){
 					System.out.println(bestResult);
-					
+
 					parseCommand(bestResult);
 				}
 				else{
@@ -140,7 +140,7 @@ public class Jarvis extends Thread{
 			e.printStackTrace();
 		}
 		String[] result = parse.getTags();
-		
+
 		for(String r:result){
 			System.out.println(r);
 		}

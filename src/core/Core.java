@@ -4,8 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
 import util.Command;
 import devices.AbstractDevice;
@@ -15,28 +13,20 @@ import devices.LedDevice;
 import devices.MicrophoneDevice;
 import devices.MotionSensor;
 import devices.RadioDevice;
-import voice.objectTags.Jarvis;
-//import voice.noTags.Jarvis;
-//import voice.getTags.Jarvis;
 
-public class Core implements Observer  {
-	private Command voiceCommand;
-	private Controller controller;
+public class Core  {
 	private String mic = "microphone";
 	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>(); 
+	public final static Core INSTANCE = new Core();
+	private Controller controller;
 
-	public Core(){
-		voiceCommand = new Command(); 
-		voiceCommand.addObserver(this);
+	// only one core should be instantiated. Controller for all hardware.
+	private Core() {
 		
 		controller = Controller.getInstance();
 		
 		// Adding devices to hashmap
 		setUpDevices();
-			
-		Jarvis tst = new Jarvis(voiceCommand);
-		//Jarvis tst = new Jarvis();
-		tst.start();
 	}
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
@@ -84,14 +74,6 @@ public class Core implements Observer  {
 			System.out.println("I am sorry, but the device " + command.getDevice() + " is not installed");
 		}
 		command.resetCommand();
-	}
-	
-	@Override
-	public void update(Observable o, Object arg) { // maybe should have synchronized here instead
-		if (o instanceof Command){
-			Command voiceCommand = (Command)o;
-		controlDevice(voiceCommand);
-		}
 	}
 }
 

@@ -18,12 +18,12 @@ import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 
-public class Jarvis extends Thread{
+public class Jarvis{
 
 	private ConfigurationManager cm;
 	private Recognizer recognizer;
 	private Microphone microphone;
-	
+
 	public Jarvis(URL u){
 			try {
 				setConfiguration(u);
@@ -33,7 +33,7 @@ public class Jarvis extends Thread{
 				e.printStackTrace();
 			}
 	}
-	
+
 	public Jarvis(){
 		try {
 			setConfiguration(null);
@@ -43,7 +43,7 @@ public class Jarvis extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setConfiguration(URL u) throws IOException, PropertyException{
 		if(u == null){
 			cm = new ConfigurationManager(Jarvis.class.getResource("jarvis.config.xml"));
@@ -65,20 +65,20 @@ public class Jarvis extends Thread{
 	private void setup() throws RuntimeException, PropertyException, IOException, EngineException{
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		microphone = (Microphone) cm.lookup("microphone");
-		
+
 		recognizer.allocate();
 	}
-	
-	@Override
-	public void run(){
+
+	public void record(){
 		if(microphone.startRecording()){
+
 			while(true){
 				System.out.println("Speak command please");
-				
+
 				Result r = recognizer.recognize();
 				String bestResult = r.getBestFinalResultNoFiller();
 				System.out.println(r.getTimedBestResult(false, true));
-				
+
 				if(r != null && bestResult.length() > 0){
 					System.out.println(bestResult);
 				}
