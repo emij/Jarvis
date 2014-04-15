@@ -27,6 +27,10 @@ public class AudioRecorder {
 			line.read(b, 0, 8);
 		}
 		
+		for(byte by: b){
+			System.out.println("byte: " + by);
+		}
+		
 		//TODO: process the sound to check for silence.
 		
 		AudioSystem.write(input, type, audio);
