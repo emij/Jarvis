@@ -1,25 +1,28 @@
 package devices;
 
-public class LampDevice extends AbstractDevice {
-	
-	private Controller controller;
+public class LedDevice extends AbstractDevice {
 
-	public LampDevice(String name, Controller controller) {
+	private Controller controller;
+	private int pinNr;
+
+	public LedDevice(String name, Controller controller, int pin) {
 		super(name);
+
 		this.controller = controller;
+		pinNr = pin;
+		controller.assignPin("output", name, pinNr); //TODO handle error if pin is occupied		
 	}
 
 	@Override
 	public boolean enable() {
 		System.out.println(getName() + " turned on WOOHOOO");
-		controller.radio(1,0,1);
+		controller.pinPulse(pinNr,2000);
 		return true; //Might be unnecessary
 	}
 
 	@Override
 	public boolean disable() {
 		System.out.println(getName() + " turned off");
-		controller.radio(1,0,0);
 		return true; //Might be unnecessary
 	}
 }

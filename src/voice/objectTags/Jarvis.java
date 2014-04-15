@@ -5,7 +5,7 @@
  * @author Markus Otterberg
  */
 
-package voice;
+package voice.objectTags;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,7 +18,6 @@ import javax.speech.recognition.RuleParse;
 
 import util.Command;
 
-
 import com.sun.speech.engine.recognition.BaseRecognizer;
 import com.sun.speech.engine.recognition.BaseRuleGrammar;
 
@@ -26,9 +25,9 @@ import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.jsgf.JSGFGrammar;
 import edu.cmu.sphinx.recognizer.Recognizer;
 import edu.cmu.sphinx.result.Result;
+import edu.cmu.sphinx.tools.tags.ObjectTagsParser;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
-import edu.cmu.sphinx.tools.tags.ObjectTagsParser;
 
 public class Jarvis extends Thread{
 
@@ -95,7 +94,7 @@ public class Jarvis extends Thread{
 		rules = new BaseRuleGrammar(baseRec, grammar.getRuleGrammar());
 		rules.setEnabled(true); //TODO: check if needed?
 		objParser = new ObjectTagsParser();
-		objParser.put("appObj", this);
+		objParser.put("appObj", command);
 	}
 	
 	public Command getCommand(){

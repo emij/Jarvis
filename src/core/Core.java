@@ -7,36 +7,53 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import devices.AbstractDevice;
-import devices.LampDevice;
-import devices.MicrophoneDevice;
-import devices.RadioDevice;
 import util.Command;
-import voice.Jarvis;
+import devices.AbstractDevice;
+import devices.Controller;
+import devices.LampDevice;
+import devices.LedDevice;
+import devices.MicrophoneDevice;
+import devices.MotionSensor;
+import devices.RadioDevice;
+import voice.objectTags.Jarvis;
+//import voice.noTags.Jarvis;
+//import voice.getTags.Jarvis;
 
 public class Core implements Observer  {
 	private Command voiceCommand;
+	private Controller controller;
 	private String mic = "microphone";
 	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>(); 
 
 	public Core(){
-		// Adding devices to hashmap
-		setUpDevices();
-
 		voiceCommand = new Command(); 
 		voiceCommand.addObserver(this);
-
-		Jarvis tst = new Jarvis(voiceCommand);
 		
+		controller = new Controller();
+		
+		// Adding devices to hashmap
+		setUpDevices();
+			
+		Jarvis tst = new Jarvis(voiceCommand);
+		//Jarvis tst = new Jarvis();
 		tst.start();
+		
+		controller.extinguishStatusLed("yellow"); //Setup complete
+		controller.lightStatusLed("green"); //Ready to accept commands
 	}
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
-
-		addDevice(new LampDevice("lamp"));
+		controller.assignPin("output", "radioTx", 7); //Allocate GPIO-pin 07 to the Radio Transmitter
+		addDevice(new MotionSensor("sensor", controller, 5)); //Allocate GPIO-pin 05 to the Motion Sensor
+		addDevice(new LedDevice("tv", controller, 1));
+		addDevice(new LampDevice("lamp", controller));		
 		addDevice(new RadioDevice("radio"));
 		addDevice(new MicrophoneDevice("microphone", true));
-
+		
+		controller.setupStatusLeds();
+		
+		// Test
+		controller.printPinStatus();
 	}
 	public void addDevice(AbstractDevice dev){
 		devices.put(dev.getName(), dev);
