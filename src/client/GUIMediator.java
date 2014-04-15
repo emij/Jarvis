@@ -29,4 +29,8 @@ public class GUIMediator extends Application {
 	public void changeToMainGUI() throws Exception{
 		mainGUI.start(stage);
 	}
+	@Override
+	public void stop(){
+		client.writeToServer("quit");
+	}
 }

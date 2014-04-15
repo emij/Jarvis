@@ -65,7 +65,6 @@ public class MainGUI extends Application {
                 System.out.println("Enable");
                 command.addDevice("lamp");
                 command.addAction("enable");
-                command.addParam("WOOOHOOO");
                 client.writeToServer(command);
                 command.resetCommand();
                 
