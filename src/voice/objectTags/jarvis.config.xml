@@ -200,6 +200,9 @@
     <component name="speechMarker"
                type="edu.cmu.sphinx.frontend.endpoint.SpeechMarker" >
         <property name="speechTrailer" value="50"/>
+        <property name="endSilence" value="1500" />
+        <property name="startSpeech" value="100" />
+        <!-- Insert longer ending time/shorter starting time -->
     </component>
 
 
