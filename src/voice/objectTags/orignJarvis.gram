@@ -12,7 +12,7 @@
 grammar orignJarvis;
 
 /* pleasantries */
-<polite> = Please | Could You | Greetings | <name>;
+<polite> = Please | Could You | Greetings;
 <greeting> = <NULL> {appObj.addDevice("info");} ([Good] (Morning {appObj.addAction("morning");} | Night {appObj.addAction("night");} | Bye {appObj.addAction("bye");}) | (Hello | Hi) {appObj.addAction("hello");});
 <name> = Computer;
 
@@ -58,14 +58,14 @@ four {appObj.addParam("4");} | five {appObj.addParam("5");} | six {appObj.addPar
 <channelTo> = [Switch] To (Channel <number> | <channelName>);
 <channelStep> = Channel (Up {appObj.addParam("up");} | Down {appObj.addParam("down");});
 
-<simpleCommand> = <NULL> {appObj.addDevice("microphone");} (<mute> [<electronicDevice>] | <activate> [<electronicDevice>] | <greeting> [<name>] | <date>);
+<simpleCommand> = <NULL> {appObj.addDevice("microphone");} (<mute> [<electronicDevice>] | <activate> [<electronicDevice>] | <greeting> | <date>);
 
 /*########*/
 
 /* Actual spoken command */
 
 
-public <spokenCommand> = [<polite>*] (<lights> | <simpleCommand> | <channel> | <volume>) [<polite>*] <NULL> {appObj.generateCommand();};
+public <spokenCommand> = <name> [<polite>*] (<lights> | <simpleCommand> | <channel> | <volume>) [<polite>*] <NULL> {appObj.generateCommand();};
 
 public <filler> = Thank You | Thanks;
 

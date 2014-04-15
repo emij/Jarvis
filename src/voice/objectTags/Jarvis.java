@@ -17,6 +17,7 @@ import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
 
+//import sun.net.www.content.audio.wav;
 import util.Command;
 
 import com.sun.speech.engine.recognition.BaseRecognizer;
@@ -138,14 +139,14 @@ public class Jarvis{
 					System.out.println("Cannot hear command");
 				}
 			}
-
+			
 			controller.extinguishStatusLed("green");
-	
-			String filename = "audio" + i + ".wav";  
-			saveAudio(filename);
+
+			String filename = "audio/audio" + i + ".wav";
+			saveAudio(filename, microphone.getUtterance());
+
 			System.out.println("Result: " + bestResult);
 			parseCommand(bestResult);
-			microphone.clear();
 		}
 	}
 
@@ -165,8 +166,8 @@ public class Jarvis{
 		objParser.parseTags(parse);
 	}
 
-	private void saveAudio(String filename){
-		Utterance audio = microphone.getUtterance();
+	
+	private void saveAudio(String filename, Utterance audio){
 		try {
 			audio.save(filename, AudioFileFormat.Type.WAVE);
 			i++;
