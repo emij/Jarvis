@@ -42,7 +42,7 @@ public class Jarvis{
 	private Command command;
 	
 	//PoC for status indication
-//	private Controller controller = Controller.getInstance();
+	private Controller controller = Controller.getInstance();
 
 	public Jarvis(URL u, Command c){
 		try {
@@ -123,8 +123,11 @@ public class Jarvis{
 		else{
 			setupParser();
 			
+			controller.extinguishStatusLed("yellow");
+			
 			String bestResult = null;
 			while(bestResult == null || bestResult.isEmpty()){
+				controller.lightStatusLed("green");
 				System.out.println("Speak command please");
 				Result r = recognizer.recognize();
 				bestResult = r.getBestFinalResultNoFiller();
@@ -132,6 +135,7 @@ public class Jarvis{
 					System.out.println("Cannot hear command");
 				}
 			}
+			controller.extinguishStatusLed("green");
 			System.out.println("Result: " + bestResult);
 			parseCommand(bestResult);
 		}
