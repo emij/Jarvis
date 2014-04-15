@@ -9,11 +9,32 @@
 
 grammar jarvis;
 
+/*Lowest level of rules*/
+/*Switches*/
 <onSwitch> = ([Turn] On | Enable | Activate) {appObj.addAction("enable");};
 <offSwitch> = ([Turn] Off | Disable | Deactivate) {appObj.addAction("disable");};
+<mute> = Mute {appObj.addAction("mute");};
+
+/*Devices*/
 <device> = (Lamp | Lights | lamps) {appObj.addDevice("lamp");};
-<room> = Kitchen | Bedroom;
+<electronicDevice> =  (TV | Television) {appObj.addDevice("tv");} | (Cd Player | Music [Player]) {appObj.addDevice("musicPlayer");} | Microphone {appObj.addDevice("microphone");};
 
-/* Rules for commands*/
+/*Positions*/
+<room> = Kitchen {appObj.addPosition("kitchen");} | Bedroom {appObj.addPosition("bedroom");} | Living Room {appObj.addPosition("living");} | Bathroom {appObj.addPosition("bathroom");} | Hallway {appObj.addPosition("hallway");};
 
-public <light> = (<onSwitch> | <offSwitch>) [The] [<room>] <device> {appObj.generateCommand();};
+/*Phrases*/
+<greeting> = <NULL> {appObj.addDevice("info");} ([Good] (Morning {appObj.addAction("morning");} | Night {appObj.addAction("night");} | Bye {appObj.addAction("bye");}) | (Hello | Hi) {appObj.addAction("hello");});
+
+/*information*/
+<date> = Date {appObj.addAction("date");} | Week {appObj.addAction("week");} | Study Week {appObj.addAction("studyWeek");};
+<timp> = Time {appObj.addAction("time");} | Temperature {appObj.addAction("temp");};
+
+
+/*Medium level of rules*/
+<light> = ((<onSwitch> | <offSwitch>) [The] [<room>] <device>) | ([<room>] <device> (<onSwitch> | <offSwitch>));
+<info> = [(Current | Todays)] (<date> | <timp>) {appObj.addDevice("info");};
+<simpleCommand> = (<mute> <electronicDevice>) | (<onSwitch> <electronicDevice>) | (<offSwitch> <electronicDevice>);
+
+
+/*Generate command*/
+public <generate> = (<greeting> | <simpleCommand> | <info> | <light>) {appObj.generateCommand();};

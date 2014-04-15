@@ -26,7 +26,11 @@ four {appObj.addParam("4");} | five {appObj.addParam("5");} | six {appObj.addPar
 
 /* Devices */
 <device> = <simpleDevice> | <electronicDevice>;
+<<<<<<< HEAD
 <simpleDevice> = (Lamp | Lights | lamps) {appObj.addDevice("lamp");} | Coffee Maker | Fan;
+=======
+<simpleDevice> = (Lamp | Lights | lamps) {appObj.addDevice("lamp");} | Coffee Maker {appObj.addDevice("coffeeMaker");}| Fan {appObj.addDevice("fan");};
+>>>>>>> master
 <electronicDevice> =  (TV | Television) {appObj.addDevice("tv");} | (Cd Player | Music [Player]) {appObj.addDevice("musicPlayer");};
 
 /* Locations */
@@ -38,8 +42,13 @@ four {appObj.addParam("4");} | five {appObj.addParam("5");} | six {appObj.addPar
 
 /* Sound related */
 <mute> = Mute {appObj.addAction("mute");};
+<<<<<<< HEAD
 <activate> = (Activate | Reactivate) {appObj.addAction("activate");};
 <volume> = [Turn] [[The] Volume] (<upVol> | <downVol>) {appObj.addParam("5");} [[The] Volume] [By <number>] [On];
+=======
+<activate> = (Reactivate) {appObj.addAction("reactivate");};
+<volume> = [Turn] [[The] Volume] (<upVol> | <downVol>) {appObj.addParam("5"); appObj.addDevice("tv");} [[The] Volume] [By <number>] [On [The] <electronicDevice>];
+>>>>>>> master
 <upVol> = (Increase | Up) {appObj.addAction("upVolume");}; 
 <downVol> = (Lower | Down) {appObj.addAction("downVolume");};
 
@@ -50,11 +59,15 @@ four {appObj.addParam("4");} | five {appObj.addParam("5");} | six {appObj.addPar
 /* Rules for commands */
 
 <lights> = <light> | <light2> | <light3>;
-<light> = (<onSwitch> | <offSwitch> | <volume>) [The] [<room>] <device>;
-<light2> = [<room>] <device> (<onSwitch> | <offSwitch> | <volume>);
-<light3> = (<onSwitch> | <offSwitch> | <volume>) [The] <device> In [The] <room>;
+<light> = (<onSwitch> | <offSwitch>) [The] [<room>] <device>;
+<light2> = [<room>] <device> (<onSwitch> | <offSwitch>);
+<light3> = (<onSwitch> | <offSwitch>) [The] <device> In [The] <room>;
 
+<<<<<<< HEAD
 <channel> = <NULL> {appObj.addDevice("tv");} (<channelTo> | <channelStep>) {appObj.addAction("channel");} [On <electronicDevice>];
+=======
+<channel> = (<channelTo> | <channelStep>) {appObj.addAction("channel"); appObj.addDevice("tv");} [On <electronicDevice>];
+>>>>>>> master
 <channelTo> = [Switch] To (Channel <number> | <channelName>);
 <channelStep> = Channel (Up {appObj.addParam("up");} | Down {appObj.addParam("down");});
 
@@ -64,7 +77,8 @@ four {appObj.addParam("4");} | five {appObj.addParam("5");} | six {appObj.addPar
 
 /* Actual spoken command */
 
-public <spokenCommand> = [<polite>*] (<lights> | <simpleCommand> | <channel>) [<polite>*] <NULL> {appObj.generateCommand();};
+
+public <spokenCommand> = [<polite>*] (<lights> | <simpleCommand> | <channel> | <volume>) [<polite>*] <NULL> {appObj.generateCommand();};
 
 public <filler> = Thank You | Thanks;
 

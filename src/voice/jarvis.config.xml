@@ -14,9 +14,10 @@
     <!-- frequently tuned properties                              -->
     <!-- ******************************************************** -->
 
-    <property name="logLevel" value="OFF"/>
+    <property name="logLevel" value="WARNING"/>
     
-    <property name="grammarPath" value="/objectTags/jarvis"/>
+
+    <property name="grammarPath" value="/objectTags/orignJarvis"/>
     
     <property name="absoluteBeamWidth"  value="-1"/>
     <property name="relativeBeamWidth"  value="1E-80"/>
@@ -110,9 +111,9 @@
     <component name="dictionary"
         type="edu.cmu.sphinx.linguist.dictionary.FastDictionary">
         <property name="dictionaryPath"
-	 value="resource:/voice/jarvis.dic"/>
+	 value="resource:/wsjadapt/dict/jarvis.dic"/>
         <property name="fillerPath"
-	 value="resource:/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz/noisedict"/>
+	 value="resource:/wsjadapt/noisedict"/>
         <property name="addSilEndingPronunciation" value="false"/>
         <property name="allowMissingWords" value="false"/>
         <property name="unitManager" value="unitManager"/>
@@ -130,7 +131,7 @@
     <component name="wsjLoader" type="edu.cmu.sphinx.linguist.acoustic.tiedstate.Sphinx3Loader">
         <property name="logMath" value="logMath"/>
         <property name="unitManager" value="unitManager"/>
-        <property name="location" value="resource:/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz"/>
+        <property name="location" value="resource:/wsjadapt"/>
     </component>
 
 

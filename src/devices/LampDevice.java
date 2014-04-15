@@ -1,35 +1,25 @@
 package devices;
 
 public class LampDevice extends AbstractDevice {
+	
+	private Controller controller;
 
-	public LampDevice(String name) {
+	public LampDevice(String name, Controller controller) {
 		super(name);
-	}
-
-	public LampDevice(String name, boolean active) {
-		super(name, active);
+		this.controller = controller;
 	}
 
 	@Override
 	public boolean enable() {
-		if(!isActive()){
-			System.out.println(getName() + " turned on WOOHOOO");
-			flipSwitch();
-			return true;
-		} else {
-			return false;
-		}
+		System.out.println(getName() + " turned on WOOHOOO");
+		controller.radio(1,0,1);
+		return true; //Might be unnecessary
 	}
 
 	@Override
 	public boolean disable() {
-		if(isActive()){
-			System.out.println(getName() + " turned off");
-			flipSwitch();
-			return true;
-		} else {
-		return false;
-		}
+		System.out.println(getName() + " turned off");
+		controller.radio(1,0,0);
+		return true; //Might be unnecessary
 	}
-
 }
