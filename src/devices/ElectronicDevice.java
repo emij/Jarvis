@@ -16,11 +16,11 @@ public class ElectronicDevice extends AbstractDevice {
 	}
 	
 	@Override
-	public void upVol(String inc) {
+	public void upVolume(String inc) {
 	}
 	
 	@Override
-	public void downVol(String dec) {
+	public void downVolume(String dec) {
 	}
 	
 	@Override

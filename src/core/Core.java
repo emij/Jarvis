@@ -59,12 +59,20 @@ public class Core  {
 			if(microphone.isActive() || 
 					dev.getName().equalsIgnoreCase(mic)){
 				try {
-					Method method = dev.getClass().getDeclaredMethod(command.getAction(), new Class[] {});
-					method.invoke(dev, null);
+					if(command.getParam() == null) {
+						Method method = dev.getClass().getDeclaredMethod(command.getAction(), new Class [] {});
+						method.invoke(dev, null);
+					} else {
+						Method method = dev.getClass().getDeclaredMethod(command.getAction(), new Class [] {command.getParam().getClass()});
+						method.invoke(dev, command.getParam());
+					}
 					// TODO create proper handling of exceptions
 				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
 				} catch (IllegalAccessException e) {
+					e.printStackTrace();
 				} catch (InvocationTargetException e) {
+					e.printStackTrace();
 				} catch (NoSuchMethodException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

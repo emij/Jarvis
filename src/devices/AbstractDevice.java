@@ -18,8 +18,8 @@ public abstract class AbstractDevice {
 	public void mute() {}
 	public void unmute() {}
 	
-	public void upVol(String inc) {}
-	public void downVol(String dec){}
+	public void upVolume(String inc) {}
+	public void downVolume(String dec){}
 	public void channel(String param){}
 	
 	public void date(){}
