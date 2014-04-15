@@ -7,15 +7,19 @@
 
 package voice.objectTags;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFileFormat.Type;
 import javax.speech.EngineException;
 import javax.speech.EngineStateError;
 import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
 
+import sun.net.www.content.audio.wav;
 import util.Command;
 
 import com.sun.speech.engine.recognition.BaseRecognizer;
@@ -23,6 +27,7 @@ import com.sun.speech.engine.recognition.BaseRuleGrammar;
 
 import devices.Controller;
 import edu.cmu.sphinx.frontend.util.Microphone;
+import edu.cmu.sphinx.frontend.util.Utterance;
 import edu.cmu.sphinx.jsgf.JSGFGrammar;
 import edu.cmu.sphinx.recognizer.Recognizer;
 import edu.cmu.sphinx.result.Result;
@@ -40,7 +45,8 @@ public class Jarvis{
 	private JSGFGrammar grammar;
 	private ObjectTagsParser objParser;
 	private Command command;
-	
+	private int i=0;
+
 	//PoC for status indication
 	private Controller controller = Controller.getInstance();
 
@@ -122,9 +128,9 @@ public class Jarvis{
 		}
 		else{
 			setupParser();
-			
+
 			controller.extinguishStatusLed("yellow");
-			
+
 			String bestResult = null;
 			while(bestResult == null || bestResult.isEmpty()){
 				controller.lightStatusLed("green");
@@ -135,9 +141,14 @@ public class Jarvis{
 					System.out.println("Cannot hear command");
 				}
 			}
+
 			controller.extinguishStatusLed("green");
+	
+			String filename = "audio" + i + ".wav";  
+			saveAudio(filename);
 			System.out.println("Result: " + bestResult);
 			parseCommand(bestResult);
+			microphone.clear();
 		}
 	}
 
@@ -155,5 +166,16 @@ public class Jarvis{
 			e.printStackTrace();
 		}
 		objParser.parseTags(parse);
+	}
+
+	private void saveAudio(String filename){
+		Utterance audio = microphone.getUtterance();
+		try {
+			audio.save(filename, AudioFileFormat.Type.WAVE);
+			i++;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
