@@ -1,21 +1,16 @@
 package devices;
 
 public class MicrophoneDevice extends AbstractDevice {
-
+	private boolean active = true;
 	public MicrophoneDevice(String name) {
 		super(name);
-	}
-	
-	public MicrophoneDevice(String name, boolean active) {
-		super(name, active);
 	}
 	
 	@Override
 	public boolean enable() {
 
-		System.out.println(getName() + " turned on WOOHOOO");
-		//			flipSwitch();
-		//super.activate();
+		System.out.println(getName() + " turned on");
+		active = !active;
 		return true; //Might be unnecessary
 
 	}
@@ -23,9 +18,10 @@ public class MicrophoneDevice extends AbstractDevice {
 	@Override
 	public boolean disable() {
 		System.out.println(getName() + " turned off");
-		//			flipSwitch();
-		//super.deactivate();
+		active = !active;
 		return false; //Might be unnecessary
 	}
-
+	public boolean isActive(){
+		return active;
+	}
 }

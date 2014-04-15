@@ -18,16 +18,15 @@ public class Core  {
 	private String mic = "microphone";
 	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>(); 
 	public final static Core INSTANCE = new Core();
-	private Command voiceCommand;
 	private Controller controller;
+	private MicrophoneDevice microphone = new MicrophoneDevice(mic);
 
-	// only one core should be instantiated. Controller for all hardware.
+	
 	private Core(){
 		// Adding devices to hashmap
 		//setUpDevices();
 
-		voiceCommand = new Command(); 
-		
+		// only one core should be instantiated. Controller for all hardware.
 		//controller = new Controller();
 		
 		// Adding devices to hashmap
@@ -43,7 +42,8 @@ public class Core  {
 		addDevice(new LedDevice("tv", controller, 1));
 		addDevice(new LampDevice("lamp", controller));		
 		addDevice(new RadioDevice("radio"));
-		addDevice(new MicrophoneDevice("microphone", true));
+		
+		addDevice(microphone);
 		
 		controller.setupStatusLeds();
 		
@@ -61,7 +61,7 @@ public class Core  {
 	public synchronized void controlDevice(Command command){
 		AbstractDevice dev = devices.get(command.getDevice()); // get device from hashmap
 		if(dev != null){
-			if(devices.get(mic).isActive() || 
+			if(microphone.isActive() || 
 					dev.getName().equalsIgnoreCase(mic)){
 				try {
 					Method method = dev.getClass().getDeclaredMethod(command.getAction(), new Class[] {});
@@ -77,6 +77,8 @@ public class Core  {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			} else {
+				System.out.println("Microphone is muted");
 			}
 		} else {
 			System.out.println("I am sorry, but the device " + command.getDevice() + " is not installed");

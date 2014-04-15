@@ -3,15 +3,10 @@ package devices;
 //TODO might build a controller class instead, for sending RF-signals
 
 public  abstract class AbstractDevice {
-	private boolean active = false;
 	private String name;
 
 	public AbstractDevice(String name){
 		this.name = name;
-	}
-	public AbstractDevice (String name, boolean active){
-		this.name = name;
-		this.active = active;
 	}
 	public String getName() {
 		return name;
@@ -21,9 +16,6 @@ public  abstract class AbstractDevice {
 
 	public abstract boolean disable();
 
-	public boolean isActive() {
-		return active;
-	}
 	
 	//	public void flipSwitch() {
 	//		active = !active;
@@ -39,8 +31,6 @@ public  abstract class AbstractDevice {
 		if (getClass() != obj.getClass())
 			return false;
 		AbstractDevice other = (AbstractDevice) obj;
-		if (active != other.active)
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -58,7 +48,6 @@ public  abstract class AbstractDevice {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (active ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
