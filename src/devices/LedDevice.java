@@ -14,15 +14,13 @@ public class LedDevice extends AbstractDevice {
 	}
 
 	@Override
-	public boolean enable() {
+	public void enable() {
 		System.out.println(getName() + " turned on WOOHOOO");
 		controller.pinPulse(pinNr,2000);
-		return true; //Might be unnecessary
 	}
 
 	@Override
-	public boolean disable() {
+	public void disable() {
 		System.out.println(getName() + " turned off");
-		return true; //Might be unnecessary
 	}
 }

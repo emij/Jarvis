@@ -38,7 +38,7 @@ four {appObj.addParam("4");} | five {appObj.addParam("5");} | six {appObj.addPar
 
 /* Sound related */
 <mute> = Mute {appObj.addAction("mute");};
-<activate> = (Reactivate) {appObj.addAction("reactivate");};
+<activate> = (Reactivate) {appObj.addAction("unmute");};
 <volume> = [Turn] [[The] Volume] (<upVol> | <downVol>) {appObj.addParam("5"); appObj.addDevice("tv");} [[The] Volume] [By <number>] [On [The] <electronicDevice>];
 <upVol> = (Increase | Up) {appObj.addAction("upVolume");}; 
 <downVol> = (Lower | Down) {appObj.addAction("downVolume");};

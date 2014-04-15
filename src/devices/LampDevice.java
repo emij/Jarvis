@@ -10,16 +10,16 @@ public class LampDevice extends AbstractDevice {
 	}
 
 	@Override
-	public boolean enable() {
+	public void enable() {
 		System.out.println(getName() + " turned on WOOHOOO");
 		controller.radio(1,0,1);
-		return true; //Might be unnecessary
 	}
 
 	@Override
-	public boolean disable() {
+	public void disable() {
 		System.out.println(getName() + " turned off");
 		controller.radio(1,0,0);
-		return true; //Might be unnecessary
 	}
+	
+	//TODO rename to SimpleDevice? Or let lamp device stay and keep track of how it is controlled (e.g. radio, IR etc)
 }

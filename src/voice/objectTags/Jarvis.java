@@ -7,19 +7,16 @@
 
 package voice.objectTags;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFileFormat.Type;
 import javax.speech.EngineException;
 import javax.speech.EngineStateError;
 import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
 
-import sun.net.www.content.audio.wav;
 import util.Command;
 
 import com.sun.speech.engine.recognition.BaseRecognizer;

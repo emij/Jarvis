@@ -15,20 +15,18 @@ public class MotionSensor extends AbstractDevice {
 		} else {
 			System.out.println("Motion sensor could not be initiated, pin " + pin + "is unavailable");
 		}
-		
+
 	}
 
 	@Override
-	public boolean enable() {
-				System.out.println(getName() + " turned on WOOHOOO (but nothing happens"); //TODO implement enable
-				return true; //Might be unnecessary
+	public void enable() {
+		System.out.println(getName() + " turned on WOOHOOO (but nothing happens"); //TODO implement enable
 	}
 
 	@Override
-	public boolean disable() {
-				System.out.println(getName() + " turned off (but nothing happens"); //TODO implement disable
-				return true; //Might be unnecessary
+	public void disable() {
+		System.out.println(getName() + " turned off (but nothing happens"); //TODO implement disable
 	}
-	
+
 	//TODO Is this class necessary?
 }
