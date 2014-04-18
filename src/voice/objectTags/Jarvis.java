@@ -7,17 +7,20 @@
 
 package voice.objectTags;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFileFormat.Type;
+import javax.sound.sampled.*;
 import javax.speech.EngineException;
 import javax.speech.EngineStateError;
 import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
+
+
+
 
 //import sun.net.www.content.audio.wav;
 import util.Command;
@@ -45,6 +48,8 @@ public class Jarvis{
 	private ObjectTagsParser objParser;
 	private Command command;
 	private int i=0;
+	private byte[] whole;
+	private int offset = 0;
 
 	public Jarvis(URL u, Command c){
 		try {
@@ -158,12 +163,19 @@ public class Jarvis{
 	}
 	
 	private void saveAudio(String filename, Utterance audio){
-		try {
-			audio.save(filename, AudioFileFormat.Type.WAVE);
-			i++;
+		whole = audio.getAudio();
+		byte[] current = new byte[(whole.length) - offset];
+		System.arraycopy(whole, offset, current, 0, ((whole.length) - offset));
+		
+		File file = new File(filename);
+        AudioInputStream ais = new AudioInputStream((new ByteArrayInputStream(current)), audio.getAudioFormat(), current.length);
+        try {
+			AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		i++;
+		offset = whole.length;
 	}
 }
