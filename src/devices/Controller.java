@@ -26,9 +26,10 @@ public class Controller {
 	private GpioPin pins[] = new GpioPin[8];
 	private Pin pinNames[] = new Pin[8];
 	private int usedPins = 0;
-	static long lastMovement; //TODO initiate?
+	private static long lastMovement; //TODO initiate?
 	private Map<String, Integer> statusLeds = new HashMap<String, Integer>(); //TODO enum instead of string for colors? TODO Look over the status leds, who "owns" them? 
-
+	private boolean sleep = false;
+	
 	public static Controller getInstance()	{
 		if (instance == null) {
 			instance = new Controller();
@@ -138,10 +139,21 @@ public class Controller {
 				PinState state = event.getState();
 				if(state == PinState.HIGH) {
 					Controller.lastMovement = System.currentTimeMillis(); // TODO revisit this implementation of tracking movement
+					sleep = false;
 					System.out.println("Movement detected");
 				}
 			}
 		});
+	}
+
+	public boolean isAsleep() {
+		if(!sleep) {
+			if ((System.currentTimeMillis() - lastMovement) > 20*1000) { //20 s to timeout, test value TODO remove magic variable, decide suitable time before sleeping
+				sleep = true;
+				System.out.println("Going to sleep");
+			}
+		}
+		return sleep;
 	}
 
 	// Test method
