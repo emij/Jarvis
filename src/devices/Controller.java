@@ -1,7 +1,12 @@
 package devices;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.pi4j.io.gpio.GpioController;
@@ -29,6 +34,7 @@ public class Controller {
 	private static long lastMovement; //TODO initiate?
 	private Map<String, Integer> statusLeds = new HashMap<String, Integer>(); //TODO enum instead of string for colors? TODO Look over the status leds, who "owns" them? 
 	private boolean sleep = false;
+	private List<AbstractDevice> smartSleepDevices = new ArrayList<AbstractDevice>();
 	
 	public static Controller getInstance()	{
 		if (instance == null) {
@@ -150,10 +156,23 @@ public class Controller {
 		if(!sleep) {
 			if ((System.currentTimeMillis() - lastMovement) > 20*1000) { //20 s to timeout, test value TODO remove magic variable, decide suitable time before sleeping
 				sleep = true;
+				sleepDevices();
 				System.out.println("Going to sleep");
 			}
 		}
 		return sleep;
+	}
+	
+	public void addSmartSleepDevice(AbstractDevice dev) { //TODO rename sleep?
+		smartSleepDevices.add(dev);
+	}
+	
+	private void sleepDevices() { //TODO rename?
+		Iterator<AbstractDevice> it = smartSleepDevices.iterator();
+		while (it.hasNext()) {
+			it.next().disable();
+		}
+		System.out.println("All devices put to sleep");
 	}
 
 	// Test method

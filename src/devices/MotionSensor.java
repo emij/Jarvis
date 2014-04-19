@@ -15,7 +15,6 @@ public class MotionSensor extends AbstractDevice {
 		} else {
 			System.out.println("Motion sensor could not be initiated, pin " + pin + "is unavailable");
 		}
-
 	}
 
 	@Override

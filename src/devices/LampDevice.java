@@ -1,12 +1,20 @@
 package devices;
 
 public class LampDevice extends AbstractDevice {
-	
+
 	private Controller controller;
 
 	public LampDevice(String name, Controller controller) {
 		super(name);
 		this.controller = controller;
+	}
+
+	public LampDevice(String name, Controller controller, boolean smartSleep) {
+		super(name);
+		this.controller = controller;
+		if (smartSleep) {
+			this.controller.addSmartSleepDevice(this);
+		}
 	}
 
 	@Override
@@ -20,6 +28,6 @@ public class LampDevice extends AbstractDevice {
 		System.out.println(getName() + " turned off");
 		controller.radio(1,0,0);
 	}
-	
+
 	//TODO rename to SimpleDevice? Or let lamp device stay and keep track of how it is controlled (e.g. radio, IR etc)
 }

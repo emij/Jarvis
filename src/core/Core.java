@@ -31,16 +31,15 @@ public class Core  {
 	
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
+		controller.setupStatusLeds();
 		controller.assignPin("output", "radioTx", 7); //Allocate GPIO-pin 07 to the Radio Transmitter
 		addDevice(new MotionSensor("sensor", controller, 5)); //Allocate GPIO-pin 05 to the Motion Sensor
 		//addDevice(new LedDevice("radio", controller, 1));
-		addDevice(new LampDevice("lamp", controller));		
-		addDevice(new ElectronicDevice("tv"));
+		addDevice(new LampDevice("lamp", controller, true));		
+		addDevice(new ElectronicDevice("tv", controller));
 		addDevice(new InfoDevice("info"));
 
 		addDevice(microphone);
-
-		controller.setupStatusLeds();
 
 		// Test
 		controller.printPinStatus();

@@ -7,10 +7,18 @@ public class LedDevice extends AbstractDevice {
 
 	public LedDevice(String name, Controller controller, int pin) {
 		super(name);
-
 		this.controller = controller;
 		pinNr = pin;
 		controller.assignPin("output", name, pinNr); //TODO handle error if pin is occupied		
+	}
+	
+	public LedDevice(String name, Controller controller, int pin, boolean smartSleep) {
+		super(name);
+		this.controller = controller;
+		pinNr = pin;
+		if (smartSleep) {
+			this.controller.addSmartSleepDevice(this);
+		}
 	}
 
 	@Override

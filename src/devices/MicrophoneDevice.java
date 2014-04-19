@@ -2,6 +2,7 @@ package devices;
 
 public class MicrophoneDevice extends AbstractDevice {
 	private boolean active = true;
+	
 	public MicrophoneDevice(String name) {
 		super(name);
 	}
