@@ -37,4 +37,4 @@ grammar jarvis;
 
 
 /*Generate command*/
-public <generate> = (<greeting> | <simpleCommand> | <info> | <light>) {appObj.generateCommand();};
+public <generate> = computer (<greeting> | <simpleCommand> | <info> | <light>) {appObj.generateCommand();};
