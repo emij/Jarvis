@@ -34,7 +34,7 @@
     <!-- ******************************************************** -->
 
     <component name="recognizer" type="edu.cmu.sphinx.recognizer.Recognizer">
-        <property name="decoder" value="decoder"/>
+        <property name="decoder" value="limitedDecoder"/>
         <propertylist name="monitors">
             <item>accuracyTracker </item>
             <item>speedTracker </item>
