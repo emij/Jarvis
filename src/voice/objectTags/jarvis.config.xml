@@ -50,6 +50,10 @@
         <property name="searchManager" value="searchManager"/>
     </component>
 
+	<component name="limitedDecoder" type="Resource:/voice/objectTags/LimitedDecoder">
+		<property name="searchManager" value="searchManager"/>
+	</component>
+
     <component name="searchManager"
         type="edu.cmu.sphinx.decoder.search.SimpleBreadthFirstSearchManager">
         <property name="logMath" value="logMath"/>
