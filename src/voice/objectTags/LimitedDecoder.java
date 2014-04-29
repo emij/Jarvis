@@ -12,6 +12,7 @@ import edu.cmu.sphinx.util.props.PropertySheet;
 public class LimitedDecoder extends Decoder {
 
     private int featureBlockSize;
+    private int waitingtime = 10000;
 
     public LimitedDecoder() {
     	super();
@@ -47,7 +48,7 @@ public class LimitedDecoder extends Decoder {
                 result.setReferenceText(referenceText);
                 fireResultListeners(result);
             }
-            if(System.currentTimeMillis() > (time + 10000)){
+            if(System.currentTimeMillis() > (time + waitingtime)){
             	searchManager.stopRecognition();
             	return null;
             }
