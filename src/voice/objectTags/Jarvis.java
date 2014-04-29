@@ -134,6 +134,11 @@ public class Jarvis{
 				controller.lightStatusLed("green");
 				System.out.println("Speak command please");
 				Result r = recognizer.recognize();
+				if(r == null){
+					System.out.println("Maximum amount of silence reached; returning to main");
+					microphone.stopRecording();
+					return;
+				}
 				bestResult = r.getBestFinalResultNoFiller();
 				if(bestResult == null || bestResult.isEmpty()){
 					System.out.println("Cannot hear command");
