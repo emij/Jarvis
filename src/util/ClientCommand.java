@@ -3,6 +3,10 @@ package util;
 
 public class ClientCommand extends AbstractCommand{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7022538022453428284L;
 	public ClientCommand(){
 		super();
 	}
