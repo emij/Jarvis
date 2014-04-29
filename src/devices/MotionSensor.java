@@ -27,5 +27,5 @@ public class MotionSensor extends AbstractDevice {
 		System.out.println(getName() + " turned off (but nothing happens"); //TODO implement disable
 	}
 
-	//TODO Is this class necessary?
+	//TODO Is this class necessary, maybe move motionsensor logic from Controller here?
 }

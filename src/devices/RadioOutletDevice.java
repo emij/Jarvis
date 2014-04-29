@@ -1,15 +1,15 @@
 package devices;
 
-public class LampDevice extends AbstractDevice {
+public class RadioOutletDevice extends AbstractDevice {
 
 	private Controller controller;
 
-	public LampDevice(String name, Controller controller) {
+	public RadioOutletDevice(String name, Controller controller) {
 		super(name);
 		this.controller = controller;
 	}
 
-	public LampDevice(String name, Controller controller, boolean smartSleep) {
+	public RadioOutletDevice(String name, Controller controller, boolean smartSleep) {
 		super(name);
 		this.controller = controller;
 		if (smartSleep) {
@@ -29,5 +29,5 @@ public class LampDevice extends AbstractDevice {
 		controller.radio(1,0,0);
 	}
 
-	//TODO rename to SimpleDevice? Or let lamp device stay and keep track of how it is controlled (e.g. radio, IR etc)
+	//TODO rename to SimpleDevice? Or let name stay and keep track of how it is controlled (e.g. radio, IR etc)
 }

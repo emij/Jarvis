@@ -1,8 +1,6 @@
 package devices;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,18 +21,15 @@ import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 public class Controller {
-
-	//TODO Singleton??
-	private static Controller instance = null;
-	
+	private static Controller instance = null;	
 	private GpioController gpio;
 	private GpioPin pins[] = new GpioPin[8];
 	private Pin pinNames[] = new Pin[8];
-	private int usedPins = 0;
-	private static long lastMovement; //TODO initiate?
+	private static long lastMovement;
 	private Map<String, Integer> statusLeds = new HashMap<String, Integer>(); //TODO enum instead of string for colors? TODO Look over the status leds, who "owns" them? 
 	private boolean sleep = false;
 	private List<AbstractDevice> smartSleepDevices = new ArrayList<AbstractDevice>();
+	private int sleepTimeout = 20*1000; //set sleepmode after 20 s //TODO decide suitable time before sleeping
 	
 	public static Controller getInstance()	{
 		if (instance == null) {
@@ -57,30 +52,26 @@ public class Controller {
 		pinNames[7] = RaspiPin.GPIO_07;
 	}
 
-	// TODO Synchronized??
-	public synchronized void pinPulse(int pin, long duration) {
+	public void pinPulse(int pin, long duration) {
 		if (pins[pin].getMode() == PinMode.DIGITAL_OUTPUT) {
 			((GpioPinDigitalOutput) pins[pin]).pulse(duration);
 		} // TODO Do something if pin is not output? maybe return false
 	}
 
-	// TODO Synchronized??
-	public synchronized void pinSetHigh(int pin) {
+	public void pinSetHigh(int pin) {
 		if (pins[pin].getMode() == PinMode.DIGITAL_OUTPUT) {
 			((GpioPinDigitalOutput) pins[pin]).high();
 		} // TODO Do something if pin is not output? maybe return false
 	}
 
-	// TODO Synchronized??
-	public synchronized void pinSetLow(int pin) {
+	public void pinSetLow(int pin) {
 		if (pins[pin].getMode() == PinMode.DIGITAL_OUTPUT) {
 			((GpioPinDigitalOutput) pins[pin]).low();
 		} // TODO Do something if pin is not output? maybe return false
 	}
 
 	//Checks if the wanted pin is available and if so grabs it and provisions it as in/out
-	//TODO atomic?
-	public boolean assignPin(String direction, String name, int pin) {
+	public synchronized boolean assignPin(String direction, String name, int pin) {
 		if(pin < 0 || pin > 7 || pins[pin] != null) {
 			return false; //The specified pin was not available
 		}
@@ -91,20 +82,13 @@ public class Controller {
 		} else if(direction.equalsIgnoreCase("input")) {
 			pins[pin] = gpio.provisionDigitalInputPin(pinNames[pin], name);
 		}
-		usedPins++;
 
 		return true;
 	}
 
-	//TODO implement method for assign available pin, maybe add this logic to the existing method
 	//Finds an available pin, if one is found it is grabbed and provisioned as in/out.
 	//Returns the assigned pin, -1 if no free pin is found
-	public int assignPin(String direction, String name) {
-		// Necessary? Saves some time when all pins are used, but isn't needed for correct functionality
-		if (usedPins >= 8) {
-			return -1; // No more available pins, very 'C'
-		}
-
+	public synchronized int assignPin(String direction, String name) {
 		int pin = -1; //Returns -1 if no free pin is found
 		for (int i=0; i<7; i++) {
 			if(pins[i] == null) {
@@ -119,10 +103,9 @@ public class Controller {
 	}
 
 	public void releasePin(int pin) {
-		//TODO Check if pin is actually assigned, not strictly necessary
+		//TODO Check if pin is actually assigned, not strictly necessary, however there should exist some form of check to prevent whomever from releasing any pin
 		pins[pin].clearProperties();
 		pins[pin] = null;
-		usedPins--;
 	}
 
 	public void radio(int id, int channel, int state) {
@@ -136,6 +119,7 @@ public class Controller {
 		}
 	}
 
+	//TODO should this be part of the MotionSensor class?
 	public void motionSensor(int pin) {
 		// Let controller assign the pin?
 		((GpioPinDigitalInput) pins[pin]).addListener(new GpioPinListenerDigital() {
@@ -154,7 +138,7 @@ public class Controller {
 
 	public boolean isAsleep() {
 		if(!sleep) {
-			if ((System.currentTimeMillis() - lastMovement) > 20*1000) { //20 s to timeout, test value TODO remove magic variable, decide suitable time before sleeping
+			if ((System.currentTimeMillis() - lastMovement) > sleepTimeout) {
 				sleep = true;
 				sleepDevices();
 				System.out.println("Going to sleep");
@@ -163,11 +147,11 @@ public class Controller {
 		return sleep;
 	}
 	
-	public void addSmartSleepDevice(AbstractDevice dev) { //TODO rename sleep?
+	public void addSmartSleepDevice(AbstractDevice dev) {
 		smartSleepDevices.add(dev);
 	}
 	
-	private void sleepDevices() { //TODO rename?
+	private void sleepDevices() {
 		Iterator<AbstractDevice> it = smartSleepDevices.iterator();
 		while (it.hasNext()) {
 			it.next().disable();
@@ -202,11 +186,11 @@ public class Controller {
 
 	}
 
-	public void lightStatusLed(String color) { //TODO add duration?
+	public void lightStatusLed(String color) {
 		pinSetHigh(statusLeds.get(color.toLowerCase())); //TODO toLowerCase() necessary?
 	}
 	
-	public void extinguishStatusLed(String color) { //TODO add duration?
+	public void extinguishStatusLed(String color) {
 		pinSetLow(statusLeds.get(color.toLowerCase())); //TODO toLowerCase() necessary?
 	}
 }

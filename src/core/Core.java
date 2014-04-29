@@ -10,7 +10,7 @@ import devices.AbstractDevice;
 import devices.Controller;
 import devices.ElectronicDevice;
 import devices.InfoDevice;
-import devices.LampDevice;
+import devices.RadioOutletDevice;
 import devices.MicrophoneDevice;
 import devices.MotionSensor;
 
@@ -35,7 +35,7 @@ public class Core  {
 		controller.assignPin("output", "radioTx", 7); //Allocate GPIO-pin 07 to the Radio Transmitter
 		addDevice(new MotionSensor("sensor", controller, 5)); //Allocate GPIO-pin 05 to the Motion Sensor
 		//addDevice(new LedDevice("radio", controller, 1));
-		addDevice(new LampDevice("lamp", controller, true));		
+		addDevice(new RadioOutletDevice("lamp", controller, true));		
 		addDevice(new ElectronicDevice("tv", controller));
 		addDevice(new InfoDevice("info"));
 
