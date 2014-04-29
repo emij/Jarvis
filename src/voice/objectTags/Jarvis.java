@@ -131,7 +131,11 @@ public class Jarvis{
 				controller.lightStatusLed("green");
 				System.out.println("Speak command please");
 				Result r = recognizer.recognize();
-				if(r == null){
+				if(!microphone.isRecording()){
+					System.out.println("Mic is not recording");
+					return;
+				}
+				else if(r == null){
 					System.out.println("Maximum amount of silence reached; returning to main");
 					microphone.stopRecording();
 					return;
@@ -145,7 +149,7 @@ public class Jarvis{
 			controller.extinguishStatusLed("green");
 
 			String filename = "audio/audio" + i + ".wav";
-			saveAudio(filename, microphone.getUtterance());
+			//saveAudio(filename, microphone.getUtterance());
 			microphone.stopRecording();
 			System.out.println("Result: " + bestResult);
 			parseCommand(bestResult);
