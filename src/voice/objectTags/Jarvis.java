@@ -48,8 +48,6 @@ public class Jarvis{
 	private ObjectTagsParser objParser;
 	private Command command;
 	private int i=0;
-	private byte[] whole;
-	private int offset = 0;
 
 	public Jarvis(URL u, Command c){
 		try {
