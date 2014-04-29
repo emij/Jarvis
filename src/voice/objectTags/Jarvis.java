@@ -109,11 +109,8 @@ public class Jarvis{
 	}
 
 	public void record(){
-		boolean recording = true;
-		if(!microphone.isRecording()){
-			recording = microphone.startRecording();
-		}
-		if(!recording){
+		microphone.clear();
+		if(!microphone.startRecording()){
 			System.out.println("Cannot start microphone");
 			recognizer.deallocate();
 			try {
@@ -149,7 +146,7 @@ public class Jarvis{
 
 			String filename = "audio/audio" + i + ".wav";
 			saveAudio(filename, microphone.getUtterance());
-
+			microphone.stopRecording();
 			System.out.println("Result: " + bestResult);
 			parseCommand(bestResult);
 		}
@@ -175,10 +172,10 @@ public class Jarvis{
 	private void saveAudio(String filename, Utterance audio){
 		try {
 			audio.save(filename, AudioFileFormat.Type.WAVE);
-			i++;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		i++;
 	}
 }
