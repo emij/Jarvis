@@ -50,7 +50,7 @@
         <property name="searchManager" value="searchManager"/>
     </component>
 
-	<component name="limitedDecoder" type="Resource:/voice/objectTags/LimitedDecoder">
+	<component name="limitedDecoder" type="voice.objectTags.LimitedDecoder">
 		<property name="searchManager" value="searchManager"/>
 	</component>
 
