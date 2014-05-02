@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import util.WakeFromSleep;
+
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPin;
@@ -25,19 +27,21 @@ public class Controller {
 	private GpioController gpio;
 	private GpioPin pins[] = new GpioPin[8];
 	private Pin pinNames[] = new Pin[8];
-	private static long lastMovement;
+	private long lastMovement;
 	private Map<String, Integer> statusLeds = new HashMap<String, Integer>(); //TODO enum instead of string for colors? TODO Look over the status leds, who "owns" them? 
 	private boolean sleep = false;
 	private List<AbstractDevice> smartSleepDevices = new ArrayList<AbstractDevice>();
-	private int sleepTimeout = 20*1000; //set sleepmode after 20 s //TODO decide suitable time before sleeping
-	
+	private int sleepTimeout = 20*1000; //set sleep mode after 20 s //TODO decide suitable time before sleeping
+	private int motionSensorPin; //TODO should be redone with other motionsensor
+	private WakeFromSleep wake;
+
 	public static Controller getInstance()	{
 		if (instance == null) {
 			instance = new Controller();
 		}
 		return instance;
 	}
-	
+
 	protected Controller() {
 		gpio = GpioFactory.getInstance();
 
@@ -82,7 +86,6 @@ public class Controller {
 		} else if(direction.equalsIgnoreCase("input")) {
 			pins[pin] = gpio.provisionDigitalInputPin(pinNames[pin], name);
 		}
-
 		return true;
 	}
 
@@ -98,7 +101,6 @@ public class Controller {
 				}
 			}
 		}
-
 		return pin;
 	}
 
@@ -122,35 +124,36 @@ public class Controller {
 	//TODO should this be part of the MotionSensor class?
 	public void motionSensor(int pin) {
 		// Let controller assign the pin?
+		motionSensorPin = pin;
 		((GpioPinDigitalInput) pins[pin]).addListener(new GpioPinListenerDigital() {
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-				//System.out.println("Motion detected from pin " + event.getPin() + " (state " + event.getState() + ")");
 				PinState state = event.getState();
 				if(state == PinState.HIGH) {
-					Controller.lastMovement = System.currentTimeMillis(); // TODO revisit this implementation of tracking movement
+					Controller controller = Controller.getInstance();
+					controller.lastMovement = System.currentTimeMillis(); // TODO revisit this implementation of tracking movement
 					sleep = false;
 					System.out.println("Movement detected");
+					controller.pulseStatusLed("red", 2000);
 				}
 			}
 		});
+		wake = new WakeFromSleep(pins[motionSensorPin], Thread.currentThread());
 	}
 
 	public boolean isAsleep() {
 		if(!sleep) {
 			if ((System.currentTimeMillis() - lastMovement) > sleepTimeout) {
 				sleep = true;
-				sleepDevices();
-				System.out.println("Going to sleep");
 			}
 		}
 		return sleep;
 	}
-	
+
 	public void addSmartSleepDevice(AbstractDevice dev) {
 		smartSleepDevices.add(dev);
 	}
-	
+
 	private void sleepDevices() {
 		Iterator<AbstractDevice> it = smartSleepDevices.iterator();
 		while (it.hasNext()) {
@@ -180,17 +183,33 @@ public class Controller {
 
 		int greenLed = assignPin("output", "green");
 		statusLeds.put("green", greenLed);
-		
-		lightStatusLed("red"); //Power is on
+
+		//lightStatusLed("red"); //Power is on
 		lightStatusLed("yellow"); //Setup is in progress
 
+	}
+
+	public void pulseStatusLed(String color, long duration) {
+		pinPulse(statusLeds.get(color.toLowerCase()), duration); //TODO toLowerCase() necessary?
 	}
 
 	public void lightStatusLed(String color) {
 		pinSetHigh(statusLeds.get(color.toLowerCase())); //TODO toLowerCase() necessary?
 	}
-	
+
 	public void extinguishStatusLed(String color) {
 		pinSetLow(statusLeds.get(color.toLowerCase())); //TODO toLowerCase() necessary?
+	}
+
+	public void goToSleep() {
+		sleepDevices();
+		System.out.println("Going to sleep");
+		wake.goToSleep();
+		try {
+			Thread.sleep(Long.MAX_VALUE);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			// e1.printStackTrace();
+		}
 	}
 }

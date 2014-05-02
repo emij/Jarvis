@@ -13,8 +13,6 @@ import devices.Controller;
 
 public class Main {
 	
-	private static int waitTime = 5*1000; //sleep for 15 s //TODO decide suitable time to wait
-	
 	public static void main(String[] args){
 		Core core = Core.INSTANCE;
 		Controller controller = Controller.getInstance();
@@ -27,13 +25,8 @@ public class Main {
 		while(true){
 			jarvis.record();
 			
-			while(controller.isAsleep()){
-				try {
-					Thread.sleep(waitTime); //Halt before checking if movement has been detected 
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			if (controller.isAsleep()){
+				controller.goToSleep();
 			}
 		}
 		
