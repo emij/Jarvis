@@ -21,6 +21,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Simple login-screen for our GUI.
+ *  
+ * @author Emil Johansson
+ */
 public class LoginScreen extends Application {
 	private GUIMediator mediator;
 	private Preferences prefs;

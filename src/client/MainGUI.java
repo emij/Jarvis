@@ -14,6 +14,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Main screen for the GUI
+ * For now the devices that could be controlled are hardcoded
+ *  
+ * @author Emil Johansson
+ */
 public class MainGUI extends Application {
 	private GUIMediator mediator;
 	private Client client;
@@ -53,12 +59,16 @@ public class MainGUI extends Application {
 		Label lamp = new Label("Lamp");
 		leftGrid.add(lamp, 1, 1);
 		
+		Label kitchenLamp = new Label("Kitchen Lamp");
+		leftGrid.add(kitchenLamp, 1, 2);
+		
+		
 		// Right Grid
 		rightGrid.setPadding(new Insets(25, 25, 25, 25));
 		
-		Button enable = new Button();
-        enable.setText("Enable");
-        enable.setOnAction(new EventHandler<ActionEvent>() {
+		Button lampEnable = new Button();
+        lampEnable.setText("Enable");
+        lampEnable.setOnAction(new EventHandler<ActionEvent>() {
  
             @Override
             public void handle(ActionEvent event) {
@@ -71,11 +81,11 @@ public class MainGUI extends Application {
             }
         });
         
-        rightGrid.add(enable, 1, 0);
+        rightGrid.add(lampEnable, 1, 0);
         
-        Button disable = new Button();
-        disable.setText("Disable");
-        disable.setOnAction(new EventHandler<ActionEvent>() {
+        Button lampDisable = new Button();
+        lampDisable.setText("Disable");
+        lampDisable.setOnAction(new EventHandler<ActionEvent>() {
  
             @Override
             public void handle(ActionEvent event) {
@@ -86,9 +96,43 @@ public class MainGUI extends Application {
                 command.resetCommand();
             }
         });
+        GridPane.setMargin(lampEnable, new Insets(0, 25, 5, 0));
+        rightGrid.add(lampDisable,2,0);
         
-        GridPane.setMargin(enable, new Insets(0, 25, 0, 0));
-        rightGrid.add(disable,2,0);
+        Button kitchenLampEnable = new Button();
+        kitchenLampEnable.setText("Enable");
+        kitchenLampEnable.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Enable");
+                command.addDevice("kitchenlamp");
+                command.addAction("enable");
+                client.writeToServer(command);
+                command.resetCommand();
+                
+            }
+        });
+        
+        rightGrid.add(kitchenLampEnable, 1, 1);
+        
+        Button kitchenLampDisable = new Button();
+        kitchenLampDisable.setText("Disable");
+        kitchenLampDisable.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Disable");
+                command.addDevice("kitchenlamp");
+                command.addAction("disable");
+                client.writeToServer(command);
+                command.resetCommand();
+            }
+        });
+        GridPane.setMargin(kitchenLampEnable, new Insets(0, 25, 5, 0));
+        rightGrid.add(kitchenLampDisable,2,1);
+        
+        
 		
 		Scene scene = new Scene(grid, 500, 475);
 		primaryStage.setScene(scene);
