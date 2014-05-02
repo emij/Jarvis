@@ -2,11 +2,14 @@ package util;
 
 import java.io.Serializable;
 
-
+/**
+ * Abstract representation of a Command object
+ * Represents a command from either speech recognition or from a client application
+ *  
+ * @author Emil Johansson
+ */
 public abstract class AbstractCommand implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 9174174993585262346L;
 	protected String action;
 	protected String device;

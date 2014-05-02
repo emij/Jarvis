@@ -32,8 +32,7 @@ grammar jarvis;
 /*Medium level of rules*/
 <light> = ((<onSwitch> | <offSwitch>) [The] [<room>] <device>) | ([<room>] <device> (<onSwitch> | <offSwitch>));
 <info> = [(Current | Todays)] (<date> | <timp>) {appObj.addDevice("info");};
-<simpleCommand> = <mute>;
 
 
 /*Generate command*/
-public <generate> = computer (<greeting> | <simpleCommand> | <info> | <light>) {appObj.generateCommand();};
+public <generate> = computer (<greeting> | <mute> | <info> | <light>) {appObj.generateCommand();};

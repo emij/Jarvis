@@ -14,6 +14,13 @@ import devices.RadioOutletDevice;
 import devices.MicrophoneDevice;
 import devices.MotionSensor;
 
+/**
+ * Mid-layer between interpretation and hardware controller
+ * Singleton
+ *  
+ * @author Emil Johansson
+ */
+
 public class Core  {
 	private String mic = "microphone";
 	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>(); 
@@ -52,6 +59,11 @@ public class Core  {
 	}
 	// strArray should be on the form Device | method | param
 	// not sure about synchronized here, but may need it
+	
+	/*
+	 * Method for controlling devices
+	 * @param Command
+	 */
 	public synchronized void controlDevice(Command command){
 		AbstractDevice dev = devices.get(command.getDevice()); // get device from hashmap
 		if(dev != null){

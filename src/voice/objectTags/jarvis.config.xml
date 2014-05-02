@@ -88,6 +88,10 @@
         <property name="logMath" value="logMath"/>
         <property name="grammar" value="jsgfGrammar"/>
         <property name="acousticModel" value="wsj"/>
+        <property name="addOutOfGrammarBranch" value="true"/>
+        <property name="outOfGrammarProbability" value="1E-20"/>
+        <property name="phoneInsertionProbability" value="1E-40"/>
+        <property name="phoneLoopAcousticModel" value="wsj"/>
         <property name="wordInsertionProbability"
                 value="${wordInsertionProbability}"/>
         <property name="languageWeight" value="${languageWeight}"/>
