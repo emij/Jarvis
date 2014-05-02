@@ -1,7 +1,5 @@
 package devices;
 
-//TODO might build a controller class instead, for sending RF-signals
-
 public abstract class AbstractDevice {
 	private String name;
 

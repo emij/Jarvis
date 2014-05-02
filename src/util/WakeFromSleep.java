@@ -21,8 +21,6 @@ public class WakeFromSleep extends Thread implements GpioPinListenerDigital {
 	public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
 		PinState state = event.getState();
 		if(isAsleep && state == PinState.HIGH) {
-			System.out.println("Resuming thread");
-			//			pin.removeListener(this);
 			isAsleep = false;
 			wakeThread.interrupt();
 		}
@@ -34,12 +32,5 @@ public class WakeFromSleep extends Thread implements GpioPinListenerDigital {
 	}
 
 	public void run() {
-//		System.out.println("Suspending thread");
-//		try {
-//			sleep(0);//Long.MAX_VALUE);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			//			e.printStackTrace();
-//		}
 	}
 }

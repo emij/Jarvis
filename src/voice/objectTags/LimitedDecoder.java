@@ -12,7 +12,7 @@ import edu.cmu.sphinx.util.props.PropertySheet;
 public class LimitedDecoder extends Decoder {
 
     private int featureBlockSize;
-    private int waitingtime = 10000;
+    private int waitingtime = 30000;
 
     public LimitedDecoder() {
     	super();

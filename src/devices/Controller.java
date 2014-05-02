@@ -28,11 +28,11 @@ public class Controller {
 	private GpioPin pins[] = new GpioPin[8];
 	private Pin pinNames[] = new Pin[8];
 	private long lastMovement;
-	private Map<String, Integer> statusLeds = new HashMap<String, Integer>(); //TODO enum instead of string for colors? TODO Look over the status leds, who "owns" them? 
+	private Map<String, Integer> statusLeds = new HashMap<String, Integer>(); //TODO Look over the status leds, who "owns" them? 
 	private boolean sleep = false;
 	private List<AbstractDevice> smartSleepDevices = new ArrayList<AbstractDevice>();
 	private int sleepTimeout = 20*1000; //set sleep mode after 20 s //TODO decide suitable time before sleeping
-	private int motionSensorPin; //TODO should be redone with other motionsensor
+	private int motionSensorPin;
 	private WakeFromSleep wake;
 
 	public static Controller getInstance()	{
@@ -114,31 +114,36 @@ public class Controller {
 
 		String command = "pihat --repeats=20 --id=" + id + " --channel=" + channel +" --state=" + state;
 		try {
-			/*Process p = */ Runtime.getRuntime().exec(command);
+			Runtime.getRuntime().exec(command);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace(); //Fix exception
+			e.printStackTrace();
 		}
 	}
 
 	//TODO should this be part of the MotionSensor class?
-	public void motionSensor(int pin) {
-		// Let controller assign the pin?
-		motionSensorPin = pin;
-		((GpioPinDigitalInput) pins[pin]).addListener(new GpioPinListenerDigital() {
-			@Override
-			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-				PinState state = event.getState();
-				if(state == PinState.HIGH) {
-					Controller controller = Controller.getInstance();
-					controller.lastMovement = System.currentTimeMillis(); // TODO revisit this implementation of tracking movement
-					sleep = false;
-					System.out.println("Movement detected");
-					controller.pulseStatusLed("red", 2000);
+	public void motionSensor() {
+		motionSensorPin = assignPin("input", "sensor");
+		if (motionSensorPin < 0) {
+			System.out.println("Motion sensor could not be initiated, no available pins");
+			//TODO add flag to indicate whether a motion sensor is active, for sleep mode purposes?
+		} else {
+
+			((GpioPinDigitalInput) pins[motionSensorPin]).addListener(new GpioPinListenerDigital() {
+				@Override
+				public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+					PinState state = event.getState();
+					if(state == PinState.HIGH) {
+						Controller controller = Controller.getInstance();
+						controller.lastMovement = System.currentTimeMillis();
+						sleep = false;
+						System.out.println("Movement detected");
+						controller.pulseStatusLed("red", 2000);
+					}
 				}
-			}
-		});
-		wake = new WakeFromSleep(pins[motionSensorPin], Thread.currentThread());
+			});
+			wake = new WakeFromSleep(pins[motionSensorPin], Thread.currentThread());
+		}
 	}
 
 	public boolean isAsleep() {
@@ -190,15 +195,15 @@ public class Controller {
 	}
 
 	public void pulseStatusLed(String color, long duration) {
-		pinPulse(statusLeds.get(color.toLowerCase()), duration); //TODO toLowerCase() necessary?
+		pinPulse(statusLeds.get(color.toLowerCase()), duration);
 	}
 
 	public void lightStatusLed(String color) {
-		pinSetHigh(statusLeds.get(color.toLowerCase())); //TODO toLowerCase() necessary?
+		pinSetHigh(statusLeds.get(color.toLowerCase()));
 	}
 
 	public void extinguishStatusLed(String color) {
-		pinSetLow(statusLeds.get(color.toLowerCase())); //TODO toLowerCase() necessary?
+		pinSetLow(statusLeds.get(color.toLowerCase()));
 	}
 
 	public void goToSleep() {
@@ -207,9 +212,9 @@ public class Controller {
 		wake.goToSleep();
 		try {
 			Thread.sleep(Long.MAX_VALUE);
-		} catch (InterruptedException e1) {
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			// e1.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 }
