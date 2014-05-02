@@ -5,9 +5,13 @@ import java.net.*;
 
 import util.Command;
 
-/* Some ideas taken from 
+/**
+ * Multithreaded Server class for handling requests from a client
+ * Some ideas taken from 
  * Multithreaded Java WebServer
  * (C) 2001 Anders Gidenstam
+ *  
+ * @author Emil Johansson
  */
 
 public class Server extends Thread {

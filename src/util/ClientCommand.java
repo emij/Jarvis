@@ -1,5 +1,8 @@
 package util;
-
+/**
+ * Command from network
+ * @author Emil Johansson
+ */
 
 public class ClientCommand extends AbstractCommand{
 	

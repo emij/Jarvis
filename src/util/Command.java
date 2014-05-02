@@ -3,6 +3,10 @@ package util;
 
 import core.Core;
 
+/**
+ * Command class that has a string representation of device, action, position and parameter
+ * @author Emil Johansson
+ */
 
 public class Command extends AbstractCommand{
 	/**

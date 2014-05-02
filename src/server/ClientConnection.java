@@ -9,6 +9,14 @@ import util.AbstractCommand;
 import util.ClientCommand;
 import util.Command;
 
+/**
+ * Class that represents and handles a specific client request
+ * Some ideas taken from 
+ * Multithreaded Java WebServer
+ * (C) 2001 Anders Gidenstam
+ *  
+ * @author Emil Johansson
+ */
 public class ClientConnection implements Runnable {
 	Command command;
 	Socket socket;

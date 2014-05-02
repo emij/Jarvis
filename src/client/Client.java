@@ -3,6 +3,11 @@ package client;
 import java.io.*;
 import java.net.*; 
 
+/**
+ * Client class to be able to send commands to our prototype over network.
+ *  
+ * @author Emil Johansson
+ */
 public class Client {
 	private Socket clientSocket;
 	private ObjectOutputStream outToServer;
@@ -56,6 +61,10 @@ public class Client {
 			e.printStackTrace();
 		}   
 	}
+	/*
+	 * Method for sending an object to the server
+	 * @param Object
+	 */
 	public void writeToServer(Object obj){
 		try {
 			outToServer.reset();

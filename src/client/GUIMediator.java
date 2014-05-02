@@ -4,6 +4,11 @@ import util.ClientCommand;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * Mediator class for controlling what screen to show in the GUI
+ *  
+ * @author Emil Johansson
+ */
 public class GUIMediator extends Application {
 	private LoginScreen login;
 	private MainGUI mainGUI;

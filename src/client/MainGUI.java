@@ -14,6 +14,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Main screen for the GUI
+ * For now the devices that could be controlled are hardcoded
+ *  
+ * @author Emil Johansson
+ */
 public class MainGUI extends Application {
 	private GUIMediator mediator;
 	private Client client;
