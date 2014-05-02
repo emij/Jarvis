@@ -17,7 +17,6 @@ grammar jarvis;
 
 /*Devices*/
 <device> = (Lamp | Lights | lamps) {appObj.addDevice("lamp");};
-<electronicDevice> =  (TV | Television) {appObj.addDevice("tv");} | (Cd Player | Music [Player]) {appObj.addDevice("musicPlayer");} | Microphone {appObj.addDevice("microphone");};
 
 /*Positions*/
 <room> = Kitchen {appObj.addPosition("kitchen");} | Bedroom {appObj.addPosition("bedroom");} | Living Room {appObj.addPosition("living");} | Bathroom {appObj.addPosition("bathroom");} | Hallway {appObj.addPosition("hallway");};
@@ -33,8 +32,7 @@ grammar jarvis;
 /*Medium level of rules*/
 <light> = ((<onSwitch> | <offSwitch>) [The] [<room>] <device>) | ([<room>] <device> (<onSwitch> | <offSwitch>));
 <info> = [(Current | Todays)] (<date> | <timp>) {appObj.addDevice("info");};
-<simpleCommand> = (<mute> <electronicDevice>) | (<onSwitch> <electronicDevice>) | (<offSwitch> <electronicDevice>);
 
 
 /*Generate command*/
-public <generate> = (<greeting> | <simpleCommand> | <info> | <light>) {appObj.generateCommand();};
+public <generate> = computer (<greeting> | <mute> | <info> | <light>) {appObj.generateCommand();};

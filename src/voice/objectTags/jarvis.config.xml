@@ -17,7 +17,7 @@
     <property name="logLevel" value="WARNING"/>
     
 
-    <property name="grammarPath" value="objectTags/orignJarvis"/>
+    <property name="grammarPath" value="objectTags/jarvis"/>
     
     <property name="absoluteBeamWidth"  value="-1"/>
     <property name="relativeBeamWidth"  value="1E-80"/>
@@ -84,6 +84,10 @@
         <property name="logMath" value="logMath"/>
         <property name="grammar" value="jsgfGrammar"/>
         <property name="acousticModel" value="wsj"/>
+        <property name="addOutOfGrammarBranch" value="true"/>
+        <property name="outOfGrammarProbability" value="1E-20"/>
+        <property name="phoneInsertionProbability" value="1E-10"/>
+        <property name="phoneLoopAcousticModel" value="wsj"/>
         <property name="wordInsertionProbability"
                 value="${wordInsertionProbability}"/>
         <property name="languageWeight" value="${languageWeight}"/>
