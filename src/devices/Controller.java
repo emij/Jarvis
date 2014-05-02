@@ -55,19 +55,22 @@ public class Controller {
 		pinNames[6] = RaspiPin.GPIO_06;
 		pinNames[7] = RaspiPin.GPIO_07;
 	}
-
+	
+	//Sets the specified pin high for the provided duration (in ms)
 	public void pinPulse(int pin, long duration) {
 		if (pins[pin].getMode() == PinMode.DIGITAL_OUTPUT) {
 			((GpioPinDigitalOutput) pins[pin]).pulse(duration);
 		} // TODO Do something if pin is not output? maybe return false
 	}
 
+	//Sets the specified pin high
 	public void pinSetHigh(int pin) {
 		if (pins[pin].getMode() == PinMode.DIGITAL_OUTPUT) {
 			((GpioPinDigitalOutput) pins[pin]).high();
 		} // TODO Do something if pin is not output? maybe return false
 	}
 
+	//Sets the specified pin low
 	public void pinSetLow(int pin) {
 		if (pins[pin].getMode() == PinMode.DIGITAL_OUTPUT) {
 			((GpioPinDigitalOutput) pins[pin]).low();
@@ -75,6 +78,7 @@ public class Controller {
 	}
 
 	//Checks if the wanted pin is available and if so grabs it and provisions it as in/out
+	//Returns true on success, false otherwise
 	public synchronized boolean assignPin(String direction, String name, int pin) {
 		if(pin < 0 || pin > 7 || pins[pin] != null) {
 			return false; //The specified pin was not available
@@ -103,15 +107,19 @@ public class Controller {
 		}
 		return pin;
 	}
-
+	
+	//Release the specified pin so it later can be assigned to something else
 	public void releasePin(int pin) {
 		//TODO Check if pin is actually assigned, not strictly necessary, however there should exist some form of check to prevent whomever from releasing any pin
 		pins[pin].clearProperties();
 		pins[pin] = null;
 	}
 
+	//Controls a radio outlet
+	//id is the message will claim to be sent from
+	//channel corresponds to the numbers on the physical remote
+	//state indicates whether to send an on (1) or off (0) signal (other won't have any effect)
 	public void radio(int id, int channel, int state) {
-
 		String command = "pihat --repeats=20 --id=" + id + " --channel=" + channel +" --state=" + state;
 		try {
 			Runtime.getRuntime().exec(command);
@@ -122,13 +130,13 @@ public class Controller {
 	}
 
 	//TODO should this be part of the MotionSensor class?
+	//Sets up the controller to be able to respond to movements detected by an attached motion sensor
 	public void motionSensor() {
 		motionSensorPin = assignPin("input", "sensor");
 		if (motionSensorPin < 0) {
 			System.out.println("Motion sensor could not be initiated, no available pins");
 			//TODO add flag to indicate whether a motion sensor is active, for sleep mode purposes?
 		} else {
-
 			((GpioPinDigitalInput) pins[motionSensorPin]).addListener(new GpioPinListenerDigital() {
 				@Override
 				public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
@@ -146,6 +154,8 @@ public class Controller {
 		}
 	}
 
+	//Determines if enough time has passed since last trigger of the motion sensor to go to sleep
+	//Returns true if the prototype should sleep, false otherwise
 	public boolean isAsleep() {
 		if(!sleep) {
 			if ((System.currentTimeMillis() - lastMovement) > sleepTimeout) {
@@ -155,10 +165,12 @@ public class Controller {
 		return sleep;
 	}
 
+	//Add a device that can be deactivated after period of inactivity
 	public void addSmartSleepDevice(AbstractDevice dev) {
 		smartSleepDevices.add(dev);
 	}
 
+	//Disables all devices that are "smart sleep" enabled
 	private void sleepDevices() {
 		Iterator<AbstractDevice> it = smartSleepDevices.iterator();
 		while (it.hasNext()) {
@@ -167,7 +179,7 @@ public class Controller {
 		System.out.println("All devices put to sleep");
 	}
 
-	// Test method
+	//Shows all assigned pins, the name of the attached device and in-/output status
 	public void printPinStatus() {
 		for (int i=0; i<8; i++) {
 			System.out.print("Pin: " + i);
@@ -179,6 +191,7 @@ public class Controller {
 		}
 	}
 
+	//Sets up pins to be used for the status LEDs, one each of the colors red, yellow, green
 	public void setupStatusLeds() {
 		int redLed = assignPin("output", "red");
 		statusLeds.put("red", redLed);
@@ -189,23 +202,26 @@ public class Controller {
 		int greenLed = assignPin("output", "green");
 		statusLeds.put("green", greenLed);
 
-		//lightStatusLed("red"); //Power is on
 		lightStatusLed("yellow"); //Setup is in progress
-
 	}
 
+	//Lights the status led of the provided color for the specified duration (in ms)
 	public void pulseStatusLed(String color, long duration) {
 		pinPulse(statusLeds.get(color.toLowerCase()), duration);
 	}
-
+	
+	//Lights the status led of the provided color
 	public void lightStatusLed(String color) {
 		pinSetHigh(statusLeds.get(color.toLowerCase()));
 	}
-
+	
+	//Extinguishes the status led of the provided color
 	public void extinguishStatusLed(String color) {
 		pinSetLow(statusLeds.get(color.toLowerCase()));
 	}
 
+	//Puts the prototype to sleep by suspending the executing thread until movement is registered
+	//by an attached motion sensor
 	public void goToSleep() {
 		sleepDevices();
 		System.out.println("Going to sleep");

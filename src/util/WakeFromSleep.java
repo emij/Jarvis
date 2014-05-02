@@ -7,9 +7,9 @@ import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 public class WakeFromSleep extends Thread implements GpioPinListenerDigital {
-	private GpioPinDigitalInput pin;
+	private GpioPinDigitalInput pin; //Pin number that should be listened to
 	private Thread wakeThread;
-	private boolean isAsleep;
+	private boolean isAsleep; //Indicates whether the prototype is currently sleeping or not
 
 	public WakeFromSleep(GpioPin pin, Thread thread) {
 		this.pin = ((GpioPinDigitalInput) pin);
@@ -18,6 +18,8 @@ public class WakeFromSleep extends Thread implements GpioPinListenerDigital {
 	}
 
 	@Override
+	//When the device is asleep and a high edge is detected on the listening pin this method
+	//will wake the prototype
 	public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
 		PinState state = event.getState();
 		if(isAsleep && state == PinState.HIGH) {
@@ -26,9 +28,9 @@ public class WakeFromSleep extends Thread implements GpioPinListenerDigital {
 		}
 	}
 	
+	//Called when the prototype is going to sleep
 	public void goToSleep() {
-		isAsleep = true;
-		
+		isAsleep = true;		
 	}
 
 	public void run() {

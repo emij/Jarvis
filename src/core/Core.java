@@ -10,9 +10,8 @@ import devices.AbstractDevice;
 import devices.Controller;
 import devices.ElectronicDevice;
 import devices.InfoDevice;
-import devices.RadioOutletDevice;
 import devices.MicrophoneDevice;
-import devices.MotionSensor;
+import devices.RadioOutletDevice;
 
 /**
  * Mid-layer between interpretation and hardware controller
