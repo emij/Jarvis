@@ -2,22 +2,18 @@ package devices;
 
 import controller.JarvisController;
 
-public class LedDevice extends AbstractDevice {
+public class RadioOutletDevice extends AbstractDevice {
 
 	private JarvisController controller;
-	private int pinNr;
 
-	public LedDevice(String name, JarvisController controller, int pin) {
+	public RadioOutletDevice(String name, JarvisController controller) {
 		super(name);
 		this.controller = controller;
-		pinNr = pin;
-		controller.assignPin("output", name, pinNr); //TODO handle error if pin is occupied		
 	}
-	
-	public LedDevice(String name, JarvisController controller, int pin, boolean smartSleep) {
+
+	public RadioOutletDevice(String name, JarvisController controller, boolean smartSleep) {
 		super(name);
 		this.controller = controller;
-		pinNr = pin;
 		if (smartSleep) {
 			this.controller.addSmartSleepDevice(this);
 		}
@@ -26,11 +22,14 @@ public class LedDevice extends AbstractDevice {
 	@Override
 	public void enable() {
 		System.out.println(getName() + " turned on WOOHOOO");
-		controller.pinPulse(pinNr,2000);
+		controller.radio(1,0,1);
 	}
 
 	@Override
 	public void disable() {
 		System.out.println(getName() + " turned off");
+		controller.radio(1,0,0);
 	}
+
+	//TODO rename to SimpleDevice? Or let name stay and keep track of how it is controlled (e.g. radio, IR etc)
 }

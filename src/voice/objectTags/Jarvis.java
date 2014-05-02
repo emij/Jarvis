@@ -7,26 +7,23 @@
 
 package voice.objectTags;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
+
 import java.io.IOException;
 import java.net.URL;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFileFormat;
 import javax.speech.EngineException;
 import javax.speech.EngineStateError;
 import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
 
-
-
-
-//import sun.net.www.content.audio.wav;
 import util.Command;
 
 import com.sun.speech.engine.recognition.BaseRecognizer;
 import com.sun.speech.engine.recognition.BaseRuleGrammar;
+
+import controller.JarvisController;
 
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.frontend.util.Utterance;
@@ -48,6 +45,8 @@ public class Jarvis{
 	private ObjectTagsParser objParser;
 	private Command command;
 	private int i=0;
+	
+	private JarvisController controller = JarvisController.INSTANCE;
 
 	public Jarvis(URL u, Command c){
 		try {
@@ -124,18 +123,33 @@ public class Jarvis{
 		}
 		else{
 			setupParser();
-			
+
+			controller.extinguishStatusLed("yellow");
+
 			String bestResult = null;
 			while(bestResult == null || bestResult.isEmpty()){
+				controller.lightStatusLed("green");
 				System.out.println("Speak command please");
 				Result r = recognizer.recognize();
+				if(!microphone.isRecording()){
+					System.out.println("Mic is not recording");
+					return;
+				}
+				else if(r == null){
+					System.out.println("Maximum amount of silence reached; returning to main");
+					microphone.stopRecording();
+					return;
+				}
 				bestResult = r.getBestFinalResultNoFiller();
 				if(bestResult == null || bestResult.isEmpty()){
 					System.out.println("Cannot hear command");
 				}
 			}
-			String filename = "audio" + i + ".wav";
-			saveAudio(filename, microphone.getUtterance());
+			
+			controller.extinguishStatusLed("green");
+
+			String filename = "audio/audio" + i + ".wav";
+			//saveAudio(filename, microphone.getUtterance());
 			microphone.stopRecording();
 			System.out.println("Result: " + bestResult);
 			parseCommand(bestResult);
@@ -157,6 +171,7 @@ public class Jarvis{
 		}
 		objParser.parseTags(parse);
 	}
+
 	
 	private void saveAudio(String filename, Utterance audio){
 		try {

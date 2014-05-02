@@ -1,8 +1,6 @@
 package devices;
 
-//TODO might build a controller class instead, for sending RF-signals
-
-public  abstract class AbstractDevice {
+public abstract class AbstractDevice {
 	private String name;
 
 	public AbstractDevice(String name){
@@ -12,15 +10,26 @@ public  abstract class AbstractDevice {
 		return name;
 	}
 
-	public abstract boolean enable();
-
-	public abstract boolean disable();
-
+	public abstract void enable();
+	public abstract void disable();
 	
-	//	public void flipSwitch() {
-	//		active = !active;
-	//	}
-
+	public void mute() {}
+	public void unmute() {}
+	
+	public void upVolume(String inc) {}
+	public void downVolume(String dec){}
+	public void channel(String param){}
+	
+	public void date(){}
+	public void time(){}
+	public void week(){}
+	public void studyWeek(){}
+	public void temp(){}
+	public void morning(){}
+	public void night(){}
+	public void bye(){}
+	public void hello(){}
+	
 	// TODO Not sure if I should implement equals and hashcode in abstract class or in subclasses
 	@Override
 	public boolean equals(Object obj) {

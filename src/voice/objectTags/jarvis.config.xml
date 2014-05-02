@@ -17,7 +17,7 @@
     <property name="logLevel" value="WARNING"/>
     
 
-    <property name="grammarPath" value="objectTags/jarvis"/>
+    <property name="grammarPath" value="objectTags/orignJarvis"/>
     
     <property name="absoluteBeamWidth"  value="-1"/>
     <property name="relativeBeamWidth"  value="1E-80"/>
@@ -34,7 +34,7 @@
     <!-- ******************************************************** -->
 
     <component name="recognizer" type="edu.cmu.sphinx.recognizer.Recognizer">
-        <property name="decoder" value="decoder"/>
+        <property name="decoder" value="limitedDecoder"/>
         <propertylist name="monitors">
             <item>accuracyTracker </item>
             <item>speedTracker </item>
@@ -49,6 +49,10 @@
     <component name="decoder" type="edu.cmu.sphinx.decoder.Decoder">
         <property name="searchManager" value="searchManager"/>
     </component>
+
+	<component name="limitedDecoder" type="voice.objectTags.LimitedDecoder">
+		<property name="searchManager" value="searchManager"/>
+	</component>
 
     <component name="searchManager"
         type="edu.cmu.sphinx.decoder.search.SimpleBreadthFirstSearchManager">
@@ -237,7 +241,7 @@
     <component name="microphone"
                type="edu.cmu.sphinx.frontend.util.Microphone">
         <property name="closeBetweenUtterances" value="false"/>
-        <property name="keepLastAudio" value="true"/>
+        <property name="keepLastAudio" value="false"/>
     </component>
 
 

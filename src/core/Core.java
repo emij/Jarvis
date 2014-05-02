@@ -1,18 +1,19 @@
 package core;
 
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import controller.JarvisController;
+
 import util.Command;
 import devices.AbstractDevice;
-import devices.Controller;
-import devices.LampDevice;
-import devices.LedDevice;
+import devices.ElectronicDevice;
+import devices.InfoDevice;
 import devices.MicrophoneDevice;
-import devices.MotionSensor;
-import devices.RadioDevice;
+import devices.RadioOutletDevice;
 
 /**
  * Mid-layer between interpretation and hardware controller
@@ -25,35 +26,29 @@ public class Core  {
 	private String mic = "microphone";
 	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>(); 
 	public final static Core INSTANCE = new Core();
-	private Controller controller;
+	private JarvisController controller;
 	private MicrophoneDevice microphone = new MicrophoneDevice(mic);
 
-	
-	private Core(){
-		// Adding devices to hashmap
-		//setUpDevices();
+	// only one core should be instantiated. Controller for all hardware.
+	private Core() {
+		controller = JarvisController.INSTANCE;
 
-		// only one core should be instantiated. Controller for all hardware.
-		//controller = new Controller();
-		
 		// Adding devices to hashmap
-		//setUpDevices();
-			
-		//controller.extinguishStatusLed("yellow"); //Setup complete
-//		controller.lightStatusLed("green"); //Ready to accept commands
+//		setUpDevices();
 	}
+	
 	private void setUpDevices() {
 		// TODO Will do this in a better way down the road. possible load everything from a settings file
-		controller.assignPin("output", "radioTx", 7); //Allocate GPIO-pin 07 to the Radio Transmitter
-		addDevice(new MotionSensor("sensor", controller, 5)); //Allocate GPIO-pin 05 to the Motion Sensor
-		addDevice(new LedDevice("tv", controller, 1));
-		addDevice(new LampDevice("lamp", controller));		
-		addDevice(new RadioDevice("radio"));
-		
-		addDevice(microphone);
-		
 		controller.setupStatusLeds();
-		
+		controller.assignPin("output", "radioTx", 7); //Allocate GPIO-pin 07 to the Radio Transmitter
+		//addDevice(new MotionSensor("sensor", controller, 5)); //Allocate GPIO-pin 05 to the Motion Sensor
+		controller.motionSensor();
+		//addDevice(new LedDevice("radio", controller, 1));
+		addDevice(new RadioOutletDevice("lamp", controller, true));		
+		addDevice(new ElectronicDevice("tv", controller));
+		addDevice(new InfoDevice("info"));
+		addDevice(microphone);
+
 		// Test
 		controller.printPinStatus();
 	}
@@ -76,12 +71,20 @@ public class Core  {
 			if(microphone.isActive() || 
 					dev.getName().equalsIgnoreCase(mic)){
 				try {
-					Method method = dev.getClass().getDeclaredMethod(action, new Class[] {});
-					method.invoke(dev, null);
+					if(param == null) {
+						Method method = dev.getClass().getDeclaredMethod(action, new Class [] {});
+						method.invoke(dev, null);
+					} else {
+						Method method = dev.getClass().getDeclaredMethod(action, new Class [] {param.getClass()});
+						method.invoke(dev, param);
+					}
 					// TODO create proper handling of exceptions
 				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
 				} catch (IllegalAccessException e) {
+					e.printStackTrace();
 				} catch (InvocationTargetException e) {
+					e.printStackTrace();
 				} catch (NoSuchMethodException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

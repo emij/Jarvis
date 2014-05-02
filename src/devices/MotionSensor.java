@@ -1,34 +1,33 @@
 package devices;
 
+import controller.JarvisController;
+
 public class MotionSensor extends AbstractDevice {
 
-	private Controller controller;
+	private JarvisController controller;
 	private int pinNr;
 
-	public MotionSensor(String name, Controller controller, int pin) {
+	public MotionSensor(String name, JarvisController controller, int pin) {
 		super(name);
 
 		this.controller = controller;
 		pinNr = pin;
-		if (this.controller.assignPin("input", name, pin)) { //TODO, handle error if pin is occupied
-			this.controller.motionSensor(pinNr); //TODO this feels wrong
+		if (this.controller.assignPin("input", name, pin)) {
+//			this.controller.motionSensor(pinNr);
 		} else {
 			System.out.println("Motion sensor could not be initiated, pin " + pin + "is unavailable");
 		}
-		
 	}
 
 	@Override
-	public boolean enable() {
-				System.out.println(getName() + " turned on WOOHOOO (but nothing happens"); //TODO implement enable
-				return true; //Might be unnecessary
+	public void enable() {
+		System.out.println(getName() + " turned on WOOHOOO (but nothing happens");
 	}
 
 	@Override
-	public boolean disable() {
-				System.out.println(getName() + " turned off (but nothing happens"); //TODO implement disable
-				return true; //Might be unnecessary
+	public void disable() {
+		System.out.println(getName() + " turned off (but nothing happens");
 	}
-	
-	//TODO Is this class necessary?
+
+	//TODO Is this class necessary, currently redundant. All intended logic resides in Controller.
 }
