@@ -1,11 +1,13 @@
 package devices;
 
+import controller.JarvisController;
+
 public class MotionSensor extends AbstractDevice {
 
-	private Controller controller;
+	private JarvisController controller;
 	private int pinNr;
 
-	public MotionSensor(String name, Controller controller, int pin) {
+	public MotionSensor(String name, JarvisController controller, int pin) {
 		super(name);
 
 		this.controller = controller;

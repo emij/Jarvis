@@ -1,13 +1,15 @@
 package core;
 
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import controller.JarvisController;
+
 import util.Command;
 import devices.AbstractDevice;
-import devices.Controller;
 import devices.ElectronicDevice;
 import devices.InfoDevice;
 import devices.MicrophoneDevice;
@@ -24,12 +26,12 @@ public class Core  {
 	private String mic = "microphone";
 	private Map<String, AbstractDevice> devices = new HashMap<String, AbstractDevice>(); 
 	public final static Core INSTANCE = new Core();
-	private Controller controller;
+	private JarvisController controller;
 	private MicrophoneDevice microphone = new MicrophoneDevice(mic);
 
 	// only one core should be instantiated. Controller for all hardware.
 	private Core() {
-		controller = Controller.getInstance();
+		controller = JarvisController.INSTANCE;//JarvisController.getInstance();
 
 		// Adding devices to hashmap
 		setUpDevices();

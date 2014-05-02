@@ -7,6 +7,7 @@
 
 package voice.objectTags;
 
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -22,7 +23,8 @@ import util.Command;
 import com.sun.speech.engine.recognition.BaseRecognizer;
 import com.sun.speech.engine.recognition.BaseRuleGrammar;
 
-import devices.Controller;
+import controller.JarvisController;
+
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.frontend.util.Utterance;
 import edu.cmu.sphinx.jsgf.JSGFGrammar;
@@ -43,9 +45,8 @@ public class Jarvis{
 	private ObjectTagsParser objParser;
 	private Command command;
 	private int i=0;
-
-	//PoC for status indication
-	private Controller controller = Controller.getInstance();
+	
+	private JarvisController controller = JarvisController.INSTANCE;//JarvisController.getInstance();
 
 	public Jarvis(URL u, Command c){
 		try {

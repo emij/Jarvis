@@ -1,15 +1,17 @@
 package devices;
 
+import controller.JarvisController;
+
 public class RadioOutletDevice extends AbstractDevice {
 
-	private Controller controller;
+	private JarvisController controller;
 
-	public RadioOutletDevice(String name, Controller controller) {
+	public RadioOutletDevice(String name, JarvisController controller) {
 		super(name);
 		this.controller = controller;
 	}
 
-	public RadioOutletDevice(String name, Controller controller, boolean smartSleep) {
+	public RadioOutletDevice(String name, JarvisController controller, boolean smartSleep) {
 		super(name);
 		this.controller = controller;
 		if (smartSleep) {

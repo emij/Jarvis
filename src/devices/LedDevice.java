@@ -1,18 +1,20 @@
 package devices;
 
+import controller.JarvisController;
+
 public class LedDevice extends AbstractDevice {
 
-	private Controller controller;
+	private JarvisController controller;
 	private int pinNr;
 
-	public LedDevice(String name, Controller controller, int pin) {
+	public LedDevice(String name, JarvisController controller, int pin) {
 		super(name);
 		this.controller = controller;
 		pinNr = pin;
 		controller.assignPin("output", name, pinNr); //TODO handle error if pin is occupied		
 	}
 	
-	public LedDevice(String name, Controller controller, int pin, boolean smartSleep) {
+	public LedDevice(String name, JarvisController controller, int pin, boolean smartSleep) {
 		super(name);
 		this.controller = controller;
 		pinNr = pin;

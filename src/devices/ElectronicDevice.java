@@ -1,14 +1,16 @@
 package devices;
 
-public class ElectronicDevice extends AbstractDevice {
-	private Controller controller;
+import controller.JarvisController;
 
-	public ElectronicDevice(String name, Controller controller) {
+public class ElectronicDevice extends AbstractDevice {
+	private JarvisController controller;
+
+	public ElectronicDevice(String name, JarvisController controller) {
 		super(name);
 		this.controller = controller;
 	}
 	
-	public ElectronicDevice(String name, Controller controller, boolean smartSleep) {
+	public ElectronicDevice(String name, JarvisController controller, boolean smartSleep) {
 		super(name);
 		this.controller = controller;
 		if (smartSleep) {

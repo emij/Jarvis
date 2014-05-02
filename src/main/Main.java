@@ -5,17 +5,17 @@
 
 package main;
 
+import controller.JarvisController;
 import server.Server;
 import util.Command;
 import voice.objectTags.Jarvis;
 import core.Core;
-import devices.Controller;
 
 public class Main {
 	
 	public static void main(String[] args){
 		Core core = Core.INSTANCE;
-		Controller controller = Controller.getInstance();
+		JarvisController controller = JarvisController.INSTANCE;//JarvisController.getInstance();
 		Command serverCommand = new Command();
 		Server server = new Server(serverCommand, 6789);
 		server.start();
@@ -29,7 +29,5 @@ public class Main {
 				controller.goToSleep();
 			}
 		}
-		
-		
 	}
 }

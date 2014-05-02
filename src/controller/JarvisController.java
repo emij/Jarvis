@@ -1,4 +1,4 @@
-package devices;
+package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,8 +22,13 @@ import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
-public class Controller {
-	private static Controller instance = null;	
+import core.Core;
+
+import devices.AbstractDevice;
+
+public class JarvisController implements Controller {
+	private static JarvisController instance = null;
+	public final static JarvisController INSTANCE = new JarvisController();
 	private GpioController gpio;
 	private GpioPin pins[] = new GpioPin[8];
 	private Pin pinNames[] = new Pin[8];
@@ -35,14 +40,15 @@ public class Controller {
 	private int motionSensorPin;
 	private WakeFromSleep wake;
 
-	public static Controller getInstance()	{
-		if (instance == null) {
-			instance = new Controller();
-		}
-		return instance;
-	}
+//	public JarvisController getInstance() {
+//		if (instance == null) {
+//			instance = new JarvisController();
+//		}
+//		return instance;
+//	}
 
-	protected Controller() {
+	//protected JarvisController() {
+	private JarvisController() {
 		gpio = GpioFactory.getInstance();
 
 		// TODO redo this part
@@ -115,7 +121,7 @@ public class Controller {
 		pins[pin] = null;
 	}
 
-	//Controls a radio outlet
+	//Controls a (NEXA) radio outlet
 	//id is the message will claim to be sent from
 	//channel corresponds to the numbers on the physical remote
 	//state indicates whether to send an on (1) or off (0) signal (other won't have any effect)
@@ -142,7 +148,7 @@ public class Controller {
 				public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
 					PinState state = event.getState();
 					if(state == PinState.HIGH) {
-						Controller controller = Controller.getInstance();
+						JarvisController controller = JarvisController.INSTANCE;//JarvisController.getInstance();
 						controller.lastMovement = System.currentTimeMillis();
 						sleep = false;
 						System.out.println("Movement detected");
