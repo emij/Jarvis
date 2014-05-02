@@ -18,7 +18,7 @@ public class Command extends AbstractCommand{
 		if(pos != null){
 			device = pos + device;
 		}
-		Core.INSTANCE.controlDevice(this);
+		Core.INSTANCE.controlDevice(device, action, pos, param);
 		resetCommand();
 	}
 	public void copyCommand(ClientCommand tmp){

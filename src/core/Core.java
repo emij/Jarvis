@@ -70,13 +70,13 @@ public class Core  {
 	 * Method for controlling devices
 	 * @param Command
 	 */
-	public synchronized void controlDevice(Command command){
-		AbstractDevice dev = devices.get(command.getDevice()); // get device from hashmap
+	public synchronized void controlDevice(String device, String action, String pos, String param){
+		AbstractDevice dev = devices.get(device); // get device from hashmap
 		if(dev != null){
 			if(microphone.isActive() || 
 					dev.getName().equalsIgnoreCase(mic)){
 				try {
-					Method method = dev.getClass().getDeclaredMethod(command.getAction(), new Class[] {});
+					Method method = dev.getClass().getDeclaredMethod(action, new Class[] {});
 					method.invoke(dev, null);
 					// TODO create proper handling of exceptions
 				} catch (IllegalArgumentException e) {
@@ -93,9 +93,8 @@ public class Core  {
 				System.out.println("Microphone is muted");
 			}
 		} else {
-			System.out.println("I am sorry, but the device " + command.getDevice() + " is not installed");
+			System.out.println("I am sorry, but the device " + device + " is not installed");
 		}
-		command.resetCommand();
 	}
 }
 
