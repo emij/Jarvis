@@ -35,4 +35,4 @@ grammar jarvis;
 
 
 /*Generate command*/
-public <generate> = computer (<greeting> | <mute> | <info> | <light>) {appObj.generateCommand();};
+public <generate> = (<greeting> | <mute> | <info> | <light>) {appObj.generateCommand();};
