@@ -8,7 +8,6 @@ import java.util.Map;
 
 import controller.JarvisController;
 
-import util.Command;
 import devices.AbstractDevice;
 import devices.ElectronicDevice;
 import devices.InfoDevice;

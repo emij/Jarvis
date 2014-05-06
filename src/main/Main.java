@@ -24,10 +24,11 @@ public class Main {
 		
 		while(true){
 			jarvis.record();
-			
+			/*
 			if (controller.isAsleep()){
 				controller.goToSleep();
 			}
+			*/
 		}
 	}
 }

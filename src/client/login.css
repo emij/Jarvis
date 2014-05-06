@@ -7,7 +7,7 @@
 @CHARSET "UTF-8";
 
 .root {
-     -fx-background-image: url("background.jpg");
+     -fx-background-image: url("download.jpg");
 }
 .label {
     -fx-font-size: 24px;
