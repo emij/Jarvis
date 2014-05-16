@@ -3,7 +3,7 @@ package devices;
 import controller.JarvisController;
 
 public class ElectronicDevice extends AbstractDevice {
-	private JarvisController controller;
+	private JarvisController controller; //TODO should be of type Controller (interface rather than implementation) applicable everywhere JarvisController is used
 
 	public ElectronicDevice(String name, JarvisController controller) {
 		super(name);
