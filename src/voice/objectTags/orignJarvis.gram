@@ -11,12 +11,12 @@
 
 grammar orignJarvis;
 
-/* pleasantries */
-<polite> = Please | Could You | Greetings;
+/* Pleasantries */
+<polite> = Please | Could You | Greetings | <name>;
 <greeting> = <NULL> {appObj.addDevice("info");} ([Good] (Morning {appObj.addAction("morning");} | Night {appObj.addAction("night");} | Bye {appObj.addAction("bye");}) | (Hello | Hi) {appObj.addAction("hello");});
 <name> = Computer;
 
-/* Numbers */ //TODO: M�ste finnas ett enklare s�tt...
+/* Numbers */
 <number> = one {appObj.addParam("1");} | two {appObj.addParam("2");} | three {appObj.addParam("3");} |
 four {appObj.addParam("4");} | five {appObj.addParam("5");} | six {appObj.addParam("6");} | seven {appObj.addParam("7");}
 | eight {appObj.addParam("8");} | nine {appObj.addParam("9");} | ten {appObj.addParam("10");};
@@ -48,7 +48,6 @@ four {appObj.addParam("4");} | five {appObj.addParam("5");} | six {appObj.addPar
 <dateTime> = Date {appObj.addAction("date");} | Time {appObj.addAction("time");} | Week {appObj.addAction("week");} | Study Week {appObj.addAction("studyWeek");} | Temperature {appObj.addAction("temp");};
 
 /* Rules for commands */
-
 <lights> = <light> | <light2> | <light3>;
 <light> = (<onSwitch> | <offSwitch>) [The] [<room>] <device>;
 <light2> = [<room>] <device> (<onSwitch> | <offSwitch>);
@@ -62,11 +61,7 @@ four {appObj.addParam("4");} | five {appObj.addParam("5");} | six {appObj.addPar
 
 /*########*/
 
-/* Actual spoken command */
-
-
-public <spokenCommand> = <name> [<polite>*] (<lights> | <simpleCommand> | <channel> | <volume>) [<polite>*] <NULL> {appObj.generateCommand();};
+/* Actual spoken commands */
+public <spokenCommand> = [<polite>*] (<lights> | <simpleCommand> | <channel> | <volume>) [<polite>*] <NULL> {appObj.generateCommand();};
 
 public <filler> = Thank You | Thanks;
-
-

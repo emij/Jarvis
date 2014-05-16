@@ -46,7 +46,7 @@ public class Jarvis{
 	private Command command;
 	private int i=0;
 	
-	private JarvisController controller = JarvisController.INSTANCE;//JarvisController.getInstance();
+	private JarvisController controller = JarvisController.INSTANCE;
 
 	public Jarvis(URL u, Command c){
 		try {

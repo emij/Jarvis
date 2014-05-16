@@ -8,7 +8,6 @@ import java.util.Map;
 
 import controller.JarvisController;
 
-import util.Command;
 import devices.AbstractDevice;
 import devices.ElectronicDevice;
 import devices.InfoDevice;
@@ -31,10 +30,10 @@ public class Core  {
 
 	// only one core should be instantiated. Controller for all hardware.
 	private Core() {
-		controller = JarvisController.INSTANCE;//JarvisController.getInstance();
+		controller = JarvisController.INSTANCE;
 
 		// Adding devices to hashmap
-		setUpDevices();
+//		setUpDevices();
 	}
 	
 	private void setUpDevices() {
@@ -65,18 +64,18 @@ public class Core  {
 	 * Method for controlling devices
 	 * @param Command
 	 */
-	public synchronized void controlDevice(Command command){
-		AbstractDevice dev = devices.get(command.getDevice()); // get device from hashmap
+	public synchronized void controlDevice(String device, String action, String pos, String param){
+		AbstractDevice dev = devices.get(device); // get device from hashmap
 		if(dev != null){
 			if(microphone.isActive() || 
 					dev.getName().equalsIgnoreCase(mic)){
 				try {
-					if(command.getParam() == null) {
-						Method method = dev.getClass().getDeclaredMethod(command.getAction(), new Class [] {});
-						method.invoke(dev, null);
+					if(param == null) {
+						Method method = dev.getClass().getDeclaredMethod(action, new Class<?>[0]);
+						method.invoke(dev);
 					} else {
-						Method method = dev.getClass().getDeclaredMethod(command.getAction(), new Class [] {command.getParam().getClass()});
-						method.invoke(dev, command.getParam());
+						Method method = dev.getClass().getDeclaredMethod(action, new Class [] {param.getClass()});
+						method.invoke(dev, param);
 					}
 					// TODO create proper handling of exceptions
 				} catch (IllegalArgumentException e) {
@@ -96,9 +95,8 @@ public class Core  {
 				System.out.println("Microphone is muted");
 			}
 		} else {
-			System.out.println("I am sorry, but the device " + command.getDevice() + " is not installed");
+			System.out.println("I am sorry, but the device " + device + " is not installed");
 		}
-		command.resetCommand();
 	}
 }
 

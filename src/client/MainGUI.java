@@ -24,6 +24,8 @@ public class MainGUI extends Application {
 	private GUIMediator mediator;
 	private Client client;
 	private ClientCommand command;
+	private Insets buttonInsets = new Insets(5, 10, 5, 0);
+	
 	public MainGUI(GUIMediator mediator, Client client, ClientCommand command) {
 		this.client = client;
 		this.mediator = mediator;
@@ -55,16 +57,24 @@ public class MainGUI extends Application {
 		grid.add(scenetitle, 0, 0, 2, 1);
 		
 		// Left Grid
-		leftGrid.setPadding(new Insets(25, 25, 25, 25));
+		leftGrid.setPadding(new Insets(25, 5, 25, 25)); 
 		Label lamp = new Label("Lamp");
 		leftGrid.add(lamp, 1, 1);
+		
+		
 		
 		Label kitchenLamp = new Label("Kitchen Lamp");
 		leftGrid.add(kitchenLamp, 1, 2);
 		
+		Label coffeMaker = new Label("Coffe Maker");
+		leftGrid.add(coffeMaker, 1, 3);
+		
+		GridPane.setMargin(lamp, new Insets(0, 25, 5, 0));
+		GridPane.setMargin(kitchenLamp, new Insets(0, 25, 5, 0));
+		GridPane.setMargin(coffeMaker, new Insets(0, 25, 5, 0));
 		
 		// Right Grid
-		rightGrid.setPadding(new Insets(25, 25, 25, 25));
+		rightGrid.setPadding(new Insets(25, 25, 25, 5));
 		
 		Button lampEnable = new Button();
         lampEnable.setText("Enable");
@@ -96,7 +106,7 @@ public class MainGUI extends Application {
                 command.resetCommand();
             }
         });
-        GridPane.setMargin(lampEnable, new Insets(0, 25, 5, 0));
+        GridPane.setMargin(lampEnable, buttonInsets);
         rightGrid.add(lampDisable,2,0);
         
         Button kitchenLampEnable = new Button();
@@ -123,14 +133,49 @@ public class MainGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Disable");
-                command.addDevice("kitchenlamp");
+                command.addDevice("lamp");
+                command.addPosition("kitchen");
                 command.addAction("disable");
                 client.writeToServer(command);
                 command.resetCommand();
             }
         });
-        GridPane.setMargin(kitchenLampEnable, new Insets(0, 25, 5, 0));
+        GridPane.setMargin(kitchenLampEnable, buttonInsets);
         rightGrid.add(kitchenLampDisable,2,1);
+        
+        
+        Button coffeMakerEnable = new Button();
+        coffeMakerEnable.setText("Enable");
+        coffeMakerEnable.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Enable");
+                command.addDevice("coffemaker");
+                command.addAction("enable");
+                client.writeToServer(command);
+                command.resetCommand();
+                
+            }
+        });
+        
+        rightGrid.add(coffeMakerEnable, 1, 2);
+        
+        Button coffeMakerDisable = new Button();
+        coffeMakerDisable.setText("Disable");
+        coffeMakerDisable.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Disable");
+                command.addDevice("coffemaker");
+                command.addAction("disable");
+                client.writeToServer(command);
+                command.resetCommand();
+            }
+        });
+        GridPane.setMargin(coffeMakerDisable, buttonInsets);
+        rightGrid.add(coffeMakerDisable,2,2);
         
         
 		

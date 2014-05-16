@@ -16,7 +16,7 @@ grammar jarvis;
 <mute> = Mute {appObj.addAction("mute");};
 
 /*Devices*/
-<device> = (Lamp | Lights | lamps) {appObj.addDevice("lamp");};
+<device> = (Lamp | Lights | lamps) {appObj.addDevice("lamp");} | Coffee Maker {appObj.addDevice("coffemaker")};
 
 /*Positions*/
 <room> = Kitchen {appObj.addPosition("kitchen");} | Bedroom {appObj.addPosition("bedroom");} | Living Room {appObj.addPosition("living");} | Bathroom {appObj.addPosition("bathroom");} | Hallway {appObj.addPosition("hallway");};
@@ -35,4 +35,4 @@ grammar jarvis;
 
 
 /*Generate command*/
-public <generate> = computer (<greeting> | <mute> | <info> | <light>) {appObj.generateCommand();};
+public <generate> = (<greeting> | <mute> | <info> | <light>) {appObj.generateCommand();};

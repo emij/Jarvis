@@ -15,7 +15,7 @@ public class Main {
 	
 	public static void main(String[] args){
 		Core core = Core.INSTANCE;
-		JarvisController controller = JarvisController.INSTANCE;//JarvisController.getInstance();
+		JarvisController controller = JarvisController.INSTANCE;
 		Command serverCommand = new Command();
 		Server server = new Server(serverCommand, 6789);
 		server.start();
@@ -24,10 +24,11 @@ public class Main {
 		
 		while(true){
 			jarvis.record();
-			
+			/*
 			if (controller.isAsleep()){
 				controller.goToSleep();
 			}
+			*/
 		}
 	}
 }
