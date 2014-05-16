@@ -71,8 +71,8 @@ public class Core  {
 					dev.getName().equalsIgnoreCase(mic)){
 				try {
 					if(param == null) {
-						Method method = dev.getClass().getDeclaredMethod(action, new Class [] {});
-						method.invoke(dev, null);
+						Method method = dev.getClass().getDeclaredMethod(action, new Class<?>[0]);
+						method.invoke(dev);
 					} else {
 						Method method = dev.getClass().getDeclaredMethod(action, new Class [] {param.getClass()});
 						method.invoke(dev, param);

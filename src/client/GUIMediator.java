@@ -15,12 +15,12 @@ public class GUIMediator extends Application {
 	private ClientCommand command = new ClientCommand();
 	private Client client;
 	private Stage stage;
-	
+
 	public GUIMediator() {
 		client = new Client();
 		login = new LoginScreen(this, client);
 		mainGUI = new MainGUI(this, client, command);
-		}
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -28,7 +28,7 @@ public class GUIMediator extends Application {
 		login.start(stage);
 	}
 	public static void main(String[] args){
-        launch(args);
+		launch(args);
 	}
 
 	public void changeToMainGUI() throws Exception{
@@ -36,6 +36,8 @@ public class GUIMediator extends Application {
 	}
 	@Override
 	public void stop(){
-		client.writeToServer("quit");
+		if(client.connectionActive()){
+			client.writeToServer("quit");
+		}
 	}
 }

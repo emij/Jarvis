@@ -74,4 +74,7 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
+	public boolean connectionActive(){
+		return connectionAccepted;
+	}
 }
