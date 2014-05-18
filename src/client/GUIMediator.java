@@ -1,6 +1,7 @@
 package client;
 
 import util.ClientCommand;
+import voice.objectTags.Jarvis;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -12,14 +13,17 @@ import javafx.stage.Stage;
 public class GUIMediator extends Application {
 	private LoginScreen login;
 	private MainGUI mainGUI;
-	private ClientCommand command = new ClientCommand();
+	private ClientCommand command;
 	private Client client;
 	private Stage stage;
 
 	public GUIMediator() {
 		client = new Client();
-		login = new LoginScreen(this, client);
+		command = new ClientCommand(client);
+		login = new LoginScreen(this, client, command);
+		command = new ClientCommand(client);
 		mainGUI = new MainGUI(this, client, command);
+		
 	}
 
 	@Override
@@ -29,6 +33,7 @@ public class GUIMediator extends Application {
 	}
 	public static void main(String[] args){
 		launch(args);
+		
 	}
 
 	public void changeToMainGUI() throws Exception{

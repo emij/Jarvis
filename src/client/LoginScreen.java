@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.prefs.Preferences;
 
+import util.ClientCommand;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,8 +34,9 @@ public class LoginScreen extends Application {
 	private Insets inputBoxInsets = new Insets(3, 1, 3, 1);
 	private Client client;
 	private InetAddress host;
+	ClientCommand command;
 	
-	public LoginScreen(GUIMediator mediator, Client client){
+	public LoginScreen(GUIMediator mediator, Client client, ClientCommand command){
 		this.mediator = mediator;
 		this.client = client;
 		prefs = Preferences.userRoot().node(this.getClass().getName());
@@ -161,7 +163,7 @@ public class LoginScreen extends Application {
 				
 				System.out.println(strAdress);
 				
-				client.makeConnection(host, port);
+				client.makeConnection(host, port, command);
 				
 				actiontarget.setId("actiontarget");
 				actiontarget.setText("Connecting");

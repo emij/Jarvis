@@ -20,15 +20,16 @@ public class Main {
 		Server server = new Server(serverCommand, 6789);
 		server.start();
 		Command command = new Command();
-		Jarvis jarvis = new Jarvis(command);
+		//Jarvis jarvis = new Jarvis(command);
 		
-		while(true){
+		/*while(true){
 			jarvis.record();
-			/*
+			
 			if (controller.isAsleep()){
 				controller.goToSleep();
 			}
-			*/
+			
 		}
+	*/
 	}
 }

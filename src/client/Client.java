@@ -3,6 +3,9 @@ package client;
 import java.io.*;
 import java.net.*; 
 
+import util.ClientCommand;
+import voice.objectTags.Jarvis;
+
 /**
  * Client class to be able to send commands to our prototype over network.
  *  
@@ -20,7 +23,7 @@ public class Client {
 	public Client()  {
 
 	}
-	public void makeConnection(InetAddress host, int port)  {
+	public void makeConnection(InetAddress host, int port, ClientCommand command)  {
 		this.host = host;
 		this.port = port;
 		System.out.println("Making connection");
@@ -45,6 +48,7 @@ public class Client {
 					// TODO implement security	
 						System.out.println("Connection accepted");
 						connectionAccepted = true;
+						Jarvis jarvis = new Jarvis(command);
 					} else if (recievedCommand.equalsIgnoreCase("quit")){
 						outToServer.close();
 						inFromServer.close();
