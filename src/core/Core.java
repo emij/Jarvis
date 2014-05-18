@@ -33,7 +33,7 @@ public class Core  {
 		controller = JarvisController.INSTANCE;
 
 		// Adding devices to hashmap
-//		setUpDevices();
+		setUpDevices();
 	}
 	
 	private void setUpDevices() {
@@ -43,7 +43,9 @@ public class Core  {
 		//addDevice(new MotionSensor("sensor", controller, 5)); //Allocate GPIO-pin 05 to the Motion Sensor
 		controller.motionSensor();
 		//addDevice(new LedDevice("radio", controller, 1));
-		addDevice(new RadioOutletDevice("lamp", controller, true));		
+		addDevice(new RadioOutletDevice("lamp", controller, 0, true));
+		addDevice(new RadioOutletDevice("kitchenlamp", controller, 1, true));
+		addDevice(new RadioOutletDevice("coffemaker", controller, 2, true));
 		addDevice(new ElectronicDevice("tv", controller));
 		addDevice(new InfoDevice("info"));
 		addDevice(microphone);
