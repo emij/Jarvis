@@ -86,10 +86,10 @@ public class LoginScreen extends Application {
 		leftGrid.setPadding(new Insets(25, 25, 25, 25));
 
 		Label userName = new Label("User Name:");
-		leftGrid.add(userName, 0, 1);
+		//leftGrid.add(userName, 0, 1);
 
 		Label pw = new Label("Password:");
-		leftGrid.add(pw, 0, 2);
+		//leftGrid.add(pw, 0, 2);
 
 		Label IP = new Label("IP:");
 		leftGrid.add(IP, 0, 3);
@@ -104,11 +104,11 @@ public class LoginScreen extends Application {
 		rightGrid.setPadding(new Insets(25, 25, 25, 25));
 		
 		final TextField userTextField = new TextField(prefs.get(user, "jarvis"));
-		rightGrid.add(userTextField, 0, 1,4,1);
+		//rightGrid.add(userTextField, 0, 1,4,1);
 		GridPane.setMargin(userTextField, inputBoxInsets);
 
 		PasswordField pwBox = new PasswordField();
-		rightGrid.add(pwBox, 0, 2,4,1);
+		//rightGrid.add(pwBox, 0, 2,4,1);
 		GridPane.setMargin(pwBox, inputBoxInsets);
 		
 		final TextField IP1TextField = new TextField(prefs.get(IP1, "127"));
