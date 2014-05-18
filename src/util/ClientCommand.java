@@ -26,5 +26,9 @@ public class ClientCommand extends AbstractCommand{
 		}
 		client.writeToServer(this);
 		System.out.println(this.device+" "+action+" "+" "+pos+" "+param);
+		resetCommand();
+	}
+	public String toString(){
+		return "hej";
 	}
 }
