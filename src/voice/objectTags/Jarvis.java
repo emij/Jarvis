@@ -18,13 +18,13 @@ import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.RuleGrammar;
 import javax.speech.recognition.RuleParse;
 
+import util.ClientCommand;
 import util.Command;
 
 import com.sun.speech.engine.recognition.BaseRecognizer;
 import com.sun.speech.engine.recognition.BaseRuleGrammar;
 
 import controller.JarvisController;
-
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.frontend.util.Utterance;
 import edu.cmu.sphinx.jsgf.JSGFGrammar;
@@ -44,6 +44,7 @@ public class Jarvis{
 	private JSGFGrammar grammar;
 	private ObjectTagsParser objParser;
 	private Command command;
+	private ClientCommand clcommand;
 	private int i=0;
 	
 	private JarvisController controller = JarvisController.INSTANCE;
@@ -59,6 +60,16 @@ public class Jarvis{
 	}
 
 	public Jarvis(Command cmd){
+		try{
+			setConfiguration(null);
+			setup(cmd);
+		}
+		catch(EngineException | IOException | RuntimeException e){
+			System.out.println("Configuration and setup cannot be performed.");
+			e.printStackTrace();
+		}
+	}
+	public Jarvis(ClientCommand cmd){
 		try{
 			setConfiguration(null);
 			setup(cmd);
@@ -92,6 +103,15 @@ public class Jarvis{
 		recognizer = (Recognizer) cm.lookup("recognizer");
 		microphone = (Microphone) cm.lookup("microphone");
 		command = cmd;
+
+		baseRec.allocate();
+		recognizer.allocate();
+	}
+	private void setup(ClientCommand cmd) throws RuntimeException, PropertyException, IOException, EngineException{
+		baseRec = new BaseRecognizer(((JSGFGrammar) cm.lookup("jsgfGrammar")).getGrammarManager());
+		recognizer = (Recognizer) cm.lookup("recognizer");
+		microphone = (Microphone) cm.lookup("microphone");
+		clcommand = cmd;
 
 		baseRec.allocate();
 		recognizer.allocate();
