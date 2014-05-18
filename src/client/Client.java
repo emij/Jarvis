@@ -49,6 +49,7 @@ public class Client {
 						System.out.println("Connection accepted");
 						connectionAccepted = true;
 						Jarvis jarvis = new Jarvis(command);
+						jarvis.run();
 					} else if (recievedCommand.equalsIgnoreCase("quit")){
 						outToServer.close();
 						inFromServer.close();

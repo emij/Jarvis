@@ -34,7 +34,7 @@ import edu.cmu.sphinx.tools.tags.ObjectTagsParser;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import edu.cmu.sphinx.util.props.PropertyException;
 
-public class Jarvis{
+public class Jarvis extends Thread{
 
 	private ConfigurationManager cm;
 	private BaseRecognizer baseRec;
@@ -47,7 +47,7 @@ public class Jarvis{
 	private ClientCommand clcommand;
 	private int i=0;
 	
-	private JarvisController controller = JarvisController.INSTANCE;
+	//private JarvisController controller = JarvisController.INSTANCE;
 
 	public Jarvis(URL u, Command c){
 		try {
@@ -143,12 +143,12 @@ public class Jarvis{
 		}
 		else{
 			setupParser();
-
-			controller.extinguishStatusLed("yellow");
+				
+			//controller.extinguishStatusLed("yellow");
 
 			String bestResult = null;
 			while(bestResult == null || bestResult.isEmpty()){
-				controller.lightStatusLed("green");
+				//controller.lightStatusLed("green");
 				System.out.println("Speak command please");
 				Result r = recognizer.recognize();
 				if(!microphone.isRecording()){
@@ -166,7 +166,7 @@ public class Jarvis{
 				}
 			}
 			
-			controller.extinguishStatusLed("green");
+			//controller.extinguishStatusLed("green");
 
 			String filename = "audio/audio" + i + ".wav";
 			//saveAudio(filename, microphone.getUtterance());

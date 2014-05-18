@@ -8,11 +8,14 @@ import client.Client;
  */
 
 public class ClientCommand extends AbstractCommand{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3906846443658081682L;
 	Client client;
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7022538022453428284L;
 	public ClientCommand(Client client){
 		super();
 		this.client = client;
