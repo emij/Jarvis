@@ -39,6 +39,7 @@ public class LoginScreen extends Application {
 	public LoginScreen(GUIMediator mediator, Client client, ClientCommand command){
 		this.mediator = mediator;
 		this.client = client;
+		this.command = command;
 		prefs = Preferences.userRoot().node(this.getClass().getName());
 		setUpKeys();
 	}
