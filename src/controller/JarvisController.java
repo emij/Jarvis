@@ -49,7 +49,7 @@ public class JarvisController implements Controller {
 
 	//protected JarvisController() {
 	private JarvisController() {
-//		gpio = GpioFactory.getInstance();
+		gpio = GpioFactory.getInstance();
 
 		// TODO redo this part
 		pinNames[0] = RaspiPin.GPIO_00;
@@ -213,17 +213,17 @@ public class JarvisController implements Controller {
 
 	//Lights the status led of the provided color for the specified duration (in ms)
 	public void pulseStatusLed(String color, long duration) {
-//		pinPulse(statusLeds.get(color.toLowerCase()), duration);
+		pinPulse(statusLeds.get(color.toLowerCase()), duration);
 	}
 	
 	//Lights the status led of the provided color
 	public void lightStatusLed(String color) {
-//		pinSetHigh(statusLeds.get(color.toLowerCase()));
+		pinSetHigh(statusLeds.get(color.toLowerCase()));
 	}
 	
 	//Extinguishes the status led of the provided color
 	public void extinguishStatusLed(String color) {
-//		pinSetLow(statusLeds.get(color.toLowerCase()));
+		pinSetLow(statusLeds.get(color.toLowerCase()));
 	}
 
 	//Puts the prototype to sleep by suspending the executing thread until movement is registered
