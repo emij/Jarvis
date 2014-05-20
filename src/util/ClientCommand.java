@@ -1,5 +1,7 @@
 package util;
 
+import java.io.Serializable;
+
 import client.Client;
 
 /**
@@ -12,7 +14,7 @@ public class ClientCommand extends AbstractCommand{
 	 * 
 	 */
 	private static final long serialVersionUID = -3906846443658081682L;
-	Client client;
+	transient Client client;
 	/**
 	 * 
 	 */
