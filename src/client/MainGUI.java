@@ -151,7 +151,7 @@ public class MainGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Enable");
-                command.addDevice("coffemaker");
+                command.addDevice("coffeemaker");
                 command.addAction("enable");
                 client.writeToServer(command);
                 command.resetCommand();
@@ -168,7 +168,7 @@ public class MainGUI extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Disable");
-                command.addDevice("coffemaker");
+                command.addDevice("coffeemaker");
                 command.addAction("disable");
                 client.writeToServer(command);
                 command.resetCommand();

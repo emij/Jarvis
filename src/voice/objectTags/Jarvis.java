@@ -117,17 +117,19 @@ public class Jarvis extends Thread{
 	@Override
 	public void run(){
 		while(true){
-			microphone.clear();
-			if(!microphone.startRecording()){
-				System.out.println("Cannot start microphone");
-				recognizer.deallocate();
-				try {
-					baseRec.deallocate();
-				} catch (EngineException | EngineStateError e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			//microphone.clear();
+			if(!microphone.isRecording()){
+				if(!microphone.startRecording()){
+					System.out.println("Cannot start microphone");
+					recognizer.deallocate();
+					try {
+						baseRec.deallocate();
+					} catch (EngineException | EngineStateError e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.exit(1); //Error occurred
 				}
-				System.exit(1); //Error occurred
 			}
 			else{
 				setupParser();
@@ -143,22 +145,19 @@ public class Jarvis extends Thread{
 						System.out.println("Mic is not recording");
 						return;
 					}
-					else if(r == null){
-						System.out.println("Maximum amount of silence reached; returning to main");
-						microphone.stopRecording();
-						return;
-					}
-					bestResult = r.getBestFinalResultNoFiller();
-					if(bestResult == null || bestResult.isEmpty()){
-						System.out.println("Cannot hear command");
+					if(r!=null){
+						bestResult = r.getBestFinalResultNoFiller();
+						if(bestResult == null || bestResult.isEmpty()){
+							System.out.println("Cannot hear command");
+						}
 					}
 				}
 
 				//controller.extinguishStatusLed("green");
 
-				String filename = "audio/audio" + i + ".wav";
+				//String filename = "audio/audio" + i + ".wav";
 				//saveAudio(filename, microphone.getUtterance());
-				microphone.stopRecording();
+				//microphone.stopRecording();
 				System.out.println("Result: " + bestResult);
 				parseCommand(bestResult);
 			}
