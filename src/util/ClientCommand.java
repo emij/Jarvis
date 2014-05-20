@@ -23,14 +23,12 @@ public class ClientCommand extends AbstractCommand{
 		this.client = client;
 	}
 	public void generateCommand(){
-		if(pos != null){
-			device = pos + device;
-		}
+		
 		client.writeToServer(this);
 		System.out.println(this.device+" "+action+" "+" "+pos+" "+param);
 		resetCommand();
 	}
 	public String toString(){
-		return "hej";
+		return "";
 	}
 }

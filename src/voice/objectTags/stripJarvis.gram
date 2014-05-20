@@ -1,0 +1,27 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Grammar for Voice controlled home, Jarvis
+ *
+ * @author Marika Hansson
+ * @author Markus Otterberg
+ */
+
+grammar jarvis;
+
+/*Lowest level of rules*/
+/*Switches*/
+<onSwitch> = ( Enable | Activate) {appObj.addAction("enable");};
+<offSwitch> = ( Disable | Deactivate) {appObj.addAction("disable");};
+
+/*Devices*/
+<device> = (Lamp | Lights) {appObj.addDevice("lamp");} | Coffee Maker {appObj.addDevice("coffeemaker")};
+
+/*Positions*/
+<room> = Kitchen {appObj.addPosition("kitchen");};
+
+/*Medium level of rules*/
+<light> = ((<onSwitch> | <offSwitch>) [The] [<room>] <device>) | ([<room>] <device> (<onSwitch> | <offSwitch>));
+
+/*Generate command*/
+public <generate> = <light> {appObj.generateCommand();};

@@ -208,7 +208,7 @@ public class JarvisController implements Controller {
 		int greenLed = assignPin("output", "green");
 		statusLeds.put("green", greenLed);
 
-		lightStatusLed("yellow"); //Setup is in progress
+		lightStatusLed("green"); //Setup is in progress
 	}
 
 	//Lights the status led of the provided color for the specified duration (in ms)
